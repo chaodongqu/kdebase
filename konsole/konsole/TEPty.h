@@ -39,6 +39,13 @@ Q_OBJECT
     ~TEPty();
 
   public:
+    bool setPtyFd(int p) {
+       bool res = pty()->setPty(p);
+       setupCommunication((Communication)(Stdin|Stdout));
+       commSetupDoneP();
+       runs = true;
+       return res;
+    };
 
     /*!
      * having a `run' separate from the constructor allows to make
@@ -71,7 +78,7 @@ Q_OBJECT
         \param len - the length of the block
     */
     void block_in(const char* s, int len);
-    
+
     /*!
         emitted when buffer_full becomes false
     */
@@ -95,7 +102,7 @@ Q_OBJECT
       void dataReceived(KProcess *, char *buf, int len);
   public slots:
       void donePty();
-      
+
   private:
     void appendSendJob(const char* s, int len);
 
