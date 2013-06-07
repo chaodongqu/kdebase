@@ -444,7 +444,7 @@ void konsolePart::makeGUI()
 
      // Save Settings
      m_options->insertSeparator();
-     KAction *saveSettings = new KAction(i18n("&Save as Default"), "filesave", 0, this, 
+     KAction *saveSettings = new KAction(i18n("&Save as Default"), "filesave", 0, this,
                     SLOT(saveProperties()), actions, "save_default");
      saveSettings->plug(m_options);
      if (KGlobalSettings::insertTearOffHandle())
@@ -1062,6 +1062,17 @@ void konsolePart::startProgram( const QString& program,
         newSession();
     se->setProgram( program, args );
     se->run();
+}
+
+bool konsolePart::setPtyFd( int master_pty )
+{
+  kdDebug(1211) << "konsolePart::setPtyFd " << master_pty << endl;
+  TEPty *pty = new TEPty();
+  pty->setPtyFd(master_pty);
+  if ( !se ) {
+    newSession();
+  }
+  se->setPty(pty);
 }
 
 void konsolePart::newSession()

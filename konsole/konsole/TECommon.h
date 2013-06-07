@@ -43,10 +43,10 @@ struct ColorEntry
 {
   ColorEntry(QColor c, bool tr, bool b) : color(c), transparent(tr), bold(b) {}
   ColorEntry() : transparent(false), bold(false) {} // default constructors
-  void operator=(const ColorEntry& rhs) { 
-       color = rhs.color; 
-       transparent = rhs.transparent; 
-       bold = rhs.bold; 
+  void operator=(const ColorEntry& rhs) {
+       color = rhs.color;
+       transparent = rhs.transparent;
+       bold = rhs.bold;
   }
   QColor color;
   bool   transparent; // if used on bg
@@ -137,7 +137,7 @@ inline cacol::cacol() // undefined, really
 }
 
 inline bool operator == (cacol a, cacol b)
-{ 
+{
   return a.t == b.t && a.u == b.u && a.v == b.v && a.w == b.w;
 }
 
@@ -156,7 +156,7 @@ inline const QColor color256(UINT8 u, const ColorEntry* base)
   if (u < 216) return QColor(255*((u/36)%6)/5,
                              255*((u/ 6)%6)/5,
                              255*((u/ 1)%6)/5); u -= 216;
-  
+
   // 232..255: gray, leaving out black and white
   int gray = u*10+8; return QColor(gray,gray,gray);
 }
@@ -210,7 +210,7 @@ public:
 };
 
 inline bool operator == (ca a, ca b)
-{ 
+{
   return a.c == b.c && a.f == b.f && a.b == b.b && a.r == b.r;
 }
 
@@ -221,14 +221,14 @@ inline bool operator != (ca a, ca b)
 
 inline bool ca::isTransparent(const ColorEntry* base) const
 {
-  return (b.t == CO_DFT) && base[b.u+0+(b.v?BASE_COLORS:0)].transparent
-      || (b.t == CO_SYS) && base[b.u+2+(b.v?BASE_COLORS:0)].transparent;
+  return ((b.t == CO_DFT) && base[b.u+0+(b.v?BASE_COLORS:0)].transparent)
+      || ((b.t == CO_SYS) && base[b.u+2+(b.v?BASE_COLORS:0)].transparent);
 }
 
 inline bool ca::isBold(const ColorEntry* base) const
 {
-  return (f.t == CO_DFT) && base[f.u+0+(f.v?BASE_COLORS:0)].bold 
-      || (f.t == CO_SYS) && base[f.u+2+(f.v?BASE_COLORS:0)].bold; 
+  return ((f.t == CO_DFT) && base[f.u+0+(f.v?BASE_COLORS:0)].bold)
+      || ((f.t == CO_SYS) && base[f.u+2+(f.v?BASE_COLORS:0)].bold);
 }
 
 #endif // TECOMMON_H
