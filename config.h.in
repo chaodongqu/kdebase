@@ -639,10 +639,6 @@
 /* The PAM service to be used by kscreensaver */
 #undef KSCREENSAVER_PAM_SERVICE
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
-#undef LT_OBJDIR
-
 /* Define if the libbz2 functions need the BZ2_ prefix */
 #undef NEED_BZ2_PREFIX
 
