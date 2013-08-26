@@ -28,11 +28,11 @@ cd ${HOME}
 if [ -L .kde -o ! -d .kde ]; then
 	# handle ~/.kde* dirs - separate ones for separate KDEs
 	rm -f .kde
-	if [ ! -e .kde3.5 ]; then
-		mkdir .kde3.5
+	if [ ! -e .kde ]; then
+		mkdir .kde
 		cd ${HOME}
 	fi
-	ln -sf .kde3.5 .kde
+# 	ln -sf .kde3.5 .kde
 fi
 # Gentoo part ends
 
