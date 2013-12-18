@@ -153,6 +153,8 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
 
         void clientMoved(const QPoint &pos, Time time);
 
+        virtual void kDestopResized();
+
         /**
          * Returns the current virtual desktop of this workspace
          */

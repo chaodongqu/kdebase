@@ -58,7 +58,7 @@ void Workspace::desktopResized()
   Resizes the workspace after kdesktop signals a desktop resize
  */
 void Workspace::kDestopResized()
-    {
+{
     printf("Workspace::kDesktopResized()\n\r");
     QRect geom = KApplication::desktop()->geometry();
     NETSize desktop_geometry;
@@ -68,7 +68,7 @@ void Workspace::kDestopResized()
 
     updateClientArea( true );
     checkElectricBorders( true );
-    }
+}
 
 /*!
   Updates the current client areas according to the current clients.

@@ -30,8 +30,8 @@ class KAction;
 
 /* We acknowledge the dbus API is unstable */
 #define DBUS_API_SUBJECT_TO_CHANGE
-#include <dbus/connection.h>
-#include <libhal.h>
+#include <dbus/dbus.h>
+#include <hal/libhal.h>
 
 // The (singleton) widget that makes/fades the desktop gray.
 class KSMShutdownFeedback : public QWidget

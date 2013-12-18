@@ -570,12 +570,12 @@ void KonqBaseListViewWidget::slotAutoScroll()
    if ( vc == m_rubber->bottomRight() )
       return;
 
-      QRect oldRubber = *m_rubber;
+    QRect oldRubber = *m_rubber;
 
    const int oldTop = m_rubber->normalize().top();
    const int oldBottom = m_rubber->normalize().bottom();
 
-   drawRubber();
+   //drawRubber();
    m_rubber->setBottomRight( vc );
 
    QListViewItem *cur = itemAt( QPoint(0,0) );

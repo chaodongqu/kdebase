@@ -70,7 +70,6 @@ public:
 	bool needMounting() const;
  	bool needDecryption() const;
 	KURL prettyBaseURL() const;
-	QString prettyLabel() const;
 
 	void setName(const QString &name);
 	void setLabel(const QString &label);

@@ -74,8 +74,8 @@ KSMShutdownFeedback::KSMShutdownFeedback()
    m_pmio()
 
 {
-    m_grayImage = QImage::QImage();
-    m_unfadedImage = QImage::QImage();
+    m_grayImage = QImage();
+    m_unfadedImage = QImage();
     resize(0, 0);
     setShown(true);
     QTimer::singleShot( 500, this, SLOT( slotPaintEffect() ) );

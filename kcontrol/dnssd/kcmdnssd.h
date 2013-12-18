@@ -27,7 +27,8 @@
 #include <kaboutdata.h>
 
 class KSimpleConfig;
-class KCMDnssd: public ConfigDialog
+
+class KCMDnssd : public ConfigDialog
 {
 	Q_OBJECT
 

@@ -30,7 +30,9 @@ bin_PROGRAMS = krandrtray
 
 krandrtray_SOURCES = main.cpp krandrtray.cpp krandrapp.cpp krandrpassivepopup.cpp configdialog.cpp lowlevel_randr.c
 krandrtray_LDFLAGS = $(all_libraries) $(KDE_RPATH)
-krandrtray_LDADD = librandrinternal.la $(LIB_KFILE) $(LIB_KUTILS) $(LIB_XRANDR)
+krandrtray_LDADD = $(LIB_KFILE) $(LIB_KUTILS) $(LIB_XRANDR) librandrinternal.la \
+	-lglib-2.0
 
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/krandr.pot
+INCLUDES = -I/usr/include/glib-2.0/ -I/usr/lib64/glib-2.0/include

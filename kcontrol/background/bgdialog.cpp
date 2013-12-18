@@ -90,7 +90,7 @@ BGDialog::BGDialog(QWidget* parent, KConfig* _config, bool _multidesktop)
       m_numScreens = 1;
    }
 
-   int vx(m_kwin->currentViewport(m_kwin->currentDesktop()));
+   QPoint vx(m_kwin->currentViewport(m_kwin->currentDesktop()));
    int t_eViewport = (vx.x() * vx.y());
    if (t_eViewport < 1) {
       t_eViewport = 1;

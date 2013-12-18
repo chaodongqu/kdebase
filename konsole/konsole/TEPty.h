@@ -45,15 +45,6 @@ Q_OBJECT
     TEPty();
     ~TEPty();
 
-  public:
-    bool setPtyFd(int p) {
-       bool res = pty()->setPty(p);
-       setupCommunication((Communication)(Stdin|Stdout));
-       commSetupDoneP();
-       runs = true;
-       return res;
-    };
-
     /*!
      * having a `run' separate from the constructor allows to make
      * the necessary connections to the signals and slots of the
