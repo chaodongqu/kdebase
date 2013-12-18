@@ -1,18 +1,18 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="10" >
+ <DocsAndViews NumberOfDocuments="21" >
   <Doc0 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konqueror/iconview/konq_iconview.h" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konqueror/iconview/konq_iconview.cc" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konqueror/konq_view.cc" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kioslave/sftp/sftpfileattr.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc3>
   <Doc4 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/kfrontend/kdmshutdown.cpp" >
    <View0 Encoding="" Type="Source" />
@@ -30,8 +30,41 @@
    <View0 Encoding="" Type="Source" />
   </Doc8>
   <Doc9 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/libkonq/konq_iconviewwidget.cc" >
-   <View0 Encoding="" line="879" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/configure.in.in" >
+   <View0 Encoding="" Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kcontrol/fonts/kxftconfig.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc11>
+  <Doc12 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kwin/geometry.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc12>
+  <Doc13 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kcontrol/kicker/menutab_impl.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc13>
+  <Doc14 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kcontrol/kicker/menutab_impl.h" >
+   <View0 Encoding="" Type="Source" />
+  </Doc14>
+  <Doc15 NumberOfViews="1" URL="file:///usr/qt/3/include/qobject.h" >
+   <View0 Encoding="" Type="Source" />
+  </Doc15>
+  <Doc16 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kcontrol/locale/kcmlocale.h" >
+   <View0 Encoding="" line="30" Type="Source" />
+  </Doc16>
+  <Doc17 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kcontrol/kfontinst/kfontinst/Fontmap.cpp" >
+   <View0 Encoding="" line="72" Type="Source" />
+  </Doc17>
+  <Doc18 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kcontrol/randr/lowlevel_randr.c" >
+   <View0 Encoding="" line="26" Type="Source" />
+  </Doc18>
+  <Doc19 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdesktop/minicli.cpp" >
+   <View0 Encoding="" line="408" Type="Source" />
+  </Doc19>
+  <Doc20 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/kfrontend/genkdmconf.c" >
+   <View0 Encoding="" line="614" Type="Source" />
+  </Doc20>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

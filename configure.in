@@ -442,6 +442,17 @@ fi
 AC_SUBST(FREETYPE2_CFLAGS)
 AC_SUBST(FREETYPE2_LDFLAGS)
 dnl =======================================================
+dnl FILE: ./kcontrol/iccconfig/configure.in.in
+dnl =======================================================
+
+case "$host" in
+  *-*-linux*)
+	FOUND_LINUX=yes
+	;;
+esac
+
+AM_CONDITIONAL(include_kcontrol_iccconfig, test "$FOUND_LINUX" = "yes")
+dnl =======================================================
 dnl FILE: ./kcontrol/info/configure.in.in
 dnl =======================================================
 
@@ -986,11 +997,11 @@ AC_CHECK_FUNC(vsyslog, [
 kdm_no_Xau=false
 kdm_no_Xdmcp=false
 
-AC_CHECK_LIB(Xau, main, [:], 
+AC_CHECK_LIB(Xau, main, [:],
 	[
 	  kdm_no_Xau=true
 	  DO_NOT_COMPILE="$DO_NOT_COMPILE kdm"
-	], 
+	],
 	  $X_LDFLAGS -lX11 $LIBSOCKET)
 
 AC_ARG_WITH(xdmcp,
@@ -1046,7 +1057,7 @@ esac
 
 AC_MSG_CHECKING(whether to use AFS)
 AC_ARG_WITH(afs,
-  AC_HELP_STRING([--with-afs],[Compile in AFS support (requires KTH krb4)]), , 
+  AC_HELP_STRING([--with-afs],[Compile in AFS support (requires KTH krb4)]), ,
   [ with_afs=no ])
 if test "$with_afs" = no; then
   AC_MSG_RESULT(no)
@@ -1097,7 +1108,7 @@ else
   KRB5_LIBS="$KRB5_LIBS -lkrb5" dnl -lk5crypto -lcom_err -lresolv
   keepcflags=$CFLAGS
   CFLAGS="$KRB5_INCS $CFLAGS"
-  AC_CHECK_HEADER(krb5/krb5.h, 
+  AC_CHECK_HEADER(krb5/krb5.h,
     [ AC_DEFINE(K5AUTH, 1, [Define if kdm should use Kerberos 5 for Xauth cookies.]) ],
     [ AC_MSG_ERROR([--with-krb5auth requires Kerberos5 header files.
 Due to a problem with X includes you probably have to run "ln -s . krb5"
@@ -1111,13 +1122,13 @@ AC_SUBST(KRB5_RPATH)
 
 AC_MSG_CHECKING([whether to use Sun's secure RPC for Xauth cookies in kdm])
 AC_ARG_WITH(rpcauth,
-  AC_HELP_STRING([--with-rpcauth],[Use Sun's secure RPC for Xauth cookies in kdm.]), , 
+  AC_HELP_STRING([--with-rpcauth],[Use Sun's secure RPC for Xauth cookies in kdm.]), ,
   [ with_rpcauth=no ])
 if test "x$with_rpcauth" = xno; then
   AC_MSG_RESULT(no)
 else
   AC_MSG_RESULT(yes)
-  AC_CHECK_HEADER(rpc/rpc.h, 
+  AC_CHECK_HEADER(rpc/rpc.h,
     [ AC_DEFINE(SECURE_RPC, 1, [Define if kdm should use Sun's secure RPC for Xauth cookies.]) ],
     [ AC_MSG_ERROR([--with-rpcauth requires Sun RPC header files.])])
 fi
@@ -1139,6 +1150,37 @@ AC_ARG_WITH(kdm-xconsole,
 	[with_kdm_xconsole=no])
 if test "x$with_kdm_xconsole" = xyes; then
     AC_DEFINE(WITH_KDM_XCONSOLE, 1, [Build kdm with built-in xconsole])
+fi
+
+########### Check for DBus
+
+AC_MSG_CHECKING(for DBus)
+
+dbus_inc=NOTFOUND
+dbus_lib=NOTFOUND
+dbus=NOTFOUND
+
+search_incs="$kde_includes $kde_extra_includes /usr/include /usr/include/dbus-1.0 /usr/local/include /usr/local/include/dbus-1.0"
+AC_FIND_FILE(dbus/dbus.h, $search_incs, dbus_incdir)
+
+search_incs_arch_deps="$kde_includes $kde_extra_includes /usr/lib$kdelibsuff/dbus-1.0/include /usr/local/lib$kdelibsuff/dbus-1.0/include"
+AC_FIND_FILE(dbus/dbus-arch-deps.h, $search_incs_arch_deps, dbus_incdir_arch_deps)
+
+if test -r $dbus_incdir/dbus/dbus.h && test -r $dbus_incdir_arch_deps/dbus/dbus-arch-deps.h ; then
+    DBUS_INCS="-I$dbus_incdir -I$dbus_incdir_arch_deps"
+    dbus_inc=FOUND
+fi
+
+search_libs="$kde_libraries $kde_extra_libs /usr/lib$kdelibsuff /usr/local/lib$kdelibsuff"
+AC_FIND_FILE(libdbus-1.so, $search_libs, dbus_libdir)
+
+if test -r $dbus_libdir/libdbus-1.so ; then
+    DBUS_LIBS="-L$dbus_libdir -ldbus-1"
+    dbus_lib=FOUND
+fi
+
+if test $dbus_inc != FOUND || test $dbus_lib != FOUND ; then
+    KDE_PKG_CHECK_MODULES( DBUS, "dbus-1", [ DBUS_INCS=$DBUS_CFLAGS; dbus_inc=FOUND; dbus_lib=FOUND; ] , AC_MSG_RESULT( Nothing found on PKG_CONFIG_PATH ) )
 fi
 
 dnl AC_OUTPUT(kdm/kfrontend/sessions/kde.desktop)
@@ -1922,6 +1964,7 @@ AC_MSG_CHECKING([if ksysguardd can be compiled])
 case "$host" in 
   *-*-linux*) ksysguardd_compile=yes; UNAME='Linux' ;;
   *-*-freebsd*) ksysguardd_compile=yes; UNAME='FreeBSD' ;;
+  *-*-kfreebsd*-gnu) ksysguardd_compile=yes; UNAME='Linux' ;;
   *-*-dragonfly*) ksysguardd_compile=yes; UNAME='FreeBSD' ;;
   *-*-netbsd*) ksysguardd_compile=yes; UNAME='NetBSD' ;;
   *-*-solaris*) ksysguardd_compile=yes; UNAME='Solaris' ;;
@@ -2247,6 +2290,7 @@ AC_CONFIG_FILES([ kcontrol/energy/Makefile ])
 AC_CONFIG_FILES([ kcontrol/energy/pics/Makefile ])
 AC_CONFIG_FILES([ kcontrol/filetypes/Makefile ])
 AC_CONFIG_FILES([ kcontrol/fonts/Makefile ])
+AC_CONFIG_FILES([ kcontrol/iccconfig/Makefile ])
 AC_CONFIG_FILES([ kcontrol/icons/Makefile ])
 AC_CONFIG_FILES([ kcontrol/info/Makefile ])
 AC_CONFIG_FILES([ kcontrol/input/Makefile ])

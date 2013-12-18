@@ -14,8 +14,8 @@
     <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
-    <defaultencoding/>
+    <description></description>
+    <defaultencoding></defaultencoding>
     <versioncontrol/>
   </general>
   <kdevfileview>
@@ -74,10 +74,10 @@
   <kdevdebugger>
     <general>
       <dbgshell>libtool</dbgshell>
-      <gdbpath/>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <gdbpath></gdbpath>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
@@ -99,20 +99,20 @@
   </kdevfilecreate>
   <kdevcppsupport>
     <qt>
-      <used>false</used>
+      <used>true</used>
       <version>3</version>
       <includestyle>3</includestyle>
       <root>/usr/qt/3</root>
-      <designerintegration>EmbeddedKDevDesigner</designerintegration>
+      <designerintegration>ExternalDesigner</designerintegration>
       <qmake>/usr/qt/3/bin/qmake</qmake>
       <designer>/usr/qt/3/bin/designer</designer>
       <designerpluginpaths/>
     </qt>
     <codecompletion>
-      <automaticCodeCompletion>false</automaticCodeCompletion>
+      <automaticCodeCompletion>true</automaticCodeCompletion>
       <automaticArgumentsHint>true</automaticArgumentsHint>
       <automaticHeaderCompletion>true</automaticHeaderCompletion>
-      <codeCompletionDelay>250</codeCompletionDelay>
+      <codeCompletionDelay>400</codeCompletionDelay>
       <argumentsHintDelay>400</argumentsHintDelay>
       <headerCompletionDelay>250</headerCompletionDelay>
       <showOnlyAccessibleItems>false</showOnlyAccessibleItems>
@@ -122,7 +122,7 @@
       <statusBarTypeEvaluation>true</statusBarTypeEvaluation>
       <namespaceAliases>std=_GLIBCXX_STD;__gnu_cxx=std</namespaceAliases>
       <processPrimaryTypes>true</processPrimaryTypes>
-      <processFunctionArguments>false</processFunctionArguments>
+      <processFunctionArguments>true</processFunctionArguments>
       <preProcessAllHeaders>true</preProcessAllHeaders>
       <parseMissingHeadersExperimental>false</parseMissingHeadersExperimental>
       <resolveIncludePathsUsingMakeExperimental>false</resolveIncludePathsUsingMakeExperimental>
@@ -132,7 +132,7 @@
       <includePaths>.;</includePaths>
     </codecompletion>
     <creategettersetter>
-      <prefixGet/>
+      <prefixGet></prefixGet>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
@@ -144,7 +144,9 @@
       <synchronize>true</synchronize>
       <orientation>Vertical</orientation>
     </splitheadersource>
-    <references/>
+    <references>
+      <pcs>Qt3</pcs>
+    </references>
     <designerintegration>
       <qtdesigner/>
     </designerintegration>
@@ -156,16 +158,16 @@
         <envvar value="1.11" name="WANT_AUTOMAKE" />
       </envvars>
       <abortonerror>true</abortonerror>
-      <runmultiplejobs>true</runmultiplejobs>
+      <runmultiplejobs>false</runmultiplejobs>
       <numberofjobs>3</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
+      <makebin></makebin>
       <prio>0</prio>
     </make>
     <run>
       <mainprogram>/home/rainman/projects/kde/kdebase</mainprogram>
-      <programargs/>
-      <globaldebugarguments/>
+      <programargs></programargs>
+      <globaldebugarguments></globaldebugarguments>
       <globalcwd>/home/rainman/projects/kde/kdebase</globalcwd>
       <useglobalprogram>false</useglobalprogram>
       <terminal>false</terminal>
@@ -175,12 +177,15 @@
       <envvars/>
       <runarguments>
         <kdialog/>
+        <krandrtray></krandrtray>
       </runarguments>
       <debugarguments>
         <kdialog/>
+        <krandrtray></krandrtray>
       </debugarguments>
       <cwd>
         <kdialog>/home/rainman/projects/kde/kdebase/./</kdialog>
+        <krandrtray>/home/rainman/projects/kde/kdebase/dbg_x86_64-pc-linux-gnu/./</krandrtray>
       </cwd>
     </run>
     <general>
@@ -206,7 +211,7 @@
       </dbg_i686-pc-linux-gnu>
       <dbg_x86_64-pc-linux-gnu>
         <envvars/>
-        <configargs>--host=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/kde/git --mandir=/usr/kde/git/share/man --infodir=/usr/kde/git/share/info --datadir=/usr/kde/git/share --sysconfdir=/usr/kde/git/etc --localstatedir=/var/lib --with-qt-dir=/usr/qt/3 --with-qt-libraries=/usr/qt/3/lib --enable-mt --enable-debug=full --libdir=/usr/kde/git/lib --with-distribution=Gentoo --enable-libsuffix=64 --disable-fast-malloc --with-libart --with-libidn --with-ssl --without-hspell --enable-libfam --enable-dnotify --with-acl --with-alsa --enable-cups --without-gssapi --with-tiff --with-jasper --without-openexr --without-utempter --without-lua --enable-sendfile --enable-mitshm --with-aspell --disable-dnssd --with-rgbfile=/usr/share/X11/rgb.txt --without-arts</configargs>
+        <configargs>--host=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/kde/git --mandir=/usr/kde/git/share/man --infodir=/usr/kde/git/share/info --datadir=/usr/kde/git/share --sysconfdir=/usr/kde/git/etc --localstatedir=/var/lib --with-qt-dir=/usr/qt/3 --with-qt-libraries=/usr/qt/3/lib --enable-mt --enable-debug=full --libdir=/usr/kde/git/lib --with-distribution=Gentoo --enable-libsuffix=64 --disable-fast-malloc --with-libart --with-libidn --with-ssl --without-hspell --enable-libfam --enable-dnotify --with-acl --with-alsa --enable-cups --without-gssapi --with-tiff --with-jasper --without-openexr --without-utempter --without-lua --enable-sendfile --enable-mitshm --with-aspell --with-hal --disable-dnssd --with-rgbfile=/usr/share/X11/rgb.txt --without-arts</configargs>
         <builddir>dbg_x86_64-pc-linux-gnu</builddir>
         <topsourcedir/>
         <cppflags/>
@@ -236,4 +241,11 @@
       <usermanualurl/>
     </projectdoc>
   </kdevdocumentation>
+  <ctagspart>
+    <customArguments></customArguments>
+    <customTagfilePath>/home/rainman/projects/kde/kdebase/tags</customTagfilePath>
+    <activeTagsFiles>
+      <file>/usr/local/share/ctags/tags</file>
+    </activeTagsFiles>
+  </ctagspart>
 </kdevelop>

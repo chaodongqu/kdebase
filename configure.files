@@ -6,6 +6,7 @@ configure.in.in
 ./kcontrol/crypto/configure.in.in
 ./kcontrol/energy/configure.in.in
 ./kcontrol/fonts/configure.in.in
+./kcontrol/iccconfig/configure.in.in
 ./kcontrol/info/configure.in.bot
 ./kcontrol/info/configure.in.in
 ./kcontrol/input/configure.in.bot

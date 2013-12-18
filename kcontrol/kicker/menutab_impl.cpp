@@ -15,6 +15,8 @@
  *  along with this program; if not, write to the Free Software
  */
 
+#include <stdlib.h>
+
 #include <qcheckbox.h>
 #include <qdir.h>
 #include <qlabel.h>
@@ -31,6 +33,8 @@
 #include <kmessagebox.h>
 #include <knuminput.h>
 #include <kstandarddirs.h>
+
+#include <kpushbutton.h>
 
 #include <kicondialog.h>
 #include <kiconloader.h>
@@ -70,9 +74,9 @@ MenuTab::MenuTab( QWidget *parent, const char* name )
     m_quickBrowserMenu(0)
 {
     // connections
-    connect(m_editKMenuButton, SIGNAL(clicked()), SLOT(launchMenuEditor()));
+    //connect(m_editKMenuButton, SIGNAL(clicked()), SLOT(launchMenuEditor()));
     connect(btnCustomKMenuIcon, SIGNAL(clicked()), SLOT(launchIconEditor()));
-    connect(kcfg_KMenuText, SIGNAL(textChanged(QString)), SLOT(kmenuChanged()));
+    //connect(kcfg_KMenuText, SIGNAL(textChanged(QString)), SLOT(kmenuChanged()));
     connect(kcfg_ShowKMenuText, SIGNAL(toggled(bool)), SLOT(kmenuChanged()));
     //connect(kcfg_ButtonFont, SIGNAL(fontSelected(const QFont &)), SLOT(kmenuChanged()));
     connect(maxrecentdocs, SIGNAL(valueChanged(int)), this, SLOT(changed()));
@@ -80,9 +84,11 @@ MenuTab::MenuTab( QWidget *parent, const char* name )
     KIconLoader * ldr = KGlobal::iconLoader();
     QPixmap kmenu_icon;
     m_kmenu_icon = KickerSettings::customKMenuIcon();
+
     if (m_kmenu_icon.isNull() == true) {
         m_kmenu_icon = QString("kmenu");
     }
+
     kmenu_icon = ldr->loadIcon(m_kmenu_icon, KIcon::Small, KIcon::SizeSmall);
     btnCustomKMenuIcon->setPixmap(kmenu_icon);
 

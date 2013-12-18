@@ -28,6 +28,8 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 
+#include <kprocess.h>
+
 class KAddButton;
 class KLanguageButton;
 class KLocale;

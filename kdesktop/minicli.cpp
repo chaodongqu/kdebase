@@ -408,17 +408,6 @@ int Minicli::runCommand()
     KStartupInfo::sendChange( id, data );
   }
 
-  QCString asn;
-  if( qApp->desktop()->isVirtualDesktop())
-  {
-    asn = KStartupInfo::createNewStartupId();
-    KStartupInfoId id;
-    id.initId( asn );
-    KStartupInfoData data;
-    data.setXinerama( qApp->desktop()->screenNumber( this ));
-    KStartupInfo::sendChange( id, data );
-  }
-
   // Determine whether the application should be run through
   // the command line (terminal) interface...
   bool useTerminal = m_dlg->cbRunInTerminal->isChecked();
