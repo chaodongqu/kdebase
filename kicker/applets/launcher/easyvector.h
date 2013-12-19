@@ -16,13 +16,11 @@ public:
     typedef const VALUE& CVALUE;
 };
 
-
 template < class VALUE >
 class __Valtype< VALUE* > {
 public:
     typedef const VALUE* CVALUE;
 };
-
 
 template <class VALUE, bool CHECKINDEX=true>
 class EasyVector: public std::vector< VALUE > {
@@ -59,7 +57,6 @@ protected:
     Index _convertInsertIndex(Index index) const;
 };
 
-
 template < class VALUE, bool CHECKINDEX >
 template < class PTYPE, class PROP_FUNC >
 typename EasyVector< VALUE, CHECKINDEX >::Index
@@ -73,7 +70,6 @@ typename EasyVector< VALUE, CHECKINDEX >::Index
     return NotFound;
 }
 
-
 template < class VALUE, bool CHECKINDEX >
 typename EasyVector< VALUE, CHECKINDEX >::Index
     EasyVector< VALUE, CHECKINDEX >::findValue(CVALUE value) const
@@ -83,13 +79,11 @@ typename EasyVector< VALUE, CHECKINDEX >::Index
     return i-this->begin();
 }
 
-
 template < class VALUE, bool CHECKINDEX >
 void EasyVector< VALUE, CHECKINDEX >::eraseAt(Index index)
 {   _checkIndex(index);
-    erase(this->begin()+index);
+    this->erase(this->begin()+index);
 }
-
 
 template < class VALUE, bool CHECKINDEX >
 VALUE EasyVector< VALUE, CHECKINDEX >::takeFrom(Index index)
@@ -99,7 +93,6 @@ VALUE EasyVector< VALUE, CHECKINDEX >::takeFrom(Index index)
     return result;
 }
 
-
 template < class VALUE, bool CHECKINDEX >
 void EasyVector< VALUE, CHECKINDEX >::insertAt(EasyVector< VALUE, CHECKINDEX >::Index index,const VALUE &value)
 {   index=_convertInsertIndex(index);
@@ -108,17 +101,15 @@ void EasyVector< VALUE, CHECKINDEX >::insertAt(EasyVector< VALUE, CHECKINDEX >::
         this->push_back(value);
         return;
     }
-    insert(this->begin()+index,value);
+    this->insert(this->begin()+index,value);
 }
-
 
 template < class VALUE, bool CHECKINDEX >
 void EasyVector< VALUE, CHECKINDEX >::insertAt(EasyVector< VALUE, CHECKINDEX >::Index index,const EasyVector< VALUE, CHECKINDEX > &v)
 {   index=_convertInsertIndex(index);
     _checkInsertIndex(index);
-    insert(this->begin()+index,v.begin(),v.end());
+    this->insert(this->begin()+index,v.begin(),v.end());
 }
-
 
 template < class VALUE, bool CHECKINDEX >
 bool EasyVector< VALUE, CHECKINDEX >::isValidIndex(EasyVector< VALUE, CHECKINDEX >::Index index) const
@@ -141,7 +132,6 @@ void EasyVector< VALUE, CHECKINDEX >::_checkInsertIndex(Index index) const
 template < class VALUE, bool CHECKINDEX >
 void EasyVector< VALUE, CHECKINDEX >::_checkIndex(Index index) const
 {   if (CHECKINDEX) assert (isValidIndex(index));}
-
 
 #endif
 
