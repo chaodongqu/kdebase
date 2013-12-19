@@ -30,8 +30,9 @@ ksmserver_la_SOURCES = main.cpp server.cpp shutdowndlg.cpp \
 	legacy.cpp startup.cpp shutdown.cpp client.cpp \
 	KSMServerInterface.skel server.skel
 
-ksmserver_la_LDFLAGS = $(all_libraries) -avoid-version -module
-ksmserver_la_LIBADD = ../kdmlib/libdmctl.la $(LIB_KDEUI) $(HAL_LIBS) $(DBUS_LIBS)
+ksmserver_la_LDFLAGS = -avoid-version -module $(all_libraries)
+ksmserver_la_LIBADD = $(top_builddir)/kdmlib/libdmctl.la $(DBUS_LIBS) \
+	$(HAL_LIBS) $(LIB_KDEUI)
 
 picsdir = $(kde_datadir)/ksmserver/pics
 pics_DATA = shutdownkonq.png
