@@ -207,7 +207,7 @@ dnl check for java
 KDE_CHECK_JAVA_DIR
 
 dnl check for an md5sum implementation. the GNU versions
-dnl produce different output from the FreeBSD / Solaris 
+dnl produce different output from the FreeBSD / Solaris
 dnl versions, so MD5SUM_CUT shows how to retrieve the
 dnl checksum from the output.
 MD5SUM_CUT="-f 1"
@@ -336,14 +336,43 @@ if test -n "$LIBART_CONFIG"; then
   fi
 fi
 
-
 AC_SUBST(LIBART_LIBS)
 AC_SUBST(LIBART_CFLAGS)
 AC_SUBST(LIBART_RPATH)
 
+########### Check for DBus
+
+AC_MSG_CHECKING(for DBus)
+
+dbus_inc=NOTFOUND
+dbus_lib=NOTFOUND
+dbus=NOTFOUND
+
+search_incs="$kde_includes $kde_extra_includes /usr/include /usr/include/dbus-1.0 /usr/local/include /usr/local/include/dbus-1.0"
+AC_FIND_FILE(dbus/dbus.h, $search_incs, dbus_incdir)
+
+search_incs_arch_deps="$kde_includes $kde_extra_includes /usr/lib$kdelibsuff/dbus-1.0/include /usr/local/lib$kdelibsuff/dbus-1.0/include"
+AC_FIND_FILE(dbus/dbus-arch-deps.h, $search_incs_arch_deps, dbus_incdir_arch_deps)
+
+if test -r $dbus_incdir/dbus/dbus.h && test -r $dbus_incdir_arch_deps/dbus/dbus-arch-deps.h ; then
+    DBUS_INCS="-I$dbus_incdir -I$dbus_incdir_arch_deps"
+    dbus_inc=FOUND
+fi
+
+search_libs="$kde_libraries $kde_extra_libs /usr/lib$kdelibsuff /usr/local/lib$kdelibsuff"
+AC_FIND_FILE(libdbus-1.so, $search_libs, dbus_libdir)
+
+if test -r $dbus_libdir/libdbus-1.so ; then
+    DBUS_LIBS="-L$dbus_libdir -ldbus-1"
+    dbus_lib=FOUND
+fi
+
+if test $dbus_inc != FOUND || test $dbus_lib != FOUND ; then
+    KDE_PKG_CHECK_MODULES( DBUS, "dbus-1", [ DBUS_INCS=$DBUS_CFLAGS; dbus_inc=FOUND; dbus_lib=FOUND; ] , AC_MSG_RESULT( Nothing found on PKG_CONFIG_PATH ) )
+fi
+
 AC_ARG_WITH([composite],
   AC_HELP_STRING([--without-composite], [Disable Xcomposite support (default: check)]) )
-
 dnl =======================================================
 dnl FILE: ./kappfinder/configure.in.in
 dnl =======================================================
@@ -1150,37 +1179,6 @@ AC_ARG_WITH(kdm-xconsole,
 	[with_kdm_xconsole=no])
 if test "x$with_kdm_xconsole" = xyes; then
     AC_DEFINE(WITH_KDM_XCONSOLE, 1, [Build kdm with built-in xconsole])
-fi
-
-########### Check for DBus
-
-AC_MSG_CHECKING(for DBus)
-
-dbus_inc=NOTFOUND
-dbus_lib=NOTFOUND
-dbus=NOTFOUND
-
-search_incs="$kde_includes $kde_extra_includes /usr/include /usr/include/dbus-1.0 /usr/local/include /usr/local/include/dbus-1.0"
-AC_FIND_FILE(dbus/dbus.h, $search_incs, dbus_incdir)
-
-search_incs_arch_deps="$kde_includes $kde_extra_includes /usr/lib$kdelibsuff/dbus-1.0/include /usr/local/lib$kdelibsuff/dbus-1.0/include"
-AC_FIND_FILE(dbus/dbus-arch-deps.h, $search_incs_arch_deps, dbus_incdir_arch_deps)
-
-if test -r $dbus_incdir/dbus/dbus.h && test -r $dbus_incdir_arch_deps/dbus/dbus-arch-deps.h ; then
-    DBUS_INCS="-I$dbus_incdir -I$dbus_incdir_arch_deps"
-    dbus_inc=FOUND
-fi
-
-search_libs="$kde_libraries $kde_extra_libs /usr/lib$kdelibsuff /usr/local/lib$kdelibsuff"
-AC_FIND_FILE(libdbus-1.so, $search_libs, dbus_libdir)
-
-if test -r $dbus_libdir/libdbus-1.so ; then
-    DBUS_LIBS="-L$dbus_libdir -ldbus-1"
-    dbus_lib=FOUND
-fi
-
-if test $dbus_inc != FOUND || test $dbus_lib != FOUND ; then
-    KDE_PKG_CHECK_MODULES( DBUS, "dbus-1", [ DBUS_INCS=$DBUS_CFLAGS; dbus_inc=FOUND; dbus_lib=FOUND; ] , AC_MSG_RESULT( Nothing found on PKG_CONFIG_PATH ) )
 fi
 
 dnl AC_OUTPUT(kdm/kfrontend/sessions/kde.desktop)

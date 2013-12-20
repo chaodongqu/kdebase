@@ -50,7 +50,6 @@ public:
     bool isValidInsertIndex(Index index) const;
     virtual ~EasyVector(){};
 
-
 protected:
     void _checkInsertIndex(Index index) const;
     void _checkIndex(Index index) const;
@@ -134,4 +133,3 @@ void EasyVector< VALUE, CHECKINDEX >::_checkIndex(Index index) const
 {   if (CHECKINDEX) assert (isValidIndex(index));}
 
 #endif
-
