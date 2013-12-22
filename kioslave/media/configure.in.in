@@ -12,44 +12,6 @@ AC_ARG_WITH(hal,AC_HELP_STRING([--with-hal],[Enable HAL support  [default=check]
 
 if test "x$hal_test" = "xyes" ; then
 
-########### Check for the HAL
-  AC_MSG_CHECKING(for the HAL)
-
-  hal_inc=NOTFOUND
-  hal_lib=NOTFOUND
-  hal=NOTFOUND
-
-  search_incs="$kde_includes $kde_extra_includes /usr/include /usr/include/hal /usr/local/include /usr/local/include/hal"
-  AC_FIND_FILE(libhal.h libhal-storage.h, $search_incs, hal_incdir)
-
-  if test -r $hal_incdir/libhal.h && test -r $hal_incdir/libhal-storage.h && grep LibHalVolume $hal_incdir/libhal-storage.h > /dev/null 2>&1; then
-    HAL_INCS="-I$hal_incdir"
-    hal_inc=FOUND
-  fi
-
-  search_libs="$kde_libraries $kde_extra_libs /usr/lib$kdelibsuff /usr/local/lib$kdelibsuff"
-  AC_FIND_FILE(libhal.so libhal-storage.so, $search_libs, hal_libdir)
-
-  if test -r $hal_libdir/libhal.so && test -r $hal_libdir/libhal-storage.so ; then
-    HAL_LIBS="-L$hal_libdir -lhal -lhal-storage"
-    hal_lib=FOUND
-  fi
-
-  if test "$hal_inc" != FOUND || test "$hal_lib" != FOUND; then
-    KDE_PKG_CHECK_MODULES( HAL, hal > 0.5, [ HAL_INCS=$HAL_CFLAGS; hal_inc=FOUND; hal_lib=FOUND; ] , AC_MSG_RESULT(Nothing found on PKG_CONFIG_PATH) )
-  fi
-
-  if test "$hal_inc" = FOUND && test "$hal_lib" = FOUND ; then
-      AC_MSG_RESULT(headers $HAL_INCS  libraries $HAL_LIBS)
-      hal=FOUND
-  else
-      AC_MSG_RESULT(searched but not found)
-  fi
-
-
-  AC_SUBST(HAL_INCS)
-  AC_SUBST(HAL_LIBS)
-
 ########### Check for DBus-Qt3 bindings
 
   AC_MSG_CHECKING(for DBus-Qt3 bindings)
