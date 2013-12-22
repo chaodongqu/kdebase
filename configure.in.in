@@ -274,42 +274,103 @@ AC_SUBST(LIBART_RPATH)
 AC_ARG_WITH(hal,AC_HELP_STRING([--with-hal],[Enable HAL support  [default=check]]),[hal_test="$withval"],[hal_test="yes"])
 if test "x$hal_test" = "xyes" ; then
 
-AC_MSG_CHECKING(for the HAL)
+	AC_MSG_CHECKING(for the HAL)
 
-hal_inc=NOTFOUND
-hal_lib=NOTFOUND
-hal=NOTFOUND
+	hal_inc=NOTFOUND
+	hal_lib=NOTFOUND
+	hal=NOTFOUND
 
-search_incs="$kde_includes $kde_extra_includes /usr/include /usr/include/hal /usr/local/include /usr/local/include/hal"
-AC_FIND_FILE(libhal.h libhal-storage.h, $search_incs, hal_incdir)
+	search_incs="$kde_includes $kde_extra_includes /usr/include /usr/include/hal /usr/local/include /usr/local/include/hal"
+	AC_FIND_FILE(libhal.h libhal-storage.h, $search_incs, hal_incdir)
 
-if test -r $hal_incdir/libhal.h && test -r $hal_incdir/libhal-storage.h && grep LibHalVolume $hal_incdir/libhal-storage.h > /dev/null 2>&1; then
-	HAL_INCS="-I$hal_incdir"
-	hal_inc=FOUND
+	if test -r $hal_incdir/libhal.h && test -r $hal_incdir/libhal-storage.h && grep LibHalVolume $hal_incdir/libhal-storage.h > /dev/null 2>&1; then
+		HAL_INCS="-I$hal_incdir"
+		hal_inc=FOUND
+	fi
+
+	search_libs="$kde_libraries $kde_extra_libs /usr/lib$kdelibsuff /usr/local/lib$kdelibsuff"
+	AC_FIND_FILE(libhal.so libhal-storage.so, $search_libs, hal_libdir)
+
+	if test -r $hal_libdir/libhal.so && test -r $hal_libdir/libhal-storage.so ; then
+		HAL_LIBS="-L$hal_libdir -lhal -lhal-storage"
+		hal_lib=FOUND
+	fi
+
+	if test "$hal_inc" != FOUND || test "$hal_lib" != FOUND; then
+		KDE_PKG_CHECK_MODULES( HAL, hal > 0.5, [ HAL_INCS=$HAL_CFLAGS; hal_inc=FOUND; hal_lib=FOUND; ] , AC_MSG_RESULT(Nothing found on PKG_CONFIG_PATH) )
+	fi
+
+	if test "$hal_inc" = FOUND && test "$hal_lib" = FOUND ; then
+		AC_MSG_RESULT(headers $HAL_INCS  libraries $HAL_LIBS)
+		hal=FOUND
+	else
+		AC_MSG_RESULT(searched but not found)
+	fi
+
+	AC_SUBST(HAL_INCS)
+	AC_SUBST(HAL_LIBS)
+
+########### Check for DBus-Qt3 bindings
+
+	AC_MSG_CHECKING(for DBus-Qt3 bindings)
+
+	dbusqt_inc=NOTFOUND
+	dbusqt_lib=NOTFOUND
+	dbusqt=NOTFOUND
+
+	search_incs="$kde_includes $kde_extra_includes /usr/include /usr/include/dbus-1.0 /usr/local/include /usr/local/include/dbus-1.0"
+	AC_FIND_FILE(dbus/connection.h, $search_incs, dbusqt_incdir)
+
+	if test -r $dbusqt_incdir/dbus/connection.h ; then
+		have_qt_patch=0
+		grep dbus_connection_setup_with_qt_main $dbusqt_incdir/dbus/connection.h \
+		> /dev/null 2>&1 && have_qt_patch=1
+		if test $have_qt_patch = 1 ; then
+			DBUSQT_INCS="-I$dbusqt_incdir"
+			dbusqt_inc=FOUND
+		fi
+	fi
+
+	search_libs="$kde_libraries $kde_extra_libs /usr/lib$kdelibsuff /usr/local/lib$kdelibsuff"
+	AC_FIND_FILE(libdbus-qt-1.so, $search_libs, dbusqt_libdir)
+
+	if test -r $dbusqt_libdir/libdbus-qt-1.so ; then
+		DBUSQT_LIBS="-L$dbusqt_libdir -ldbus-qt-1"
+		dbusqt_lib=FOUND
+	fi
+
+	if test $dbusqt_inc != FOUND  || test $dbusqt_lib != FOUND ; then
+		search_incs="`pkg-config --cflags dbus-1  |sed 's/-I//g'`"
+		AC_FIND_FILE(dbus/connection.h, $search_incs, dbusqt_incdir)
+		if test -r $dbusqt_incdir/dbus/connection.h ; then
+			have_qt_patch=0
+			grep dbus_connection_setup_with_qt_main $dbusqt_incdir/dbus/connection.h \
+			> /dev/null 2>&1 && have_qt_patch=1
+			if test $have_qt_patch = 1 ; then
+				DBUSQT_INCS="-I$dbusqt_incdir"
+				dbusqt_inc=FOUND
+			fi
+		fi
+
+		search_libs="`pkg-config --libs dbus-1 --libs-only-L | sed 's/-L//g'`"
+		AC_FIND_FILE(libdbus-qt-1.so, $search_libs, dbusqt_libdir)
+
+		if test -r $dbusqt_libdir/libdbus-qt-1.so ; then
+			DBUSQT_LIBS="-L$dbusqt_libdir -ldbus-qt-1"
+			dbusqt_lib=FOUND
+		fi
+	fi
+
+	if test $dbusqt_inc = FOUND && test $dbusqt_lib = FOUND ; then
+		AC_MSG_RESULT(headers $dbusqt_incdir libraries $dbusqt_libdir)
+		dbusqt=FOUND
+	else
+		AC_MSG_RESULT(searched but not found)
+	fi
+
+	AC_SUBST(DBUSQT_INCS)
+	AC_SUBST(DBUSQT_LIBS)
 fi
-
-search_libs="$kde_libraries $kde_extra_libs /usr/lib$kdelibsuff /usr/local/lib$kdelibsuff"
-AC_FIND_FILE(libhal.so libhal-storage.so, $search_libs, hal_libdir)
-
-if test -r $hal_libdir/libhal.so && test -r $hal_libdir/libhal-storage.so ; then
-	HAL_LIBS="-L$hal_libdir -lhal -lhal-storage"
-	hal_lib=FOUND
-fi
-
-if test "$hal_inc" != FOUND || test "$hal_lib" != FOUND; then
-	KDE_PKG_CHECK_MODULES( HAL, hal > 0.5, [ HAL_INCS=$HAL_CFLAGS; hal_inc=FOUND; hal_lib=FOUND; ] , AC_MSG_RESULT(Nothing found on PKG_CONFIG_PATH) )
-fi
-
-if test "$hal_inc" = FOUND && test "$hal_lib" = FOUND ; then
-	AC_MSG_RESULT(headers $HAL_INCS  libraries $HAL_LIBS)
-	hal=FOUND
-else
-	AC_MSG_RESULT(searched but not found)
-fi
-
-
-AC_SUBST(HAL_INCS)
-AC_SUBST(HAL_LIBS)
 
 ########### Check if media HAL backend sould be compiled
 
@@ -380,4 +441,4 @@ AC_SUBST(DBUS_LIBS)
 ########### Composite
 
 AC_ARG_WITH([composite],
-  AC_HELP_STRING([--without-composite], [Disable Xcomposite support (default: check)]) )
+AC_HELP_STRING([--without-composite], [Disable Xcomposite support (default: check)]) )
