@@ -175,7 +175,7 @@ KURL SystemImpl::findBaseURL(const QString &filename) const
 					url.setPath( desktop.readPath() );
 					return url;
 				}
-				
+
 				return desktop.readURL();
 			}
 		}
@@ -223,12 +223,20 @@ void SystemImpl::createEntry(KIO::UDSEntry &entry,
 	{
 		return;
 	}
-	
+
 	addAtom(entry, KIO::UDS_NAME, 0, desktop.readName());
-	
+
 	QString new_filename = file;
 	new_filename.truncate(file.length()-8);
-	addAtom(entry, KIO::UDS_URL, 0, "system:/"+new_filename);
+
+	if ( desktop.readURL().isEmpty() )
+	{
+		addAtom(entry, KIO::UDS_URL, 0, desktop.readPath());
+	}
+	else
+	{
+		addAtom(entry, KIO::UDS_URL, 0, "system:/"+new_filename);
+	}
 
 	addAtom(entry, KIO::UDS_FILE_TYPE, S_IFDIR);
 	addAtom(entry, KIO::UDS_MIME_TYPE, 0, "inode/directory");

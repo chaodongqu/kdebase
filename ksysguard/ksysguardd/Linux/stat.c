@@ -267,10 +267,10 @@ static int processDiskIO( const char* buf )
     }
     /* Move p after the sencond ')'. We can safely assume that
      * those two ')' exist. */
-    p = strchr( p, ')' ) + 1;
-    p = strchr( p, ')' ) + 1;
+    p = (char*)strchr( p, ')' ) + 1;
+    p = (char*)strchr( p, ')' ) + 1;
     if ( p && *p )
-      p = strchr( p, '(' );
+      p = (char*)strchr( p, '(' );
   }
 
   return 0;
@@ -571,7 +571,7 @@ void initStat( struct SensorModul* sm )
    * intr 50444 38672 2557 0 0 0 0 2 0 2 0 0 3 1429 1 7778 0
    * ctxt 54155
    * btime 917379184
-   * processes 347 
+   * processes 347
    *
    * Linux kernel >= 2.4.0 have one or more disk_io: lines instead of
    * the disk_* lines.

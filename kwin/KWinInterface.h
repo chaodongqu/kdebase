@@ -16,6 +16,7 @@ class KWinInterface : virtual public DCOPObject
     virtual void refresh() = 0;
     virtual void doNotManage(QString)= 0;
     virtual void showWindowMenuAt(unsigned long winId, int x, int y)= 0;
+    virtual void kDestopResized() = 0;
     virtual void setDesktopLayout(int orientation, int x, int y)= 0;
     virtual bool setCurrentDesktop(int)= 0;
     virtual int currentDesktop() const = 0;
@@ -31,11 +32,11 @@ class KWinInterface : virtual public DCOPObject
     virtual void setUnshadowed(unsigned long winId) = 0;
 
     k_dcop_signals:
-    
+
     virtual void kompmgrStarted() = 0;
     virtual void kompmgrStopped() = 0;
 
-    // never emitted  
+    // never emitted
     virtual void dcopResetAllClients();
     };
 

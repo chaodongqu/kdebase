@@ -86,7 +86,7 @@ private slots:
   void delayFocusOnTog(bool);
   void clickRaiseOnTog(bool);
   void updateAltTabMode();
-  void updateActiveMouseScreen();
+	void updateActiveMouseScreen();
 	void changed() { emit KCModule::changed(true); }
 
 
@@ -230,7 +230,7 @@ private:
   QRadioButton *active_move;
   QRadioButton *active_always;
   KIntNumInput *delays;
-  
+
   void setFocusStealing( int );
   void setHideUtilityWindowsForInactive( bool );
 
@@ -245,11 +245,11 @@ class KTranslucencyConfig : public KCModule
 public:
   KTranslucencyConfig( bool _standAlone, KConfig *config, QWidget *parent=0, const char* name=0 );
   ~KTranslucencyConfig();
-  
+
   void load();
   void save();
   void defaults();
-  
+
 private:
   QCheckBox *useTranslucency;
   QCheckBox *activeWindowTransparency;
@@ -285,7 +285,7 @@ private:
   bool kompmgrAvailable();
   bool kompmgrAvailable_;
   KProcess *kompmgr;
-  
+
 private slots:
   void resetKompmgr();
   void showWarning(bool alphaActivated);

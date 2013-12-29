@@ -88,7 +88,7 @@ void Motif::readFlags( WId w, bool& noborder, bool& resize, bool& move,
     MwmHints* hints = 0;
     if ( XGetWindowProperty( qt_xdisplay(), w, atoms->motif_wm_hints, 0, 5,
                              FALSE, atoms->motif_wm_hints, &type, &format,
-                             &length, &after, &data ) == Success ) 
+                             &length, &after, &data ) == Success )
         {
         if ( data )
             hints = (MwmHints*) data;
@@ -99,10 +99,10 @@ void Motif::readFlags( WId w, bool& noborder, bool& resize, bool& move,
     minimize = true;
     maximize = true;
     close = true;
-    if ( hints ) 
+    if ( hints )
         {
     // To quote from Metacity 'We support those MWM hints deemed non-stupid'
-        if ( hints->flags & MWM_HINTS_FUNCTIONS ) 
+        if ( hints->flags & MWM_HINTS_FUNCTIONS )
             {
             // if MWM_FUNC_ALL is set, other flags say what to turn _off_
             bool set_value = (( hints->functions & MWM_FUNC_ALL ) == 0 );
@@ -118,7 +118,7 @@ void Motif::readFlags( WId w, bool& noborder, bool& resize, bool& move,
             if( hints->functions & MWM_FUNC_CLOSE )
                 close = set_value;
             }
-        if ( hints->flags & MWM_HINTS_DECORATIONS ) 
+        if ( hints->flags & MWM_HINTS_DECORATIONS )
             {
             if ( hints->decorations == 0 )
                 noborder = true;
@@ -177,7 +177,7 @@ bool KWinSelectionOwner::genericReply( Atom target_P, Atom property_P, Window re
         }
     else
         return KSelectionOwner::genericReply( target_P, property_P, requestor_P );
-    return true;    
+    return true;
     }
 
 Atom KWinSelectionOwner::xa_version = None;
@@ -195,9 +195,9 @@ QCString getStringProperty(WId w, Atom prop, char separator)
     status = XGetWindowProperty( qt_xdisplay(), w, prop, 0, 10000,
                                  FALSE, XA_STRING, &type, &format,
                                  &nitems, &extra, &data );
-    if ( status == Success) 
+    if ( status == Success)
         {
-        if (data && separator) 
+        if (data && separator)
             {
             for (int i=0; i<(int)nitems; i++)
                 if (!data[i] && i+1<(int)nitems)
@@ -294,7 +294,7 @@ void ungrabXServer()
         Notify::sendPendingEvents();
         }
     }
-    
+
 bool grabbedXServer()
     {
     return server_grab_count > 0;
@@ -309,12 +309,12 @@ bool isLocalMachine( const QCString& host )
 #else
     char hostnamebuf[256];
 #endif
-    if (gethostname (hostnamebuf, sizeof hostnamebuf) >= 0) 
+    if (gethostname (hostnamebuf, sizeof hostnamebuf) >= 0)
         {
         hostnamebuf[sizeof(hostnamebuf)-1] = 0;
         if (host == hostnamebuf)
             return true;
-        if( char *dot = strchr(hostnamebuf, '.'))
+        if( char *dot = (char*)strchr(hostnamebuf, '.'))
             {
             *dot = '\0';
             if( host == hostnamebuf )

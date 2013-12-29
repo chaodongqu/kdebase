@@ -712,10 +712,10 @@ static void add_links(char *c)
     /* search for (section) */
     nr=0;
     idtest[0]=strstr(c+1,"://");
-    idtest[1]=strchr(c+1,'@');
+    idtest[1]=(char*)strchr(c+1,'@');
     idtest[2]=strstr(c,"www.");
     idtest[3]=strstr(c,"ftp.");
-    idtest[4]=strchr(c+1,'(');
+    idtest[4]=(char*)strchr(c+1,'(');
     idtest[5]=strstr(c+1,".h&gt;");
     for (i=0; i<numtests; ++i) nr += (idtest[i]!=NULL);
     while (nr) {
@@ -770,7 +770,7 @@ static void add_links(char *c)
 	case 4: /* manpage */
 	    f=idtest[j];
 	    /* check section */
-	    g=strchr(f,')');
+	    g=(char*)strchr(f,')');
             // The character before f must alphanumeric, the end of a HTML tag or the end of a &nbsp;
             if (g!=NULL && f>c && (g-f)<12 && (isalnum(f[-1]) || f[-1]=='>' || ( f[-1] == ';' ) ) &&
 		isdigit(f[1]) && f[1]!='0' && ((g-f)<=2 || isalpha(f[2])))
@@ -805,7 +805,7 @@ static void add_links(char *c)
                     ok = false;
                 }
             }
-            
+
 	    if (ok)
 	    {
 		/* this might be a link */
@@ -936,10 +936,10 @@ static void add_links(char *c)
 	}
 	nr=0;
 	if (idtest[0] && idtest[0]<=c) idtest[0]=strstr(c+1,"://");
-	if (idtest[1] && idtest[1]<=c) idtest[1]=strchr(c+1,'@');
+	if (idtest[1] && idtest[1]<=c) idtest[1]=(char*)strchr(c+1,'@');
 	if (idtest[2] && idtest[2]<c) idtest[2]=strstr(c,"www.");
 	if (idtest[3] && idtest[3]<c) idtest[3]=strstr(c,"ftp.");
-	if (idtest[4] && idtest[4]<=c) idtest[4]=strchr(c+1,'(');
+	if (idtest[4] && idtest[4]<=c) idtest[4]=(char*)strchr(c+1,'(');
 	if (idtest[5] && idtest[5]<=c) idtest[5]=strstr(c+1,".h&gt;");
         for (i=0; i<numtests; i++) nr += (idtest[i]!=NULL);
     }
@@ -974,7 +974,7 @@ static void out_html(const char *c)
       while (*c2) {
 	  if (buffpos>=buffmax) {
 	      char *h = new char[buffmax*2];
-       
+
 #ifdef SIMPLE_MAN2HTML
 	      if (!h)
               {
@@ -983,7 +983,7 @@ static void out_html(const char *c)
               }
 #else
 // modern compiler do not return a NULL for a new
-#endif       
+#endif
               memcpy(h, buffer, buffmax);
               delete [] buffer;
 	      buffer=h;
@@ -1220,7 +1220,7 @@ static QCString scan_named_character( char*& c )
         c++;
     }
     // Note: characters with a one character length name doe not exist, as they would collide with other escapes
-    
+
     // Now we have the name, let us find it between the string names
     QMap<QCString,StringDefinition>::iterator it=s_characterDefinitionMap.find(name);
     if (it==s_characterDefinitionMap.end())
@@ -1443,7 +1443,7 @@ static int read_only_number_register( const QCString& name )
 #ifndef SIMPLE_MAN2HTML
             kdDebug(7107) << "EXCEPTION: unknown read-only number register: " << name << endl;
 #endif
-    
+
     return 0; // Undefined variable
 
 }
@@ -2498,12 +2498,12 @@ static void trans_char(char *c, char s, char t)
 // Fix handling of lines like:
 // .TH FIND 1L \" -*- nroff -*-
 // Where \" indicates the start of comment.
-// 
+//
 // The problem is the \" handling in fill_words(), the return value
 // indicates the end of the word as well as the end of the line, which makes it
 // basically impossible to express that the end of the last word is not the end of
 // the line.
-// 
+//
 // I have corrected that by adding an extra parameter 'next_line' that returns a
 // pointer to the next line, while the function itself returns a pointer to the end
 // of the last word.
@@ -3304,7 +3304,7 @@ static char *scan_request(char *c)
                 }
                 case REQ_br: // groff(7) "line BReak"
                 {
-                    if (still_dd) 
+                    if (still_dd)
                         out_html("<DD>"); // ### VERIFY (does not look like generating good HTML)
                     else
                         out_html("<BR>\n");
@@ -3580,7 +3580,7 @@ static char *scan_request(char *c)
                         scan_troff(buf+1,0,NULL);
                     delete [] buf;
                     delete [] name;
-    
+
                     *c++='\n';
                     break;
                 }
@@ -3714,10 +3714,10 @@ static char *scan_request(char *c)
                     char* font[2] = { "B", "R" };
                     c+=j;
                     if (*c=='\n') c++;
-                    char *eol=strchr(c,'\n');
-                    char *semicolon=strchr(c,';');
+                    char *eol=(char*)strchr(c,'\n');
+                    char *semicolon=(char*)strchr(c,';');
                     if ((semicolon!=0) && (semicolon<eol)) *semicolon=' ';
-        
+
                     sl=fill_words(c, wordlist, &words, true, &c);
                     // Normally a .Fo has only one parameter
                     for (i=0; i<words; i++)
@@ -3791,7 +3791,7 @@ static char *scan_request(char *c)
                         curpos++;
                     break;
                 }
-                
+
                 case REQ_OP:  /* groff manpages use this construction */
                 {
                     /* .OP a b : [ <B>a</B> <I>b</I> ] */
@@ -3872,7 +3872,7 @@ static char *scan_request(char *c)
                     /* somewhere a definition ends with '.TP' */
                     if (!*c)
                         still_dd=true;
-                    else 
+                    else
                     {
                         // HACK for proc(5)
                         while (c[0]=='.' && c[1]=='\\' && c[2]=='\"')
@@ -4021,7 +4021,7 @@ static char *scan_request(char *c)
                     else
                         out_html("</H2>\n");
                     out_html("<div>\n");
-        
+
                     section=1;
                     curpos=0;
                     break;
@@ -4099,7 +4099,7 @@ static char *scan_request(char *c)
                             out_html(htmlPath);
                             out_html("/top-right-konqueror.png\" style=\"margin: 0pt\" alt=\"Top right\">\n");
                             out_html("</div>\n");
-        
+
                             out_html("<div style=\"position: absolute; left: 0pt;\">\n");
                             out_html("<img src=\"");
                             out_html(htmlPath);
@@ -4277,7 +4277,7 @@ static char *scan_request(char *c)
                     while (*c && (*c != ' ') && (*c != '\n')) c++;
                     *c = '\0';
                     const QCString name(nameStart);
-    
+
                     QCString endmacro;
                     if (words == 1)
                     {
@@ -4338,7 +4338,7 @@ static char *scan_request(char *c)
                 case REQ_Bl: // mdoc(7) "Begin List"
                 {
                     char list_options[NULL_TERMINATED(MED_STR_MAX)];
-                    char *nl = strchr(c,'\n');
+                    char *nl = (char*)strchr(c,'\n');
                     c=c+j;
                     if (dl_set[itemdepth])
                     /* These things can nest. */
@@ -4519,7 +4519,7 @@ static char *scan_request(char *c)
 	       case REQ_Bd:	/* mdoc(7) */
 	       {			/* Seems like a kind of example/literal mode */
                     char bd_options[NULL_TERMINATED(MED_STR_MAX)];
-                    char *nl = strchr(c,'\n');
+                    char *nl = (char*)strchr(c,'\n');
                     c=c+j;
                     if (nl)
                         strlimitcpy(bd_options, c, nl - c, MED_STR_MAX);
@@ -4877,8 +4877,8 @@ static char *scan_request(char *c)
                     }
                     else if (!mandoc_name_count)
                     {
-                        const char *nextbreak = strchr(c, '\n');
-                        const char *nextspace = strchr(c, ' ');
+                        char *nextbreak = (char*)strchr(c, '\n');
+                        char *nextspace = (char*)strchr(c, ' ');
                         if (nextspace < nextbreak)
                             nextbreak = nextspace;
 
@@ -4889,7 +4889,7 @@ static char *scan_request(char *c)
                         }
                     }
                     mandoc_name_count++;
-        
+
                     out_html(set_font("B"));
                     // ### FIXME: fill_words must be used
                     while (*c == ' '|| *c == '\t') c++;
@@ -5510,22 +5510,22 @@ void scan_man_page(const char *man_page)
     // Unlike man2html, we actually call this several times, hence the need to
     // properly cleanup all those static vars
     s_ifelseval.clear();
-    
+
     s_characterDefinitionMap.clear();
     InitCharacterDefinitions();
 
     s_stringDefinitionMap.clear();
     InitStringDefinitions();
-    
+
     s_numberDefinitionMap.clear();
     InitNumberDefinitions();
-    
+
     s_argumentList.clear();
 
     section = 0;
 
     s_dollarZero = ""; // No macro called yet!
-    
+
     output_possible = false;
     int strLength = qstrlen(man_page);
     char *buf = new char[strLength + 2];

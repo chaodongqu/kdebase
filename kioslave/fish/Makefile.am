@@ -4,7 +4,7 @@ INCLUDES = $(all_includes)
 AM_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 kio_fish_la_SOURCES = fish.cpp
-kio_fish_la_LIBADD = $(LIB_KSYCOCA) #$(LIBUTIL)
+kio_fish_la_LIBADD = $(LIB_KSYCOCA) $(LIBUTIL)
 kio_fish_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN) -lutil
 noinst_HEADERS = fishcode.h fish.h
 

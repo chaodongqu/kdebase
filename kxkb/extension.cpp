@@ -4,6 +4,7 @@
 #include <qstring.h>
 #include <qmap.h>
 #include <qfile.h>
+#include <qdir.h>
 
 #include <kdebug.h>
 #include <kstandarddirs.h>
@@ -39,7 +40,7 @@ XKBExtension::XKBExtension(Display *d)
 	if ( d == NULL )
 		d = qt_xdisplay();
 	m_dpy = d;
-	
+
 //	QStringList dirs = KGlobal::dirs()->findDirs ( "tmp", "" );
 //	m_tempDir = dirs.count() == 0 ? "/tmp/" : dirs[0];
 	m_tempDir = locateLocal("tmp", "");
@@ -51,7 +52,7 @@ bool XKBExtension::init()
 
     int major = XkbMajorVersion;
     int minor = XkbMinorVersion;
-	
+
     if (!XkbLibraryVersion(&major, &minor))
     {
         kdError() << "Xlib XKB extension " << major << '.' << minor <<
@@ -120,9 +121,9 @@ bool XKBExtension::setLayout(const QString& model,
 	if( useCompiledLayouts == false ) {
 		return setLayoutInternal( model, layout, variant, includeGroup );
 	}
-	
+
 	const QString layoutKey = getLayoutKey(layout, variant);
-	
+
 	bool res;
 	if( fileCache.contains(layoutKey) ) {
 		res = setCompiledLayout( layoutKey );
@@ -136,7 +137,7 @@ bool XKBExtension::setLayout(const QString& model,
 		kdDebug() << "setRawLayout " << layoutKey << ": " << res << endl;
 		if( res )
 			compileCurrentLayout( layoutKey );
-		
+
 //	}
 	return res;
 }
@@ -161,12 +162,12 @@ bool XKBExtension::setLayoutInternal(const QString& model,
         fullLayout = includeGroup;
         fullLayout += ",";
         fullLayout += layout;
-		
+
 //    fullVariant = baseVar;
         fullVariant = ",";
         fullVariant += variant;
     }
- 
+
     KProcess p;
     p << exe;
 //  p << "-rules" << rule;
@@ -176,12 +177,18 @@ bool XKBExtension::setLayoutInternal(const QString& model,
     if( !fullVariant.isNull() && !fullVariant.isEmpty() )
         p << "-variant" << fullVariant;
 
-    if (p.start(KProcess::Block) && p.normalExit() && (p.exitStatus() == 0)) {
-		return true; //setGroup( group );
-    }
-    else {
-        return false;
-    }
+    p.start(KProcess::Block);
+
+    // reload ubuntu hotkey-setup keycode -> keysym maps
+    KProcess pXmodmap;
+    pXmodmap << "/usr/bin/xmodmap" << "/usr/share/apps/kxkb/ubuntu.xmodmap";
+    pXmodmap.start(KProcess::Block);
+
+    KProcess pXmodmapHome;
+    pXmodmapHome << "/usr/bin/xmodmap" << QDir::home().path() + "/.Xmodmap";
+    pXmodmapHome.start(KProcess::Block);
+
+    return p.normalExit() && (p.exitStatus() == 0);
 }
 
 bool XKBExtension::setGroup(unsigned int group)
@@ -209,7 +216,7 @@ bool XKBExtension::compileCurrentLayout(const QString &layoutKey)
     memset(&result, 0, sizeof(result));
     result.type = XkmKeymapFile;
     XkbReadFromServer(m_dpy, XkbAllMapComponentsMask, XkbAllMapComponentsMask, &result);
-	 
+
 	const QString fileName = getPrecompiledLayoutFilename(layoutKey);
 
 	kdDebug() << "compiling layout " << this << " cache size: " << fileCache.count() << endl;
@@ -221,7 +228,7 @@ bool XKBExtension::compileCurrentLayout(const QString &layoutKey)
 	}
 
 	FILE *output = fopen(QFile::encodeName(fileName), "w");
-		
+
     if ( output == NULL )
     {
 		kdWarning() << "Could not open " << fileName << " to precompile: " << strerror(errno) << endl;
@@ -234,7 +241,7 @@ bool XKBExtension::compileCurrentLayout(const QString &layoutKey)
 		fclose(output);
         return false;
 	}
-	
+
 	fclose(output);	// TODO: can we change mode w/out reopening?
 	FILE *input = fopen(QFile::encodeName(fileName), "r");
 	fileCache[ layoutKey ] = input;
@@ -244,23 +251,23 @@ bool XKBExtension::compileCurrentLayout(const QString &layoutKey)
 }
 
 /**
- * @brief takes layout from its compiled binary snapshot in file 
+ * @brief takes layout from its compiled binary snapshot in file
  *	and sets it as current
  * TODO: cache layout in memory rather than in file
  */
 bool XKBExtension::setCompiledLayout(const QString &layoutKey)
 {
 	FILE *input = NULL;
-	
+
 	if( fileCache.contains(layoutKey) ) {
 		input = fileCache[ layoutKey ];
 	}
-	
+
 	if( input == NULL ) {
 		kdWarning() << "setCompiledLayout trying to reopen xkb file" << endl;	// should never happen
 		const QString fileName = getPrecompiledLayoutFilename(layoutKey);
 		input = fopen(QFile::encodeName(fileName), "r");
-		
+
 		// 	FILE *input = fopen(QFile::encodeName(fileName), "r");
 		if ( input == NULL ) {
 			kdDebug() << "Unable to open " << fileName << ": " << strerror(errno) << endl;
@@ -280,7 +287,7 @@ bool XKBExtension::setCompiledLayout(const QString &layoutKey)
 //		fileCache.remove(layoutKey);
     	return false;
 	}
-	
+
     unsigned retVal = XkmReadFile(input, 0, XkmKeymapLegal, &result);
     if (retVal == XkmKeymapLegal)
     {

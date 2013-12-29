@@ -43,13 +43,30 @@ namespace KWinInternal
  */
 void Workspace::desktopResized()
     {
-    QRect geom = QApplication::desktop()->geometry();
+    printf("Workspace::desktopResized()\n\r");
+    QRect geom = KApplication::desktop()->geometry();
     NETSize desktop_geometry;
     desktop_geometry.width = geom.width();
     desktop_geometry.height = geom.height();
     rootInfo->setDesktopGeometry( -1, desktop_geometry );
 
-    updateClientArea();
+    updateClientArea( true );
+    checkElectricBorders( true );
+    }
+
+/*!
+  Resizes the workspace after kdesktop signals a desktop resize
+ */
+void Workspace::kDestopResized()
+    {
+    printf("Workspace::kDesktopResized()\n\r");
+    QRect geom = KApplication::desktop()->geometry();
+    NETSize desktop_geometry;
+    desktop_geometry.width = geom.width();
+    desktop_geometry.height = geom.height();
+    rootInfo->setDesktopGeometry( -1, desktop_geometry );
+
+    updateClientArea( true );
     checkElectricBorders( true );
     }
 
@@ -928,6 +945,10 @@ void Client::checkWorkspacePosition()
             }
         return;
         }
+
+    if( maximizeMode() != MaximizeRestore )
+	// TODO update geom_restore?
+        changeMaximize( false, false, true ); // adjust size
 
     if( maximizeMode() != MaximizeRestore )
 	// TODO update geom_restore?
@@ -1862,7 +1883,7 @@ void Client::changeMaximize( bool vertical, bool horizontal, bool adjust )
         if( horizontal )
             max_mode = MaximizeMode( max_mode ^ MaximizeHorizontal );
         }
-        
+
     max_mode = rules()->checkMaximize( max_mode );
     if( !adjust && max_mode == old_mode )
         return;
@@ -1911,9 +1932,9 @@ void Client::changeMaximize( bool vertical, bool horizontal, bool adjust )
 	    {
 	    max_mode = MaximizeHorizontal;
 	    maxmode_restore = MaximizeRestore;
-	    }	
+	    }
 	}
-    
+
     switch (max_mode)
         {
 
@@ -2367,7 +2388,7 @@ void Client::checkUnrestrictedMoveResize()
         return;
     QRect desktopArea = workspace()->clientArea( WorkArea, moveResizeGeom.center(), desktop());
     int left_marge, right_marge, top_marge, bottom_marge, titlebar_marge;
-    // restricted move/resize - keep at least part of the titlebar always visible 
+    // restricted move/resize - keep at least part of the titlebar always visible
     // how much must remain visible when moved away in that direction
     left_marge = KMIN( 100 + border_right, moveResizeGeom.width());
     right_marge = KMIN( 100 + border_left, moveResizeGeom.width());
@@ -2443,8 +2464,8 @@ void Client::handleMoveResize( int x, int y, int x_root, int y_root )
     int left_marge, right_marge, top_marge, bottom_marge, titlebar_marge;
     if( unrestrictedMoveResize ) // unrestricted, just don't let it go out completely
         left_marge = right_marge = top_marge = bottom_marge = titlebar_marge = 5;
-    else // restricted move/resize - keep at least part of the titlebar always visible 
-        {        
+    else // restricted move/resize - keep at least part of the titlebar always visible
+        {
         // how much must remain visible when moved away in that direction
         left_marge = KMIN( 100 + border_right, moveResizeGeom.width());
         right_marge = KMIN( 100 + border_left, moveResizeGeom.width());

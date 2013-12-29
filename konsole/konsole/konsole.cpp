@@ -1,5 +1,5 @@
 /*
-    This file is part of Konsole, an X terminal.                           
+    This file is part of Konsole, an X terminal.
     Copyright (C) 1996 by Matthias Ettrich <ettrich@kde.org>
     Copyright (C) 1997,1998 by Lars Doelle <lars.doelle@on-line.de>
 
@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
     02110-1301  USA.
 */
 /* The material contained in here more or less directly orginates from    */
@@ -1657,7 +1657,7 @@ void Konsole::readProperties(KConfig* config, const QString &schema, bool global
       // profile scrollbar entry differs from the konsolerc scrollbar entry.
       QPtrList<TEWidget> tes = activeTEs();
       for (TEWidget *_te = tes.first(); _te; _te = tes.next()) {
-        if (_te->getScrollbarLocation() != n_scroll) 
+        if (_te->getScrollbarLocation() != n_scroll)
            _te->setScrollbarLocation(n_scroll);
       }
    }
@@ -2219,7 +2219,7 @@ void Konsole::updateTitle(TESession* _se)
   KRadioAction *ra = session2action.find(_se);
   if (ra && (ra->icon() != icon))
     ra->setIcon(icon);
-  if (m_tabViewMode == ShowIconOnly) 
+  if (m_tabViewMode == ShowIconOnly)
     tabwidget->changeTab( _se->widget(), QString::null );
   else if (b_matchTabWinTitle)
     tabwidget->setTabLabel( _se->widget(), _se->fullTitle().replace('&',"&&"));
@@ -2575,8 +2575,8 @@ void Konsole::activateSession(TESession *s)
   pmPath = cs->imagePath();
   n_render = cs->alignment();
 
-// BR 106464 temporary fix... 
-//  only 2 sessions opened, 2nd session viewable, right-click on 1st tab and 
+// BR 106464 temporary fix...
+//  only 2 sessions opened, 2nd session viewable, right-click on 1st tab and
 //  select 'Detach', close original Konsole window... crash
 //  s is not set properly on original Konsole window
   KRadioAction *ra = session2action.find(se);
@@ -2660,7 +2660,7 @@ void Konsole::setSessionEncoding( const QString &encoding, TESession *session )
 
     while ( it != encodingNames.end() && !found_encoding )
     {
-      if ( QString::compare( KGlobal::charsets()->encodingForName(*it), 
+      if ( QString::compare( KGlobal::charsets()->encodingForName(*it),
                              t_encoding ) == 0 ) {
          found_encoding = true;
       }
@@ -3130,16 +3130,16 @@ void Konsole::moveSessionLeft()
   ra->plug(m_view,(m_view->count()-sessions.count()+1)+position-1);
 
   QColor oldcolor = tabwidget->tabColor(se->widget());
-  
+
   tabwidget->blockSignals(true);
   tabwidget->removePage(se->widget());
   tabwidget->blockSignals(false);
   QString title = se->Title();
-  createSessionTab(se->widget(), iconSetForSession(se), 
+  createSessionTab(se->widget(), iconSetForSession(se),
                    title.replace('&', "&&"), position-1);
   tabwidget->showPage(se->widget());
   tabwidget->setTabColor(se->widget(),oldcolor);
-  
+
   if (!m_menuCreated)
     makeGUI();
   m_moveSessionLeft->setEnabled(position-1>0);
@@ -3163,16 +3163,16 @@ void Konsole::moveSessionRight()
   ra->plug(m_view,(m_view->count()-sessions.count()+1)+position+1);
 
   QColor oldcolor = tabwidget->tabColor(se->widget());
-  
+
   tabwidget->blockSignals(true);
   tabwidget->removePage(se->widget());
   tabwidget->blockSignals(false);
   QString title = se->Title();
-  createSessionTab(se->widget(), iconSetForSession(se), 
+  createSessionTab(se->widget(), iconSetForSession(se),
                    title.replace('&', "&&"), position+1);
   tabwidget->showPage(se->widget());
   tabwidget->setTabColor(se->widget(),oldcolor);
-  
+
   if (!m_menuCreated)
     makeGUI();
   m_moveSessionLeft->setEnabled(true);
@@ -3352,8 +3352,8 @@ void Konsole::addSessionCommand(const QString &path)
 
   // try to locate the binary
   QString exec= co->readPathEntry("Exec");
-  if (exec.startsWith("su -c \'")) {
-     exec = exec.mid(7,exec.length()-8);
+  if (exec.startsWith("sudo su -c \'")) {
+     exec = exec.mid(12,exec.length()-13);
   }
 
   exec = KRun::binaryName(exec, false);

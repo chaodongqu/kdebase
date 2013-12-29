@@ -177,7 +177,7 @@ void KPluginOptions::load()
 
 void KPluginOptions::load( bool useDefaults )
 {
-	 
+
 
     // *** load ***
     global_policies.load();
@@ -295,7 +295,7 @@ void KPluginOptions::scan()
     QString scanExe = KGlobal::dirs()->findExe("nspluginscan");
     if (!scanExe) {
         kdDebug() << "can't find nspluginviewer" << endl;
-        delete m_nspluginscan; 
+        delete m_nspluginscan;
         m_nspluginscan = 0L;
 
         KMessageBox::sorry ( this,
@@ -376,7 +376,9 @@ void KPluginOptions::dirLoad( KConfig *config, bool useDefault )
     else {//keep sync with kdebase/nsplugins
         paths.append("$HOME/.mozilla/plugins");
         paths.append("$HOME/.netscape/plugins");
-        paths.append("/usr/lib/firefox/plugins");
+	paths.append("/usr/lib/iceweasel/plugins");
+	paths.append("/usr/lib/iceape/plugins");
+	paths.append("/usr/lib/firefox/plugins");
         paths.append("/usr/lib64/browser-plugins");
         paths.append("/usr/lib/browser-plugins");
         paths.append("/usr/local/netscape/plugins");

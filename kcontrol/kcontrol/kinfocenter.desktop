@@ -4,7 +4,6 @@ Icon=hwinfo
 Type=Application
 DocPath=kinfocenter/index.html
 X-KDE-StartupNotify=true
-OnlyShowIn=KDE;
 
 Name=KInfoCenter
 Name[af]=Inligting Sentrum
@@ -107,3 +106,4 @@ GenericName[zh_TW]=資訊中心
 
 X-DCOP-ServiceType=Unique
 Categories=Qt;KDE;System;
+OnlyShowIn=KDE;

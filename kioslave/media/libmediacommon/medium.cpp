@@ -38,6 +38,8 @@ Medium::Medium(const QString &id, const QString &name)
 	m_properties+= QString::null; /* BASE_URL */
 	m_properties+= QString::null; /* MIME_TYPE */
 	m_properties+= QString::null; /* ICON_NAME */
+	m_properties+= "false"; /* ENCRYPTED */
+	m_properties+= QString::null; /* CLEAR_DEVICE_UDI */
 
 	loadUserLabel();
 
@@ -60,6 +62,8 @@ Medium::Medium()
 	m_properties+= QString::null; /* BASE_URL */
 	m_properties+= QString::null; /* MIME_TYPE */
 	m_properties+= QString::null; /* ICON_NAME */
+	m_properties+= QString::null; /* ENCRYPTED */
+	m_properties+= QString::null; /* CLEAR_DEVICE_UDI */
 
 	m_halmounted = false;
     m_isHotplug = false;
@@ -84,6 +88,8 @@ const Medium Medium::create(const QStringList &properties)
 		m.m_properties[BASE_URL] = properties[BASE_URL];
 		m.m_properties[MIME_TYPE] = properties[MIME_TYPE];
 		m.m_properties[ICON_NAME] = properties[ICON_NAME];
+		m.m_properties[ENCRYPTED] = properties[ENCRYPTED];
+		m.m_properties[CLEAR_DEVICE_UDI] = properties[CLEAR_DEVICE_UDI];
 	}
 
 	return m;
@@ -123,6 +129,11 @@ void Medium::setName(const QString &name)
 void Medium::setLabel(const QString &label)
 {
 	m_properties[LABEL] = label;
+}
+
+void Medium::setEncrypted(bool state)
+{
+	m_properties[ENCRYPTED] = ( state ? "true" : "false" );
 }
 
 void Medium::setUserLabel(const QString &label)
@@ -187,6 +198,19 @@ void Medium::mountableState(const QString &deviceNode,
 	m_properties[MOUNTED] = ( mounted ? "true" : "false" );
 }
 
+void Medium::mountableState(const QString &deviceNode,
+	                    const QString &clearDeviceUdi,
+                            const QString &mountPoint,
+                            const QString &fsType, bool mounted)
+{
+	m_properties[MOUNTABLE] = "true";
+	m_properties[DEVICE_NODE] = deviceNode;
+	m_properties[CLEAR_DEVICE_UDI] = clearDeviceUdi;
+	m_properties[MOUNT_POINT] = mountPoint;
+	m_properties[FS_TYPE] = fsType;
+	m_properties[MOUNTED] = ( mounted ? "true" : "false" );
+}
+
 void Medium::unmountableState(const QString &baseURL)
 {
 	m_properties[MOUNTABLE] = "false";
@@ -206,6 +230,11 @@ void Medium::setIconName(const QString &iconName)
 bool Medium::needMounting() const
 {
 	return isMountable() && !isMounted();
+}
+
+bool Medium::needDecryption() const
+{
+	return isEncrypted() && clearDeviceUdi().isEmpty();
 }
 
 KURL Medium::prettyBaseURL() const

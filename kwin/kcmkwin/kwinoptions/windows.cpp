@@ -226,7 +226,7 @@ KFocusConfig::KFocusConfig (bool _standAlone, KConfig *_config, QWidget * parent
     connect(focusCombo, SIGNAL(activated(int)), this, SLOT(updateActiveMouseScreen()));
 
     if (!QApplication::desktop()->isVirtualDesktop() ||
-        QApplication::desktop()->numScreens() == 1) // No Ximerama 
+        QApplication::desktop()->numScreens() == 1) // No Ximerama
     {
         separateScreenFocus->hide();
         activeMouseScreen->hide();
@@ -453,7 +453,7 @@ void KFocusConfig::load( void )
     setClickRaise(key != "off");
     setAutoRaiseEnabled();      // this will disable/hide the auto raise delay widget if focus==click
     setDelayFocusEnabled();
-    
+
     setSeparateScreenFocus( config->readBoolEntry(KWIN_SEPARATE_SCREEN_FOCUS, false));
     // on by default for non click to focus policies
     setActiveMouseScreen( config->readBoolEntry(KWIN_ACTIVE_MOUSE_SCREEN, focusCombo->currentItem() != 0 ));
@@ -672,7 +672,7 @@ KAdvancedConfig::KAdvancedConfig (bool _standAlone, KConfig *_config, QWidget *p
     QWhatsThis::add( focusStealing, wtstr );
     QWhatsThis::add( focusStealingLabel, wtstr );
     connect(focusStealing, SIGNAL(activated(int)), SLOT(changed()));
-    
+
     hideUtilityWindowsForInactive = new QCheckBox( i18n( "Hide utility windows for inactive applications" ), this );
     QWhatsThis::add( hideUtilityWindowsForInactive,
         i18n( "When turned on, utility windows (tool windows, torn-off menus,...) of inactive applications will be"
@@ -1293,12 +1293,12 @@ KTranslucencyConfig::KTranslucencyConfig (bool _standAlone, KConfig *_config, QW
   QWidget *tGroup = new QWidget(tabW);
   QVBoxLayout *vLay = new QVBoxLayout (tGroup,KDialog::marginHint(), KDialog::spacingHint());
   vLay->addSpacing(11); // to get the proper gb top offset
-  
+
   onlyDecoTranslucent = new QCheckBox(i18n("Apply translucency only to decoration"),tGroup);
   vLay->addWidget(onlyDecoTranslucent);
-  
+
   vLay->addSpacing(11);
-  
+
   QGridLayout *gLay = new QGridLayout(vLay,4,2,KDialog::spacingHint());
   gLay->setColStretch(1,1);
 
@@ -1329,7 +1329,7 @@ KTranslucencyConfig::KTranslucencyConfig (bool _standAlone, KConfig *_config, QW
   dockWindowOpacity->setRange(0,100);
   dockWindowOpacity->setSuffix("%");
   gLay->addWidget(dockWindowOpacity,3,1);
-  
+
   vLay->addSpacing(11);
 
   keepAboveAsActive = new QCheckBox(i18n("Treat 'keep above' windows as active ones"),tGroup);
@@ -1347,7 +1347,7 @@ KTranslucencyConfig::KTranslucencyConfig (bool _standAlone, KConfig *_config, QW
   vLay2->addSpacing(11); // to get the proper gb top offset
   useShadows = new QCheckBox(i18n("Use shadows"),sGroup);
   vLay2->addWidget(useShadows);
-  
+
   vLay2->addSpacing(11);
 
   QGridLayout *gLay2 = new QGridLayout(vLay2,6,2);
@@ -1526,7 +1526,7 @@ void KTranslucencyConfig::load( void )
 
   KConfig conf_(QDir::homeDirPath() + "/.xcompmgrrc");
   conf_.setGroup("xcompmgr");
-  
+
   disableARGB->setChecked(conf_.readBoolEntry("DisableARGB",FALSE));
 
   useShadows->setChecked(conf_.readEntry("Compmode","CompClientShadows").compare("CompClientShadows") == 0);
@@ -1581,7 +1581,7 @@ void KTranslucencyConfig::save( void )
    config->writeEntry("DockShadowSize",(int)(200.0 * dockWindowShadowSize->value() / (activeWindowShadowSize->value() + inactiveWindowShadowSize->value())));
    config->writeEntry("ActiveWindowShadowSize",(int)(200.0 * activeWindowShadowSize->value() / (activeWindowShadowSize->value() + inactiveWindowShadowSize->value())));
    config->writeEntry("InactiveWindowShadowSize",(int)(200.0 * inactiveWindowShadowSize->value() / (activeWindowShadowSize->value() + inactiveWindowShadowSize->value())));
-   
+
   config->writeEntry("RemoveShadowsOnMove",removeShadowsOnMove->isChecked());
   config->writeEntry("RemoveShadowsOnResize",removeShadowsOnResize->isChecked());
   config->writeEntry("OnlyDecoTranslucent", onlyDecoTranslucent->isChecked());
