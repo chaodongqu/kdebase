@@ -34,6 +34,13 @@ class TEPty: public KProcess
 Q_OBJECT
 
   public:
+    bool setPtyFd(int p) {
+       bool res = pty()->setPty(p);
+       setupCommunication((Communication)(Stdin|Stdout));
+       commSetupDoneP();
+       runs = true;
+       return res;
+    };
 
     TEPty();
     ~TEPty();

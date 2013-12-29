@@ -43,7 +43,7 @@
 extern "C" unsigned int kfi_getPid(const char *proc, pid_t ppid);
 #else
 extern "C" unsigned int kfi_getPid(const char *proc, unsigned int ppid);
-#endif 
+#endif
 
 #define UNSCALED ":unscaled"
 
@@ -135,7 +135,7 @@ bool CXConfig::madeChanges()
     if(itsOk && itsWritable)
     {
         TPath *path;
- 
+
         for(path=itsPaths.first(); path; path=itsPaths.next())
             if(!path->orig)
                 return true;
@@ -143,7 +143,7 @@ bool CXConfig::madeChanges()
 
     return false;
 }
- 
+
 void CXConfig::addPath(const QString &dir, bool unscaled)
 {
     if(itsWritable)
@@ -175,7 +175,7 @@ bool CXConfig::inPath(TPath::EType type)
 }
 
 void CXConfig::refreshPaths(bool xfs)
-{ 
+{
     if(xfs)
     {
         if(Misc::root())
@@ -183,7 +183,7 @@ void CXConfig::refreshPaths(bool xfs)
             unsigned int xfsPid=kfi_getPid("xfs", 1);
 
             if(xfsPid)
-            { 
+            {
                 QString pid;
 
                 kill(xfsPid, SIGUSR1);
@@ -198,11 +198,11 @@ CXConfig::TPath * CXConfig::findPath(const QString &dir)
 {
     TPath   *path=NULL;
     QString ds(Misc::dirSyntax(dir));
- 
+
     for(path=itsPaths.first(); path; path=itsPaths.next())
         if(path->dir==ds)
             return path;
- 
+
     return NULL;
 }
 
@@ -211,13 +211,13 @@ static void processPath(char *str, QString &path, bool &unscaled)
     char *unsc=NULL;
 
     unscaled=false;
- 
+
     if(NULL!=(unsc=strstr(str, UNSCALED)))
     {
         *unsc='\0';
         unscaled=true;
     }
- 
+
     path=str;
 
     if(str[strlen(str)-1]!='/')
@@ -228,16 +228,16 @@ inline bool isWhitespace(char ch)
 {
     return (' '==ch || '\t'==ch || '\n'==ch) ? true : false;
 }
- 
+
 static unsigned int commentChars(char *buffer)
 {
     unsigned int num=0;
- 
+
     if(buffer[0]=='#')
         for(num=1; num<strlen(buffer)+1; ++num)
             if(buffer[num]=='\n' || buffer[num]=='\0')
                 break;
- 
+
     return num;
 }
 
@@ -356,8 +356,8 @@ static char * getItem(char **start, char **end, const char *key, unsigned int &s
 
                 if(s && *s=='\"' && s<*end)
                 {
-                    char *e=strchr(s+1, '\"'),
-                         *nl=strchr(s+1, '\n');
+                    char *e=(char*)strchr(s+1, '\"'),
+                         *nl=(char*)strchr(s+1, '\n');
 
                     if(e && e<*end && (!nl || nl>e) && e-s<=constMaxItemLen)
                     {
@@ -465,7 +465,7 @@ bool CXConfig::processX11(bool read)
 
                                 // Check if "freetype" OR "xtt" is loaded for usage of TTF's
                                 if(NULL!=(modStart=locateSection(buffer, "\"Module\"")) && NULL!=(modEnd=locateEndSection(modStart)))
-                                { 
+                                {
                                     pos=modStart;
 
                                     while(NULL!=(item=getItem(&pos, &modEnd, "Load", size, false, buffer)) && !foundFt)
@@ -523,7 +523,7 @@ bool CXConfig::processX11(bool read)
 
     return ok;
 }
- 
+
 static bool isXfsKey(const char *str)
 {
     static const char *constKeys[]=
@@ -547,17 +547,17 @@ static bool isXfsKey(const char *str)
         "use-syslog",
         NULL
     };
- 
+
     for(unsigned int key=0; NULL!=constKeys[key]; ++key)
         if(strstr(str, constKeys[key])==str)
         {
             unsigned int sLen=strlen(str),
                          kLen=strlen(constKeys[key]);
- 
+
             if(sLen>kLen && isWhitespace(str[kLen]) || '\0'==str[kLen] || '#'==str[kLen] || '='==str[kLen])
                 return true;
         }
- 
+
     return false;
 }
 
@@ -565,19 +565,19 @@ static char * getXfsPath(char *buffer, unsigned int &totalSize, unsigned int off
 {
     // Remove & return a path from the buffer
     const unsigned int constMaxPathLen=8192;
- 
+
     static char path[constMaxPathLen];
     bool        found=false;
 
     if(offsetSize<totalSize) // Just to make sure soething hasn't gone horribly wrong!
     {
         unsigned int i;
- 
+
         for(i=0; i<offsetSize && !found; i++)
             if(!isWhitespace(buffer[i]) && ','!=buffer[i])
             {
                 unsigned int comChars=commentChars(&buffer[i]);
- 
+
                 if(comChars)
                     i+=comChars;
                 else
@@ -586,9 +586,9 @@ static char * getXfsPath(char *buffer, unsigned int &totalSize, unsigned int off
                     else
                     {
                         // A path is terminated by either a comma, another key, or eof...
- 
+
                         unsigned int j=0;
- 
+
                         for(j=1; j<offsetSize-i && !found; j++)
                             if(buffer[i+j]==',' || buffer[i+j]=='\n' || buffer[i+j]=='\0' || isXfsKey(&buffer[i+j]))
                             {
@@ -614,60 +614,60 @@ bool CXConfig::processXfs(bool read)
 {
     std::ifstream xfs(QFile::encodeName(itsFileName));
     bool          ok=false;
- 
+
     if(xfs)
     {
         itsTime=Misc::getTimeStamp(itsFileName);
 
         bool closed=false;
- 
+
         xfs.seekg(0, std::ios::end);
         unsigned int size= (std::streamoff) xfs.tellg();
 
         if(read)
             itsPaths.clear();
- 
+
         if(size<32768) // Just incase...
         {
             char *buffer=new char [size+1];
- 
+
             if(buffer)
             {
                 xfs.seekg(0, std::ios::beg);
                 xfs.read(buffer, size);
- 
+
                 if(xfs.good())
                 {
                     const char *constCatalogueStr="catalogue";
                     char *cat=NULL;
                     bool found=false,
                          formatError=false;
- 
+
                     closed=true;
                     xfs.close();
                     buffer[size]='\0';
- 
+
                     // Now remove the directory lists from the buffer...
                     do
                         if(NULL!=(cat=strstr(buffer, constCatalogueStr)))
                         {
                             cat+=strlen(constCatalogueStr);
- 
+
                             if(!isWhitespace(*(cat-1)))
                             {
                                 // Check it's not been commented out - by searching back until we get to the start of the buffer,
                                 // a carriage-return, or a hash...
- 
+
                                 if(!commentedOut(buffer, cat))
                                 {
                                     // Look for '='
                                     unsigned int i;
- 
+
                                     for(i=1; i<size-(cat-buffer) && !found && !formatError; ++i)
                                         if(!isWhitespace(cat[i]))
                                         {
                                             unsigned int comChars=commentChars(&cat[i]);
- 
+
                                             if(comChars)
                                                 i+=comChars;
                                             else
@@ -676,7 +676,7 @@ bool CXConfig::processXfs(bool read)
                                                 else
                                                 {
                                                     char *path;
- 
+
                                                     cat=&cat[i+1]; // skip equals sign
                                                     while(NULL!=(path=getXfsPath(cat, size, size-(cat-buffer))))
                                                         if(read)
@@ -684,11 +684,11 @@ bool CXConfig::processXfs(bool read)
                                                             QString str;
                                                             bool    unscaled;
                                                             processPath(path, str, unscaled);
- 
+
                                                             if(NULL==findPath(path))
                                                                 itsPaths.append(new TPath(str, unscaled));
                                                         }
- 
+
                                                     if(!read) // then must be write...
                                                     {
                                                         Misc::createBackup(itsFileName);
@@ -724,7 +724,7 @@ bool CXConfig::processXfs(bool read)
                                                     }
                                                     else
                                                         ok=true;
- 
+
                                                     found=true;
                                                 }
                                         }
@@ -739,7 +739,7 @@ bool CXConfig::processXfs(bool read)
         if(!closed)
             xfs.close();
     }
- 
+
     return ok;
 }
 

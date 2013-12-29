@@ -139,8 +139,8 @@ Workspace::Workspace( bool restore )
 
     updateXTime(); // needed for proper initialization of user_time in Client ctor
 
-    delayFocusTimer = 0; 
-    
+    delayFocusTimer = 0;
+
     electric_time_first = qt_x_time;
     electric_time_last = qt_x_time;
 
@@ -218,7 +218,7 @@ void Workspace::init()
 // not used yet
 //     topDock = 0L;
 //     maximizedWindowCounter = 0;
-    
+
     supportWindow = new QWidget;
     XLowerWindow( qt_xdisplay(), supportWindow->winId()); // see usage in layers.cpp
 
@@ -364,7 +364,7 @@ void Workspace::init()
         unsigned int i, nwins;
         Window root_return, parent_return, *wins;
         XQueryTree(qt_xdisplay(), root, &root_return, &parent_return, &wins, &nwins);
-        for (i = 0; i < nwins; i++) 
+        for (i = 0; i < nwins; i++)
             {
             XWindowAttributes attr;
             XGetWindowAttributes(qt_xdisplay(), wins[i], &attr);
@@ -372,12 +372,12 @@ void Workspace::init()
                 continue;
             if( topmenu_space && topmenu_space->winId() == wins[ i ] )
                 continue;
-            if (attr.map_state != IsUnmapped) 
+            if (attr.map_state != IsUnmapped)
                 {
                 if ( addSystemTrayWin( wins[i] ) )
                     continue;
                 Client* c = createClient( wins[i], true );
-                if ( c != NULL && root != qt_xrootwin() ) 
+                if ( c != NULL && root != qt_xrootwin() )
                     { // TODO what is this?
                 // TODO may use QWidget:.create
                     XReparentWindow( qt_xdisplay(), c->frameId(), root, 0, 0 );
@@ -508,7 +508,7 @@ void Workspace::addClient( Client* c, allowed_t )
             c->setOpacity(options->translucentDocks, options->dockOpacity);
             }
         }
-//------------------------------------------------        
+//------------------------------------------------
     Group* grp = findGroup( c->window());
     if( grp != NULL )
         grp->gotLeader( c );
@@ -776,7 +776,7 @@ void Workspace::updateCurrentTopMenu()
         }
 
     // ... then hide the other ones. Avoids flickers.
-    for ( ClientList::ConstIterator it = clients.begin(); it != clients.end(); ++it) 
+    for ( ClientList::ConstIterator it = clients.begin(); it != clients.end(); ++it)
         {
         if( (*it)->isTopMenu() && (*it) != menubar )
             (*it)->hideClient( true );
@@ -893,7 +893,7 @@ void Workspace::updateColormap()
     Colormap cmap = default_colormap;
     if ( activeClient() && activeClient()->colormap() != None )
         cmap = activeClient()->colormap();
-    if ( cmap != installed_colormap ) 
+    if ( cmap != installed_colormap )
         {
         XInstallColormap(qt_xdisplay(), cmap );
         installed_colormap = cmap;
@@ -1013,7 +1013,7 @@ void Workspace::loadDesktopSettings()
     desktop_focus_chain.resize( n );
     // make it +1, so that it can be accessed as [1..numberofdesktops]
     focus_chain.resize( n + 1 );
-    for(int i = 1; i <= n; i++) 
+    for(int i = 1; i <= n; i++)
         {
         QString s = c->readEntry(QString("Name_%1").arg(i),
                                 i18n("Desktop %1").arg(i));
@@ -1033,21 +1033,21 @@ void Workspace::saveDesktopSettings()
     KConfigGroupSaver saver(c,groupname);
 
     c->writeEntry("Number", number_of_desktops );
-    for(int i = 1; i <= number_of_desktops; i++) 
+    for(int i = 1; i <= number_of_desktops; i++)
         {
         QString s = desktopName( i );
         QString defaultvalue = i18n("Desktop %1").arg(i);
-        if ( s.isEmpty() ) 
+        if ( s.isEmpty() )
             {
             s = defaultvalue;
             rootInfo->setDesktopName( i, s.utf8().data() );
             }
 
-        if (s != defaultvalue) 
+        if (s != defaultvalue)
             {
             c->writeEntry( QString("Name_%1").arg(i), s );
             }
-        else 
+        else
             {
             QString currentvalue = c->readEntry(QString("Name_%1").arg(i));
             if (currentvalue != defaultvalue)
@@ -1085,10 +1085,10 @@ void Workspace::doNotManage( QString title )
  */
 bool Workspace::isNotManaged( const QString& title )
     {
-    for ( QStringList::Iterator it = doNotManageList.begin(); it != doNotManageList.end(); ++it ) 
+    for ( QStringList::Iterator it = doNotManageList.begin(); it != doNotManageList.end(); ++it )
         {
         QRegExp r( (*it) );
-        if (r.search(title) != -1) 
+        if (r.search(title) != -1)
             {
             doNotManageList.remove( it );
             return TRUE;
@@ -1100,7 +1100,7 @@ bool Workspace::isNotManaged( const QString& title )
 /*!
   Refreshes all the client windows
  */
-void Workspace::refresh() 
+void Workspace::refresh()
     {
     QWidget w;
     w.setGeometry( QApplication::desktop()->geometry() );
@@ -1137,7 +1137,7 @@ void ObscuringWindows::create( Client* c )
     Window obs_win;
     XWindowChanges chngs;
     int mask = CWSibling | CWStackMode;
-    if( cached->count() > 0 ) 
+    if( cached->count() > 0 )
         {
         cached->remove( obs_win = cached->first());
         chngs.x = c->x();
@@ -1146,7 +1146,7 @@ void ObscuringWindows::create( Client* c )
         chngs.height = c->height();
         mask |= CWX | CWY | CWWidth | CWHeight;
         }
-    else 
+    else
         {
         XSetWindowAttributes a;
         a.background_pixmap = None;
@@ -1167,7 +1167,7 @@ ObscuringWindows::~ObscuringWindows()
     max_cache_size = QMAX( max_cache_size, obscuring_windows.count() + 4 ) - 1;
     for( QValueList<Window>::ConstIterator it = obscuring_windows.begin();
          it != obscuring_windows.end();
-         ++it ) 
+         ++it )
         {
         XUnmapWindow( qt_xdisplay(), *it );
         if( cached->count() < max_cache_size )
@@ -1195,7 +1195,7 @@ bool Workspace::setCurrentDesktop( int new_desktop )
     StackingUpdatesBlocker blocker( this );
 
     int old_desktop = current_desktop;
-    if (new_desktop != current_desktop) 
+    if (new_desktop != current_desktop)
         {
         ++block_showing_desktop;
         /*
@@ -1234,7 +1234,7 @@ bool Workspace::setCurrentDesktop( int new_desktop )
     --block_focus;
     Client* c = 0;
 
-    if ( options->focusPolicyIsReasonable()) 
+    if ( options->focusPolicyIsReasonable())
         {
         // Search in focus chain
         if ( movingClient != NULL && active_client == movingClient
@@ -1243,7 +1243,7 @@ bool Workspace::setCurrentDesktop( int new_desktop )
             {
             c = active_client; // the requestFocus below will fail, as the client is already active
             }
-        if ( !c ) 
+        if ( !c )
             {
             for( ClientList::ConstIterator it = focus_chain[currentDesktop()].fromLast();
                  it != focus_chain[currentDesktop()].end();
@@ -1270,9 +1270,9 @@ bool Workspace::setCurrentDesktop( int new_desktop )
     if( c != active_client )
         setActiveClient( NULL, Allowed );
 
-    if ( c ) 
+    if ( c )
         requestFocus( c );
-    else 
+    else
         focusToNull();
 
     updateCurrentTopMenu();
@@ -1318,7 +1318,7 @@ int Workspace::desktopToRight( int desktop ) const
     if (layoutOrientation == Qt::Vertical)
         {
         dt += y;
-        if ( dt >= numberOfDesktops() ) 
+        if ( dt >= numberOfDesktops() )
             {
             if ( options->rollOverDesktops )
               dt -= numberOfDesktops();
@@ -1329,7 +1329,7 @@ int Workspace::desktopToRight( int desktop ) const
     else
         {
         int d = (dt % x) + 1;
-        if ( d >= x ) 
+        if ( d >= x )
             {
             if ( options->rollOverDesktops )
               d -= x;
@@ -1349,7 +1349,7 @@ int Workspace::desktopToLeft( int desktop ) const
     if (layoutOrientation == Qt::Vertical)
         {
         dt -= y;
-        if ( dt < 0 ) 
+        if ( dt < 0 )
             {
             if ( options->rollOverDesktops )
               dt += numberOfDesktops();
@@ -1360,7 +1360,7 @@ int Workspace::desktopToLeft( int desktop ) const
     else
         {
         int d = (dt % x) - 1;
-        if ( d < 0 ) 
+        if ( d < 0 )
             {
             if ( options->rollOverDesktops )
               d += x;
@@ -1380,7 +1380,7 @@ int Workspace::desktopUp( int desktop ) const
     if (layoutOrientation == Qt::Horizontal)
         {
         dt -= x;
-        if ( dt < 0 ) 
+        if ( dt < 0 )
             {
             if ( options->rollOverDesktops )
               dt += numberOfDesktops();
@@ -1391,7 +1391,7 @@ int Workspace::desktopUp( int desktop ) const
     else
         {
         int d = (dt % y) - 1;
-        if ( d < 0 ) 
+        if ( d < 0 )
             {
             if ( options->rollOverDesktops )
               d += y;
@@ -1411,7 +1411,7 @@ int Workspace::desktopDown( int desktop ) const
     if (layoutOrientation == Qt::Horizontal)
         {
         dt += x;
-        if ( dt >= numberOfDesktops() ) 
+        if ( dt >= numberOfDesktops() )
             {
             if ( options->rollOverDesktops )
               dt -= numberOfDesktops();
@@ -1422,7 +1422,7 @@ int Workspace::desktopDown( int desktop ) const
     else
         {
         int d = (dt % y) + 1;
-        if ( d >= y ) 
+        if ( d >= y )
             {
             if ( options->rollOverDesktops )
               d -= y;
@@ -1450,7 +1450,7 @@ void Workspace::setNumberOfDesktops( int n )
 
     // if increasing the number, do the resizing now,
     // otherwise after the moving of windows to still existing desktops
-    if( old_number_of_desktops < number_of_desktops ) 
+    if( old_number_of_desktops < number_of_desktops )
         {
         rootInfo->setNumberOfDesktops( number_of_desktops );
         NETPoint* viewports = new NETPoint[ number_of_desktops ];
@@ -1462,17 +1462,17 @@ void Workspace::setNumberOfDesktops( int n )
 
     // if the number of desktops decreased, move all
     // windows that would be hidden to the last visible desktop
-    if( old_number_of_desktops > number_of_desktops ) 
+    if( old_number_of_desktops > number_of_desktops )
         {
         for( ClientList::ConstIterator it = clients.begin();
               it != clients.end();
-              ++it) 
+              ++it)
             {
             if( !(*it)->isOnAllDesktops() && (*it)->desktop() > numberOfDesktops())
                 sendClientToDesktop( *it, numberOfDesktops(), true );
             }
         }
-    if( old_number_of_desktops > number_of_desktops ) 
+    if( old_number_of_desktops > number_of_desktops )
         {
         rootInfo->setNumberOfDesktops( number_of_desktops );
         NETPoint* viewports = new NETPoint[ number_of_desktops ];
@@ -1512,7 +1512,7 @@ void Workspace::sendClientToDesktop( Client* c, int desk, bool dont_activate )
         else
             restackClientUnderActive( c );
         }
-    else 
+    else
         {
         raiseClient( c );
         }
@@ -1526,14 +1526,14 @@ void Workspace::sendClientToDesktop( Client* c, int desk, bool dont_activate )
     }
 
 int Workspace::numScreens() const
-    {
+{
     if( !options->xineramaEnabled )
         return 0;
     return qApp->desktop()->numScreens();
-    }
+}
 
 int Workspace::activeScreen() const
-    {
+{
     if( !options->xineramaEnabled )
         return 1;
     if( !options->activeMouseScreen )
@@ -1543,45 +1543,45 @@ int Workspace::activeScreen() const
         return active_screen;
         }
     return qApp->desktop()->screenNumber( QCursor::pos());
-    }
+}
 
 // check whether a client moved completely out of what's considered the active screen,
 // if yes, set a new active screen
 void Workspace::checkActiveScreen( const Client* c )
-    {
+{
     if( !options->xineramaEnabled )
         return;
     if( !c->isActive())
         return;
     if( !c->isOnScreen( active_screen ))
         active_screen = c->screen();
-    }
+}
 
 // called e.g. when a user clicks on a window, set active screen to be the screen
 // where the click occured
 void Workspace::setActiveScreenMouse( QPoint mousepos )
-    {
+{
     if( !options->xineramaEnabled )
         return;
     active_screen = qApp->desktop()->screenNumber( mousepos );
-    }
+}
 
 QRect Workspace::screenGeometry( int screen ) const
-    {
+{
     if( !options->xineramaEnabled )
         return qApp->desktop()->geometry();
     return qApp->desktop()->screenGeometry( screen );
-    }
+}
 
 int Workspace::screenNumber( QPoint pos ) const
-    {
+{
     if( !options->xineramaEnabled )
         return 0;
     return qApp->desktop()->screenNumber( pos );
-    }
+}
 
 void Workspace::sendClientToScreen( Client* c, int screen )
-    {
+{
     if( c->screen() == screen ) // don't use isOnScreen(), that's true even when only partially
         return;
     GeometryUpdatesPostponer blocker( c );
@@ -1597,7 +1597,7 @@ void Workspace::sendClientToScreen( Client* c, int screen )
         sendClientToScreen( *it, screen );
     if( c->isActive())
         active_screen = screen;
-    }
+}
 
 void Workspace::setDesktopLayout( int, int, int )
     { // DCOP-only, unused
@@ -1698,7 +1698,7 @@ void Workspace::propagateSystemTrayWins()
     Window *cl = new Window[ systemTrayWins.count()];
 
     int i = 0;
-    for ( SystemTrayWindowList::ConstIterator it = systemTrayWins.begin(); it != systemTrayWins.end(); ++it ) 
+    for ( SystemTrayWindowList::ConstIterator it = systemTrayWins.begin(); it != systemTrayWins.end(); ++it )
         {
         cl[i++] =  (*it).win;
         }
@@ -1714,7 +1714,7 @@ void Workspace::killWindowId( Window window_to_kill )
         return;
     Window window = window_to_kill;
     Client* client = NULL;
-    for(;;) 
+    for(;;)
         {
         client = findClient( FrameIdMatchPredicate( window ));
         if( client != NULL ) // found the client
@@ -1753,12 +1753,12 @@ void Workspace::sendTakeActivity( Client* c, Time timestamp, long flags )
 */
 void Workspace::slotGrabWindow()
     {
-    if ( active_client ) 
+    if ( active_client )
         {
         QPixmap snapshot = QPixmap::grabWindow( active_client->frameId() );
 
 	//No XShape - no work.
-        if( Shape::available()) 
+        if( Shape::available())
             {
 	    //As the first step, get the mask from XShape.
             int count, order;
@@ -1768,7 +1768,7 @@ void Workspace::slotGrabWindow()
 	    //ShapeBounding - ShapeClipping is defined to be the border.
 	    //Since the border area is part of the window, we use bounding
 	    // to limit our work region
-            if (rects) 
+            if (rects)
                 {
 		//Create a QRegion from the rectangles describing the bounding mask.
                 QRegion contents;
@@ -1819,7 +1819,7 @@ void Workspace::slotGrabDesktop()
 void Workspace::slotMouseEmulation()
     {
 
-    if ( mouse_emulation ) 
+    if ( mouse_emulation )
         {
         XUngrabKeyboard(qt_xdisplay(), qt_x_time);
         mouse_emulation = FALSE;
@@ -1829,7 +1829,7 @@ void Workspace::slotMouseEmulation()
     if ( XGrabKeyboard(qt_xdisplay(),
                        root, FALSE,
                        GrabModeAsync, GrabModeAsync,
-                       qt_x_time) == GrabSuccess ) 
+                       qt_x_time) == GrabSuccess )
         {
         mouse_emulation = TRUE;
         mouse_emulation_state = 0;
@@ -1851,7 +1851,7 @@ WId Workspace::getMouseEmulationWindow()
     uint state;
     Window w;
     Client * c = 0;
-    do 
+    do
         {
         w = child;
         if (!c)
@@ -1873,12 +1873,12 @@ unsigned int Workspace::sendFakedMouseEvent( QPoint pos, WId w, MouseEmulation t
     if ( !w )
         return state;
     QWidget* widget = QWidget::find( w );
-    if ( (!widget ||  widget->inherits("QToolButton") ) && !findClient( WindowMatchPredicate( w )) ) 
+    if ( (!widget ||  widget->inherits("QToolButton") ) && !findClient( WindowMatchPredicate( w )) )
         {
         int x, y;
         Window xw;
         XTranslateCoordinates( qt_xdisplay(), qt_xrootwin(), w, pos.x(), pos.y(), &x, &y, &xw );
-        if ( type == EmuMove ) 
+        if ( type == EmuMove )
             { // motion notify events
             XEvent e;
             e.type = MotionNotify;
@@ -1894,7 +1894,7 @@ unsigned int Workspace::sendFakedMouseEvent( QPoint pos, WId w, MouseEmulation t
             e.xmotion.is_hint = NotifyNormal;
             XSendEvent( qt_xdisplay(), w, TRUE, ButtonMotionMask, &e );
             }
-        else 
+        else
             {
             XEvent e;
             e.type = type == EmuRelease ? ButtonRelease : ButtonPress;
@@ -1910,9 +1910,9 @@ unsigned int Workspace::sendFakedMouseEvent( QPoint pos, WId w, MouseEmulation t
             e.xbutton.button = button;
             XSendEvent( qt_xdisplay(), w, TRUE, ButtonPressMask, &e );
 
-            if ( type == EmuPress ) 
+            if ( type == EmuPress )
                 {
-                switch ( button ) 
+                switch ( button )
                     {
                     case 2:
                         state |= Button2Mask;
@@ -1925,9 +1925,9 @@ unsigned int Workspace::sendFakedMouseEvent( QPoint pos, WId w, MouseEmulation t
                         break;
                     }
                 }
-            else 
+            else
                 {
-                switch ( button ) 
+                switch ( button )
                     {
                     case 2:
                         state &= ~Button2Mask;
@@ -1961,7 +1961,7 @@ bool Workspace::keyPressMouseEmulation( XKeyEvent& ev )
     int delta = is_control?1:is_alt?32:8;
     QPoint pos = QCursor::pos();
 
-    switch ( kc ) 
+    switch ( kc )
         {
         case XK_Left:
         case XK_KP_Left:
@@ -2006,16 +2006,16 @@ bool Workspace::keyPressMouseEmulation( XKeyEvent& ev )
         case XK_Return:
         case XK_space:
         case XK_KP_Enter:
-        case XK_KP_Space: 
+        case XK_KP_Space:
             {
-            if ( !mouse_emulation_state ) 
+            if ( !mouse_emulation_state )
                 {
             // nothing was pressed, fake a LMB click
                 mouse_emulation_window = getMouseEmulationWindow();
                 mouse_emulation_state = sendFakedMouseEvent( pos, mouse_emulation_window, EmuPress, Button1, mouse_emulation_state );
                 mouse_emulation_state = sendFakedMouseEvent( pos, mouse_emulation_window, EmuRelease, Button1, mouse_emulation_state );
                 }
-            else 
+            else
                 { // release all
                 if ( mouse_emulation_state & Button1Mask )
                     mouse_emulation_state = sendFakedMouseEvent( pos, mouse_emulation_window, EmuRelease, Button1, mouse_emulation_state );
@@ -2057,7 +2057,7 @@ void Workspace::delayFocus()
     requestFocus( delayfocus_client );
     cancelDelayFocus();
     }
-    
+
 void Workspace::requestDelayFocus( Client* c )
     {
     delayfocus_client = c;
@@ -2066,7 +2066,7 @@ void Workspace::requestDelayFocus( Client* c )
     connect( delayFocusTimer, SIGNAL( timeout() ), this, SLOT( delayFocus() ) );
     delayFocusTimer->start( options->delayFocusInterval, TRUE  );
     }
-    
+
 void Workspace::cancelDelayFocus()
     {
     delete delayFocusTimer;
@@ -2084,7 +2084,7 @@ void Workspace::checkElectricBorders( bool force )
     {
     if( force )
         destroyBorderWindows();
-    
+
     electric_current_border = 0;
 
     QRect r = QApplication::desktop()->geometry();
@@ -2238,7 +2238,7 @@ void Workspace::clientMoved(const QPoint &pos, Time now)
                 {
                 case 1:
                  slotSwitchDesktopLeft();
-                 if (currentDesktop() != desk_before) 
+                 if (currentDesktop() != desk_before)
                     {
                     offset = r.width() / 5;
                     QCursor::setPos(r.width() - offset, pos.y());
@@ -2247,7 +2247,7 @@ void Workspace::clientMoved(const QPoint &pos, Time now)
 
                case 2:
                 slotSwitchDesktopRight();
-                if (currentDesktop() != desk_before) 
+                if (currentDesktop() != desk_before)
                     {
                     offset = r.width() / 5;
                     QCursor::setPos(offset, pos.y());
@@ -2256,7 +2256,7 @@ void Workspace::clientMoved(const QPoint &pos, Time now)
 
                case 3:
                 slotSwitchDesktopUp();
-                if (currentDesktop() != desk_before) 
+                if (currentDesktop() != desk_before)
                     {
                     offset = r.height() / 5;
                     QCursor::setPos(pos.x(), r.height() - offset);
@@ -2265,7 +2265,7 @@ void Workspace::clientMoved(const QPoint &pos, Time now)
 
                case 4:
                 slotSwitchDesktopDown();
-                if (currentDesktop() != desk_before) 
+                if (currentDesktop() != desk_before)
                     {
                     offset = r.height() / 5;
                     QCursor::setPos(pos.x(), offset);
@@ -2275,7 +2275,7 @@ void Workspace::clientMoved(const QPoint &pos, Time now)
             return;
             }
         }
-    else 
+    else
         {
         electric_current_border = border;
         electric_time_first = now;
@@ -2509,7 +2509,7 @@ void Workspace::helperDialog( const QString& message, const Client* c )
 
 
 // kompmgr stuff
-    
+
 void Workspace::startKompmgr()
 {
     if (!kompmgr || kompmgr->isRunning())
@@ -2644,8 +2644,8 @@ void Workspace::handleKompmgrOutput( KProcess* , char *buffer, int buflen)
         proc.start(KProcess::DontCare);
         }
 }
-    
-        
+
+
 void Workspace::setOpacity(unsigned long winId, unsigned int opacityPercent)
 {
     if (opacityPercent > 100) opacityPercent = 100;

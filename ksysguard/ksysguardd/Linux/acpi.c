@@ -1,7 +1,7 @@
 /*
     KSysGuard, the KDE System Guard
-    
-    Copyright (c) 2003 Stephan Uhlmann <su@su2.info> 
+
+    Copyright (c) 2003 Stephan Uhlmann <su@su2.info>
     Copyright (c) 2005 Sirtaj Singh Kang <taj@kde.org> -- Battery fixes and Thermal
 
     This program is free software; you can redistribute it and/or
@@ -107,7 +107,7 @@ int updateAcpiBattery( void )
   char *p;
   int AcpiBatCapacity = 1;
   int AcpiBatRemainingCapacity = 0;
-  
+
   if ( AcpiBatteryNum <= 0 )
     return -1;
 
@@ -130,7 +130,7 @@ int updateAcpiBattery( void )
     p = AcpiBatInfoBuf;
     while ( ( p!= NULL ) && ( sscanf( p, "last full capacity: %d ",
                               &AcpiBatCapacity ) != 1 ) ) {
-      p = strchr( p, '\n' );
+      p = (char*)strchr( p, '\n' );
       if ( p )
         p++;
     }
@@ -152,27 +152,27 @@ int updateAcpiBattery( void )
     p = AcpiBatStateBuf;
     while ( ( p!= NULL ) && ( sscanf( p, "remaining capacity: %d ",
                               &AcpiBatRemainingCapacity ) != 1 ) ) {
-      p = strchr( p, '\n' );
+      p = (char*)strchr( p, '\n' );
       if ( p )
         p++;
     }
-    
+
     /* get current battery usage, (current Current) */
     p = AcpiBatStateBuf;
     while ( ( p!= NULL ) && ( sscanf( p, "present rate: %d ",
                               &AcpiBatteryUsage[i] ) != 1 ) ) {
-      p = strchr( p, '\n' );
+      p = (char*)strchr( p, '\n' );
       if ( p )
         p++;
-    } 
-    
-    
+    }
+
+
     /* calculate charge rate */
     if ( AcpiBatCapacity > 0 )
       AcpiBatteryCharge[ i ] = AcpiBatRemainingCapacity * 100 / AcpiBatCapacity;
     else
       AcpiBatteryCharge[ i ] = 0;
-  } 
+  }
 
   return 0;
 }
@@ -196,7 +196,7 @@ void printAcpiBatFillInfo( const char* cmd )
 void printAcpiBatUsage( const char* cmd)
 {
  int i;
- 
+
  sscanf( cmd + 13, "%d", &i );
  fprintf(CurrentClient, "%d\n", AcpiBatteryUsage[ i ] );
 }
@@ -229,12 +229,12 @@ void printAcpiBatUsageInfo( const char* cmd)
 static int extract_zone_name(char **startidx, const char *cmd)
 {
 	char *idx = NULL;
-	idx = strchr(cmd, '/');
+	idx = (char*)strchr(cmd, '/');
 	if (idx == NULL) return 0;
-	idx = strchr(idx+1, '/');
+	idx = (char*)strchr(idx+1, '/');
 	if (idx == NULL) return 0;
 	*startidx = idx+1;
-	idx = strchr(*startidx, '/');
+	idx = (char*)strchr(*startidx, '/');
 	if (idx == NULL) return 0;
 	return idx - *startidx;
 }
@@ -264,7 +264,7 @@ void initAcpiThermal(struct SensorModul *sm)
 	  }
 
 	  AcpiThermalZones++;
-	  snprintf(th_ref, sizeof(th_ref), 
+	  snprintf(th_ref, sizeof(th_ref),
 			  "acpi/thermal_zone/%s/temperature", de->d_name);
 	  registerMonitor(th_ref, "integer", printThermalZoneTemperature,
 			  printThermalZoneTemperatureInfo, sm);
@@ -355,7 +355,7 @@ void initAcpiFan(struct SensorModul *sm)
 	  }
 
 	  AcpiFans++;
-	  snprintf(th_ref, sizeof(th_ref), 
+	  snprintf(th_ref, sizeof(th_ref),
 			  "acpi/fan/%s/state", de->d_name);
 	  registerMonitor(th_ref, "integer", printFanState,
 			  printFanStateInfo, sm);

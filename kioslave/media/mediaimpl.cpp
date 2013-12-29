@@ -227,13 +227,20 @@ bool MediaImpl::ensureMediumMounted(Medium &medium)
 		return false;
 	}
 
+	if ( medium.isEncrypted() && medium.clearDeviceUdi().isEmpty() )
+	{
+		m_lastErrorCode = KIO::ERR_COULD_NOT_MOUNT;
+		m_lastErrorMessage = i18n("The drive is encrypted.");
+		return false;
+	}
+
 	if ( medium.needMounting() )
 	{
 		m_lastErrorCode = 0;
 
 		mp_mounting = &medium;
-		
-		
+
+
 		/*
 		KIO::Job* job = KIO::mount(false, 0,
 		                           medium.deviceNode(),
@@ -264,13 +271,13 @@ bool MediaImpl::ensureMediumMounted(Medium &medium)
 		}
 
 		mp_mounting = 0L;
-		
+
 		kapp->dcopClient()
 		->disconnectDCOPSignal("kded", "mediamanager",
 		                       "mediumChanged(QString, bool)",
 		                       "mediaimpl",
 		                       "slotMediumChanged(QString)");
-		
+
 		return m_lastErrorCode==0;
 	}
 
@@ -285,7 +292,7 @@ void MediaImpl::slotWarning( KIO::Job * /*job*/, const QString &msg )
 void MediaImpl::slotMountResult(KIO::Job *job)
 {
 	kdDebug(1219) << "MediaImpl::slotMountResult" << endl;
-	
+
 	if ( job->error() != 0)
 	{
 		m_lastErrorCode = job->error();
@@ -378,7 +385,7 @@ KIO::UDSEntry MediaImpl::extractUrlInfos(const KURL &url)
 	{
 		addAtom(infos, KIO::UDS_LOCAL_PATH, 0, url.path());
 	}
-	
+
 	return infos;
 }
 

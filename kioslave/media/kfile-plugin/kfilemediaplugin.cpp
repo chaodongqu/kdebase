@@ -47,19 +47,29 @@ KFileMediaPlugin::KFileMediaPlugin(QObject *parent, const char *name,
 {
 	addMimeType( "media/audiocd" );
 	addMimeType( "media/hdd_mounted" );
+	addMimeType( "media/hdd_mounted_decrypted" );
 	addMimeType( "media/blankcd" );
 	addMimeType( "media/hdd_unmounted" );
+	addMimeType( "media/hdd_unmounted_decrypted" );
 	addMimeType( "media/blankdvd" );
 	addMimeType( "media/cdrom_mounted" );
+	addMimeType( "media/cdrom_mounted_decrypted" );
 	addMimeType( "media/cdrom_unmounted" );
+	addMimeType( "media/cdrom_unmounted_decrypted" );
 	addMimeType( "media/cdwriter_mounted" );
+	addMimeType( "media/cdwriter_mounted_decrypted" );
 	addMimeType( "media/nfs_mounted" );
 	addMimeType( "media/cdwriter_unmounted" );
+	addMimeType( "media/cdwriter_unmounted_decrypted" );
 	addMimeType( "media/nfs_unmounted" );
 	addMimeType( "media/removable_mounted" );
+	addMimeType( "media/removable_mounted_decrypted" );
 	addMimeType( "media/dvd_mounted" );
+	addMimeType( "media/dvd_mounted_decrypted" );
 	addMimeType( "media/removable_unmounted" );
+	addMimeType( "media/removable_unmounted_decrypted" );
 	addMimeType( "media/dvd_unmounted" );
+	addMimeType( "media/dvd_unmounted_decrypted" );
 	addMimeType( "media/smb_mounted" );
 	addMimeType( "media/dvdvideo" );
 	addMimeType( "media/smb_unmounted" );
@@ -73,7 +83,7 @@ KFileMediaPlugin::KFileMediaPlugin(QObject *parent, const char *name,
 	addMimeType( "media/zip_unmounted" );
 	addMimeType( "media/gphoto2camera" );
 	addMimeType( "media/camera_mounted" );
-	addMimeType( "media/camera_unmounted" );	
+	addMimeType( "media/camera_unmounted" );
 }
 
 bool KFileMediaPlugin::readInfo(KFileMetaInfo &info, uint /*what*/)
@@ -81,9 +91,9 @@ bool KFileMediaPlugin::readInfo(KFileMetaInfo &info, uint /*what*/)
         const Medium medium = askMedium(info);
 
 	kdDebug() << "KFileMediaPlugin::readInfo " << medium.id() << endl;
- 
+
 	if (medium.id().isNull()) return false;
-	
+
 	QString mount_point = medium.mountPoint();
 	KURL base_url = medium.prettyBaseURL();
 	QString device_node = medium.deviceNode();

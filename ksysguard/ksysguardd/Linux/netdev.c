@@ -142,12 +142,12 @@ static int processNetDev_( void )
     netDevBufP += strlen( buf ) + 1;  /* move netDevBufP to next line */
 
     if ( sscanf( buf, devFormat, tag ) ) {
-      char* pos = strchr( tag, ':' );
+      char* pos = (char*)strchr( tag, ':' );
       if ( pos ) {
         FORALL( DEFVARS );
         *pos = '\0';
         FORALL( SETZERO );
-        sscanf( buf + 7, "%llu %llu %llu %llu %llu %llu %llu %llu " 
+        sscanf( buf + 7, "%llu %llu %llu %llu %llu %llu %llu %llu "
                 "%llu %llu %llu %llu %llu %llu %llu %llu",
                 &recBytes, &recPacks, &recErrs, &recDrop, &recFifo,
                 &recFrame, &recCompressed, &recMulticast,
@@ -227,13 +227,13 @@ void initNetDev( struct SensorModul* sm )
     netDevBufP += strlen( buf ) + 1;  /* move netDevBufP to next line */
 
     if ( sscanf( buf, devFormat, tag ) ) {
-      char* pos = strchr( tag, ':' );
+      char* pos = (char*)strchr( tag, ':' );
       if ( pos ) {
         char mon[ MON_SIZE ];
         *pos = '\0';
         strlcpy( NetDevs[ i ].name, tag, sizeof( NetDevs[ i ].name ) );
         FORALL( REGISTERSENSOR );
-        sscanf( pos + 1, "%llu %llu %llu %llu %llu %llu %llu %llu" 
+        sscanf( pos + 1, "%llu %llu %llu %llu %llu %llu %llu %llu"
                 "%llu %llu %llu %llu %llu %llu %llu %llu",
                 &NetDevs[ i ].recBytes, &NetDevs[ i ].recPacks,
                 &NetDevs[ i ].recErrs, &NetDevs[ i ].recDrop,
@@ -339,9 +339,9 @@ void printNetDev##a( const char* cmd ) \
   char* end; \
   char dev[ 64 ]; \
  \
-  beg = strchr( cmd, '/' ); \
-  beg = strchr( beg + 1, '/' ); \
-  end = strchr( beg + 1, '/' ); \
+  beg = (char*)strchr( cmd, '/' ); \
+  beg = (char*)strchr( beg + 1, '/' ); \
+  end = (char*)strchr( beg + 1, '/' ); \
   strncpy( dev, beg + 1, end - beg - 1 ); \
   dev[ end - beg - 1 ] = '\0'; \
  \

@@ -52,23 +52,23 @@ MediumButton::MediumButton(QWidget *parent, const KFileItem &fileItem)
     a->setShortcut(0);
     a = KStdAction::copy(this, SLOT(slotCopy()), &mActions, "copy");
     a->setShortcut(0);
-    
+
     setBackgroundOrigin(AncestorOrigin);
-    
+
     resize(20, 20);
-    
+
     setAcceptDrops(mFileItem.isWritable());
-    
+
     setTitle(mFileItem.text());
-    
+
     refreshType();
-    
+
     connect(&mOpenTimer, SIGNAL(timeout()), SLOT(slotDragOpen()));
-    
+
     // Activate this code only if we find a way to have both an
     // action and a popup menu for the same kicker button
     //connect(this, SIGNAL(clicked()), this, SLOT(slotClicked()));
-    
+
     setPopup(new QPopupMenu());
 }
 
@@ -95,27 +95,27 @@ void MediumButton::setFileItem(const KFileItem &fileItem)
 void MediumButton::initPopup()
 {
     QPopupMenu *old_popup = popup();
-    
+
     KFileItemList items;
     items.append(&mFileItem);
-    
+
     KonqPopupMenu::KonqPopupFlags kpf =
         KonqPopupMenu::ShowProperties
         | KonqPopupMenu::ShowNewWindow;
-    
+
     KParts::BrowserExtension::PopupFlags bef =
         KParts::BrowserExtension::DefaultPopupItems;
-    
+
     KonqPopupMenu *new_popup = new KonqPopupMenu(0L, items,
                                         KURL("media:/"), mActions, 0L,
                                         this, kpf, bef);
     KPopupTitle *title = new KPopupTitle(new_popup);
     title->setTitle(mFileItem.text());
-    
+
     new_popup->insertItem(title, -1, 0);
-    
+
     setPopup(new_popup);
-    
+
     if (old_popup!=0L) delete old_popup;
 }
 
@@ -123,7 +123,7 @@ void MediumButton::refreshType()
 {
     KMimeType::Ptr mime = mFileItem.determineMimeType();
     QToolTip::add(this, mime->comment());
-    setIcon(mime->icon(QString::null, false));
+    setIcon(mFileItem.iconName());
 }
 
 // Activate this code only if we find a way to have both an
@@ -143,7 +143,7 @@ void MediumButton::slotPaste()
 void MediumButton::slotCopy()
 {
     KonqDrag * obj = KonqDrag::newDrag(mFileItem.url(), false);
-    
+
     QApplication::clipboard()->setData( obj );
 }
 
@@ -159,14 +159,14 @@ void MediumButton::dragEnterEvent(QDragEnterEvent* e)
 void MediumButton::dragLeaveEvent(QDragLeaveEvent* e)
 {
     mOpenTimer.stop();
-    
+
     PanelPopupButton::dragLeaveEvent( e );
 }
 
 void MediumButton::dropEvent(QDropEvent *e)
 {
     mOpenTimer.stop();
-    
+
     KonqOperations::doDrop(&mFileItem, mFileItem.url(), e, this);
 }
 

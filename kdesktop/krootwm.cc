@@ -105,7 +105,7 @@ KRootWm::KRootWm(KDesktop* _desktop) : QObject(_desktop)
      bookmarks = 0;
      bookmarkMenu = 0;
   }
-  
+
   // The windowList and desktop menus can be part of a menubar (Mac style)
   // so we create them here
   desktopMenu = new QPopupMenu;
@@ -241,6 +241,7 @@ void KRootWm::initConfig()
 
   // Read configuration for icons alignment
   if ( m_bDesktopEnabled ) {
+    bool startup = true;
     m_pDesktop->iconView()->setAutoAlign( KDesktopSettings::autoLineUpIcons() );
     if ( kapp->authorize( "editable_desktop_icons" ) ) {
         m_pDesktop->iconView()->setItemsMovable( !KDesktopSettings::lockIcons() );

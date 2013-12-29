@@ -32,23 +32,35 @@
 NotifierSettings::NotifierSettings()
 {
 	m_supportedMimetypes.append( "media/removable_unmounted" );
+	m_supportedMimetypes.append( "media/removable_unmounted_encrypted" );
+	m_supportedMimetypes.append( "media/removable_unmounted_decrypted" );
 	m_supportedMimetypes.append( "media/removable_mounted" );
+	m_supportedMimetypes.append( "media/removable_mounted_decrypted" );
 	m_supportedMimetypes.append( "media/camera_unmounted" );
 	m_supportedMimetypes.append( "media/camera_mounted" );
 	m_supportedMimetypes.append( "media/gphoto2camera" );
 	m_supportedMimetypes.append( "media/cdrom_unmounted" );
+	m_supportedMimetypes.append( "media/cdrom_unmounted_encrypted" );
+	m_supportedMimetypes.append( "media/cdrom_unmounted_decrypted" );
 	m_supportedMimetypes.append( "media/cdrom_mounted" );
+	m_supportedMimetypes.append( "media/cdrom_mounted_decrypted" );
 	m_supportedMimetypes.append( "media/dvd_unmounted" );
+	m_supportedMimetypes.append( "media/dvd_unmounted_encrypted" );
+	m_supportedMimetypes.append( "media/dvd_unmounted_decrypted" );
 	m_supportedMimetypes.append( "media/dvd_mounted" );
+	m_supportedMimetypes.append( "media/dvd_mounted_decrypted" );
 	m_supportedMimetypes.append( "media/cdwriter_unmounted" );
+	m_supportedMimetypes.append( "media/cdwriter_unmounted_encrypted" );
+	m_supportedMimetypes.append( "media/cdwriter_unmounted_decrypted" );
 	m_supportedMimetypes.append( "media/cdwriter_mounted" );
+	m_supportedMimetypes.append( "media/cdwriter_mounted_decrypted" );
 	m_supportedMimetypes.append( "media/blankcd" );
 	m_supportedMimetypes.append( "media/blankdvd" );
 	m_supportedMimetypes.append( "media/audiocd" );
 	m_supportedMimetypes.append( "media/dvdvideo" );
 	m_supportedMimetypes.append( "media/vcd" );
 	m_supportedMimetypes.append( "media/svcd" );
-	
+
 	reload();
 }
 
@@ -93,7 +105,7 @@ QValueList<NotifierAction*> NotifierSettings::actionsForMimetype( const QString 
 			result.append( *it );
 		}
 	}
-	
+
 	return result;
 }
 
@@ -125,7 +137,7 @@ bool NotifierSettings::deleteAction( NotifierServiceAction *action )
 			action->removeAutoMimetype( *it );
 			m_autoMimetypesMap.remove( *it );
 		}
-		
+
 		return true;
 	}
 	return false;
@@ -195,7 +207,7 @@ void NotifierSettings::reload()
 
 	m_idMap.clear();
 	m_autoMimetypesMap.clear();
-	
+
 	NotifierOpenAction *open = new NotifierOpenAction();
 	m_actions.append( open );
 	m_idMap[ open->id() ] = open;
@@ -204,13 +216,13 @@ void NotifierSettings::reload()
 
 	QValueList<NotifierServiceAction*>::iterator serv_it = services.begin();
 	QValueList<NotifierServiceAction*>::iterator serv_end = services.end();
-	
+
 	for ( ; serv_it!=serv_end; ++serv_it )
 	{
 		m_actions.append( *serv_it );
 		m_idMap[ (*serv_it)->id() ] = *serv_it;
 	}
-	
+
 	NotifierNothingAction *nothing = new NotifierNothingAction();
 	m_actions.append( nothing );
 	m_idMap[ nothing->id() ] = nothing;
@@ -220,7 +232,7 @@ void NotifierSettings::reload()
 
 	QMap<QString,QString>::iterator auto_it = auto_actions_map.begin();
 	QMap<QString,QString>::iterator auto_end = auto_actions_map.end();
-	
+
 	for ( ; auto_it!=auto_end; ++auto_it )
 	{
 		QString mime = auto_it.key();
@@ -250,7 +262,7 @@ void NotifierSettings::save()
 			service->save();
 		}
 	}
-	
+
 	while ( !m_deletedActions.isEmpty() )
 	{
 		NotifierServiceAction *a = m_deletedActions.first();
@@ -258,10 +270,10 @@ void NotifierSettings::save()
 		QFile::remove( a->filePath() );
 		delete a;
 	}
-	
+
 	KSimpleConfig config( "medianotifierrc" );
 	config.setGroup( "Auto Actions" );
-	
+
 	QMap<QString,NotifierAction*>::iterator auto_it = m_autoMimetypesMap.begin();
 	QMap<QString,NotifierAction*>::iterator auto_end = m_autoMimetypesMap.end();
 
@@ -283,7 +295,7 @@ QValueList<NotifierServiceAction*> NotifierSettings::loadActions( KDesktopFile &
 	desktop.setDesktopGroup();
 
 	QValueList<NotifierServiceAction*> services;
-	
+
 	const QString filename = desktop.fileName();
 	const QStringList mimetypes = desktop.readListEntry( "ServiceTypes" );
 
@@ -296,11 +308,11 @@ QValueList<NotifierServiceAction*> NotifierSettings::loadActions( KDesktopFile &
 	{
 		NotifierServiceAction *service_action
 			= new NotifierServiceAction();
-		
+
 		service_action->setService( *service_it );
 		service_action->setFilePath( filename );
 		service_action->setMimetypes( mimetypes );
-		
+
 		services += service_action;
 	}
 
@@ -322,7 +334,7 @@ bool NotifierSettings::shouldLoadActions( KDesktopFile &desktop, const QString &
 		{
 			return false;
 		}
-		
+
 		const QStringList types = desktop.readListEntry( "ServiceTypes" );
 
 		if ( mimetype.isEmpty() )
@@ -350,7 +362,7 @@ QValueList<NotifierServiceAction*> NotifierSettings::listServices( const QString
 {
 	QValueList<NotifierServiceAction*> services;
 	QStringList dirs = KGlobal::dirs()->findDirs("data", "konqueror/servicemenus/");
-	
+
 	QStringList::ConstIterator dir_it = dirs.begin();
 	QStringList::ConstIterator dir_end = dirs.end();
 	for (; dir_it != dir_end; ++dir_it)
@@ -365,9 +377,9 @@ QValueList<NotifierServiceAction*> NotifierSettings::listServices( const QString
 		for (; entry_it != entry_end; ++entry_it )
 		{
 			QString filename = *dir_it + *entry_it;
-			
+
 			KDesktopFile desktop( filename, true );
-			
+
 			if ( shouldLoadActions(desktop, mimetype) )
 			{
 				services+=loadActions(desktop);

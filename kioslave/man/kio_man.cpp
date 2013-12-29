@@ -176,7 +176,7 @@ QMap<QString, QString> MANProtocol::buildIndexMap(const QString &section)
         man_dirs << "/var/cache/man";
     if (man_dirs.find("/var/catman")==man_dirs.end())
         man_dirs << "/var/catman";
-    
+
     QStringList names;
     names << "whatis.db" << "whatis";
     QString mark = "\\s+\\(" + section + "[a-z]*\\)\\s+-\\s+";
@@ -238,7 +238,7 @@ QStringList MANProtocol::manDirectories()
                     && S_ISDIR( sbuf.st_mode ) )
                 {
                     const QString p = QDir(dir).canonicalPath();
-                    if (!man_dirs.contains(p)) man_dirs += p;	
+                    if (!man_dirs.contains(p)) man_dirs += p;
                 }
             }
         }
@@ -517,6 +517,11 @@ void MANProtocol::slotGetStdOutput(KProcess* /* p */, char *s, int len)
   myStdStream += QString::fromLocal8Bit(s, len);
 }
 
+void MANProtocol::slotGetStdOutputUtf8(KProcess* /* p */, char *s, int len)
+{
+  myStdStream += QString::fromUtf8(s, len);
+}
+
 char *MANProtocol::readManPage(const char *_filename)
 {
     QCString filename = _filename;
@@ -563,25 +568,21 @@ char *MANProtocol::readManPage(const char *_filename)
             kdDebug(7107) << "resolved to " << filename << endl;
         }
         lastdir = filename.left(filename.findRev('/'));
-    
-        QIODevice *fd= KFilterDev::deviceForFile(filename);
-    
-        if ( !fd || !fd->open(IO_ReadOnly))
-        {
-           delete fd;
-           return 0;
-        }
-        QByteArray array(fd->readAll());
-        kdDebug(7107) << "read " << array.size() << endl;
-        fd->close();
-        delete fd;
-        
-        if (array.isEmpty())
-            return 0;
-    
-        const int len = array.size();
+
+        myStdStream = QString::null;
+        KProcess proc;
+        /* TODO: detect availability of 'man --recode' so that this can go
+         * upstream */
+        proc << "man" << "--recode" << "UTF-8" << filename;
+
+        QApplication::connect(&proc, SIGNAL(receivedStdout (KProcess *, char *, int)),
+                              this, SLOT(slotGetStdOutputUtf8(KProcess *, char *, int)));
+        proc.start(KProcess::Block, KProcess::All);
+
+        const QCString cstr=myStdStream.utf8();
+        const int len = cstr.size()-1;
         buf = new char[len + 4];
-        qmemmove(buf + 1, array.data(), len);
+        qmemmove(buf + 1, cstr.data(), len);
         buf[0]=buf[len]='\n'; // Start and end with a end of line
         buf[len+1]=buf[len+2]='\0'; // Two NUL characters at end
     }
@@ -621,7 +622,7 @@ void MANProtocol::outputMatchingPages(const QStringList &matchingPages)
     os << "</head>" <<endl;
     os << "<body><h1>" << i18n("There is more than one matching man page.");
     os << "</h1>\n<ul>\n";
-    
+
     int acckey=1;
     for (QStringList::ConstIterator it = matchingPages.begin(); it != matchingPages.end(); ++it)
     {
@@ -797,8 +798,8 @@ void MANProtocol::showMainIndex()
 
     QStringList::ConstIterator it;
     for (it = sections.begin(); it != sections.end(); ++it)
-        os << "<tr><td><a href=\"man:(" << *it << ")\" accesskey=\"" << 
-	(((*it).length()==1)?(*it):(*it).right(1))<<"\">" << i18n("Section ") 
+        os << "<tr><td><a href=\"man:(" << *it << ")\" accesskey=\"" <<
+	(((*it).length()==1)?(*it):(*it).right(1))<<"\">" << i18n("Section ")
 	<< *it << "</a></td><td>&nbsp;</td><td> " << sectionName(*it) << "</td></tr>" << endl;
 
     os << "</table>" << endl;
@@ -839,7 +840,7 @@ void MANProtocol::constructPath(QStringList& constr_path, QStringList constr_cat
     {
         QTextStream is(&mc);
         is.setEncoding(QTextStream::Locale);
-    
+
         while (!is.eof())
         {
             const QString line = is.readLine();
@@ -858,12 +859,12 @@ void MANProtocol::constructPath(QStringList& constr_path, QStringList constr_cat
                         // The entry is "MANPATH_MAP  <path>  <manpath>"
                 const QStringList mapping =
                         QStringList::split(space_regex, line);
-    
+
                 if ( mapping.count() == 3 )
                 {
                     const QString dir = QDir::cleanDirPath( mapping[1] );
                     const QString mandir = QDir::cleanDirPath( mapping[2] );
-    
+
                     manpath_map[ dir ] = mandir;
                 }
             }
@@ -872,12 +873,12 @@ void MANProtocol::constructPath(QStringList& constr_path, QStringList constr_cat
                         // The entry is "MANDB_MAP  <manpath>  <catmanpath>"
                 const QStringList mapping =
                         QStringList::split(space_regex, line);
-    
+
                 if ( mapping.count() == 3 )
                 {
                     const QString mandir = QDir::cleanDirPath( mapping[1] );
                     const QString catmandir = QDir::cleanDirPath( mapping[2] );
-    
+
                     mandb_map[ mandir ] = catmandir;
                 }
             }
@@ -1020,7 +1021,7 @@ void MANProtocol::checkManPaths()
     }
 
     m_mandbpath=constr_catmanpath;
-    
+
     // Merge $MANPATH with the constructed path to form the
     // actual manpath.
     //
@@ -1376,7 +1377,7 @@ void MANProtocol::showIndex(const QString& section)
 	).arg(firstchar).arg(firstchar).arg(firstchar);
 	indexLine.append(appendixstr);
     }
-    os << "<tr><td class=\"secidxnextletter\"" << " colspan=\"3\">\n  <a name=\"" 
+    os << "<tr><td class=\"secidxnextletter\"" << " colspan=\"3\">\n  <a name=\""
        << firstchar << "\">" << firstchar <<"</a>\n</td></tr>" << endl;
 
     for (int i=0; i<listlen; i++)
@@ -1395,12 +1396,12 @@ void MANProtocol::showIndex(const QString& section)
 	{
 	    continue;
 	}
-	
+
 	tmp=QChar((manindex->manpage_begin)[0]).lower();
 	if (firstchar != tmp)
 	{
 	    firstchar = tmp;
-	    os << "<tr><td class=\"secidxnextletter\"" << " colspan=\"3\">\n  <a name=\"" 
+	    os << "<tr><td class=\"secidxnextletter\"" << " colspan=\"3\">\n  <a name=\""
 	       << firstchar << "\">" << firstchar << "</a>\n</td></tr>" << endl;
 
     	    const QString appendixstr = QString(
@@ -1464,7 +1465,7 @@ void MANProtocol::showIndex(const QString& section)
 #endif /* _USE_OLD_CODE */
 
     os << "</table></div>" << endl;
-    
+
     os << indexLine << endl;
 
     // print footer

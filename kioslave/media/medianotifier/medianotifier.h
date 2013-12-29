@@ -23,9 +23,12 @@
 #include <kdedmodule.h>
 #include <kfileitem.h>
 #include <kio/job.h>
+#include <kmessagebox.h>
 
 #include <qstring.h>
 #include <qmap.h>
+
+class KDialogBase;
 
 class MediaNotifier:  public KDEDModule
 {
@@ -41,17 +44,23 @@ k_dcop:
 
 private slots:
 	void slotStatResult( KIO::Job *job );
-	
+	void checkFreeDiskSpace();
+	void slotFreeFinished( KMessageBox::ButtonCode );
+	void slotFreeContinue();
+	void slotFreeCancel();
+
 private:
 	bool autostart( const KFileItem &medium );
 	void notify( KFileItem &medium );
-	
+
 	bool execAutorun( const KFileItem &medium, const QString &path,
 	                  const QString &autorunFile );
 	bool execAutoopen( const KFileItem &medium, const QString &path,
 	                   const QString &autoopenFile );
 
 	QMap<KIO::Job*,bool> m_allowNotificationMap;
+	QTimer * m_freeTimer;
+	KDialogBase * m_freeDialog;
 };
 #endif
 

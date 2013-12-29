@@ -63,7 +63,7 @@ TaskBar::TaskBar( QWidget *parent, const char *name )
 {
     arrowType = LeftArrow;
     blocklayout = true;
-    
+
     // init
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
 
@@ -241,9 +241,9 @@ void TaskBar::configure()
     m_showOnlyIconified = TaskBarSettings::showOnlyIconified();
 
     m_currentScreen = -1;    // Show all screens or re-get our screen
-    m_showOnlyCurrentScreen = TaskBarSettings::showCurrentScreenOnly() &&
+    m_showOnlyCurrentScreen = (TaskBarSettings::showCurrentScreenOnly() &&
                               QApplication::desktop()->isVirtualDesktop() &&
-                              QApplication::desktop()->numScreens() > 1;
+                              QApplication::desktop()->numScreens() > 1) || (QApplication::desktop()->numScreens() < 2);
 
     // we need to watch geometry issues if we aren't showing windows when we
     // are paying attention to the current Xinerama screen
@@ -773,13 +773,13 @@ void TaskBar::reLayout()
             int y = (row * bheight) + topPadding;
 
             c->setArrowType(arrowType);
-            
+
             if (childX(c) != x || childY(c) != y)
                 moveChild(c, x, y);
-                
+
             if (c->width() != bwidth || c->height() != bheight)
                 c->resize( bwidth, bheight );
-                
+
             c->setBackground();
         }
     }
@@ -800,25 +800,25 @@ void TaskBar::reLayout()
             TaskContainer* c = *it;
 
             c->setArrowType(arrowType);
-            
+
             if (c->width() != contentsRect().width() || c->height() != minButtonHeight)
                 c->resize(contentsRect().width(), minButtonHeight);
 
             if (childX(c) != 0 || childY(c) != (i * minButtonHeight))
                 moveChild(c, 0, i * minButtonHeight);
-            
+
             c->setBackground();
             i++;
         }
     }
-    
+
     QTimer::singleShot(100, this, SLOT(publishIconGeometry()));
 }
 
 void TaskBar::setViewportBackground()
 {
     const QPixmap *bg = parentWidget()->backgroundPixmap();
-    
+
     if (bg)
     {
         QPixmap pm(parentWidget()->size());
@@ -833,9 +833,9 @@ void TaskBar::setViewportBackground()
 void TaskBar::setBackground()
 {
     setViewportBackground();
-    
+
     TaskContainer::List list = filteredContainers();
-    
+
     for (TaskContainer::Iterator it = list.begin();
             it != list.end();
             ++it)
@@ -1053,7 +1053,7 @@ TaskContainer::List TaskBar::filteredContainers()
             c->hide();
         }
     }
-        
+
     return list;
 }
 

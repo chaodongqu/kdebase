@@ -366,12 +366,12 @@ Status SetAuthentication_local (int count, IceListenObj *listenObjs)
     for (i = 0; i < count; i ++) {
         char *prot = IceGetListenConnectionString(listenObjs[i]);
         if (!prot) continue;
-        char *host = strchr(prot, '/');
+        char *host = (char*)strchr(prot, '/');
         char *sock = 0;
         if (host) {
             *host=0;
             host++;
-            sock = strchr(host, ':');
+            sock = (char*)strchr(host, ':');
             if (sock) {
                 *sock = 0;
                 sock++;
@@ -392,9 +392,9 @@ Status SetAuthentication (int count, IceListenObj *listenObjs,
 {
     KTempFile addAuthFile;
     addAuthFile.setAutoDelete(true);
-    
+
     remAuthFile = new KTempFile;
-    remAuthFile->setAutoDelete(true);    
+    remAuthFile->setAutoDelete(true);
 
     if ((addAuthFile.status() != 0) || (remAuthFile->status() != 0))
         return 0;
@@ -468,7 +468,7 @@ void FreeAuthenticationData(int count, IceAuthDataEntry *authDataEntries)
         qWarning("KSMServer: could not find iceauth");
         return;
     }
-    
+
     KProcess p;
     p << iceAuth << "source" << remAuthFile->name();
     p.start(KProcess::Block);
@@ -489,7 +489,7 @@ static int Xio_ErrorHandler( Display * )
        server->cleanUp();
        // Don't delete server!!
     }
-    
+
     exit(0); // Don't report error, it's not our fault.
 }
 
@@ -595,7 +595,7 @@ KSMServer::KSMServer( const QString& windowManager, bool _only_local )
     config->setGroup("General" );
     clientInteracting = 0;
     xonCommand = config->readEntry( "xonCommand", "xon" );
-    
+
     connect( &knotifyTimeoutTimer, SIGNAL( timeout()), SLOT( knotifyTimeout()));
     connect( &startupSuspendTimeoutTimer, SIGNAL( timeout()), SLOT( startupSuspendTimeout()));
     connect( &pendingShutdown, SIGNAL( timeout()), SLOT( pendingShutdownTimeout()));
@@ -830,7 +830,7 @@ void KSMServer::storeSession()
     KConfig* config = KGlobal::config();
     config->reparseConfiguration(); // config may have changed in the KControl module
     config->setGroup("General" );
-    excludeApps = QStringList::split( QRegExp( "[,:]" ), config->readEntry( "excludeApps" ).lower()); 
+    excludeApps = QStringList::split( QRegExp( "[,:]" ), config->readEntry( "excludeApps" ).lower());
     config->setGroup( sessionGroup );
     int count =  config->readNumEntry( "count" );
     for ( int i = 1; i <= count; i++ ) {

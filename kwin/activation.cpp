@@ -217,7 +217,7 @@ void Workspace::setActiveClient( Client* c, allowed_t )
     {
     if ( active_client == c )
         return;
-    if( active_popup && active_popup_client != c && set_active_client_recursion == 0 ) 
+    if( active_popup && active_popup_client != c && set_active_client_recursion == 0 )
         closeActivePopup();
     StackingUpdatesBlocker blocker( this );
     ++set_active_client_recursion;
@@ -230,7 +230,7 @@ void Workspace::setActiveClient( Client* c, allowed_t )
     Q_ASSERT( c == NULL || c->isActive());
     if( active_client != NULL )
         last_active_client = active_client;
-    if ( active_client ) 
+    if ( active_client )
         {
         updateFocusChains( active_client, FocusChainMakeFirst );
         active_client->demandAttention( false );
@@ -306,14 +306,14 @@ void Workspace::requestFocus( Client* c, bool force )
     {
     takeActivity( c, ActivityFocus | ( force ? ActivityFocusForce : 0 ), false);
     }
-    
+
 void Workspace::takeActivity( Client* c, int flags, bool handled )
     {
      // the 'if( c == active_client ) return;' optimization mustn't be done here
     if (!focusChangeEnabled() && ( c != active_client) )
         flags &= ~ActivityFocus;
 
-    if ( !c ) 
+    if ( !c )
         {
         focusToNull();
         return;
@@ -322,8 +322,8 @@ void Workspace::takeActivity( Client* c, int flags, bool handled )
     if( flags & ActivityFocus )
         {
         Client* modal = c->findModal();
-        if( modal != NULL && modal != c )	
-            { 
+        if( modal != NULL && modal != c )
+            {
             if( !modal->isOnDesktop( c->desktop()))
                 {
                 modal->setDesktop( c->desktop());
@@ -549,7 +549,7 @@ bool Workspace::allowClientActivation( const Client* c, Time time, bool focus_in
         // no timestamp at all, don't activate - because there's also creation timestamp
         // done on CreateNotify, this case should happen only in case application
         // maps again already used window, i.e. this won't happen after app startup
-        return false; 
+        return false;
         }
     // level == 2 // normal
     Time user_time = ac->userTime();
@@ -687,7 +687,7 @@ Time Client::readUserCreationTime() const
             result = *((long*) data);
         XFree(data);
         }
-    return result;       
+    return result;
     }
 
 void Client::demandAttention( bool set )
@@ -846,7 +846,7 @@ void Client::setActive( bool act, bool updateOpacity_)
         return;
     active = act;
     workspace()->setActiveClient( act ? this : NULL, Allowed );
-    
+
     if (updateOpacity_) updateOpacity();
     if (isModal() && transientFor())
     {
@@ -854,7 +854,7 @@ void Client::setActive( bool act, bool updateOpacity_)
         else if (!transientFor()->custom_opacity) transientFor()->setOpacity(options->translucentActiveWindows, options->activeWindowOpacity);
     }
     updateShadowSize();
-    
+
     if ( active )
         Notify::raise( Notify::Activate );
 
@@ -863,7 +863,7 @@ void Client::setActive( bool act, bool updateOpacity_)
 
     if( !active && shade_mode == ShadeActivated )
         setShade( ShadeNormal );
-        
+
     StackingUpdatesBlocker blocker( workspace());
     workspace()->updateClientLayer( this ); // active windows may get different layer
     // TODO optimize? mainClients() may be a bit expensive
@@ -925,7 +925,6 @@ void Client::shortcutActivated()
 //****************************************
 // Group
 //****************************************
-    
 void Group::startupIdChanged()
     {
     KStartupInfoId asn_id;

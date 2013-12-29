@@ -333,7 +333,7 @@ static void createGtkrc( bool exportColors, const QColorGroup& cg, int version )
     // lukas: why does it create in ~/.kde/share/config ???
     // pfeiffer: so that we don't overwrite the user's gtkrc.
     // it is found via the GTK_RC_FILES environment variable.
-    KSaveFile saveFile( locateLocal( "config", 2==version?"gtkrc-2.0":"gtkrc" ) ); 
+    KSaveFile saveFile( locateLocal( "config", 2==version?"gtkrc-2.0":"gtkrc" ) );
     if ( saveFile.status() != 0 || saveFile.textStream() == 0L )
         return;
 
@@ -402,8 +402,8 @@ static void createGtkrc( bool exportColors, const QColorGroup& cg, int version )
         t << "widget \"gtk-tooltip\" style \"ToolTip\"" << endl;
         t << "widget \"gtk-tooltips\" style \"ToolTip\"" << endl;
         t << endl;
-        
-    
+
+
         // highlight the current (mouse-hovered) menu-item
         // not every button, checkbox, etc.
         t << "style \"MenuItem\"" << endl;
@@ -524,7 +524,7 @@ void runRdb( uint flags )
 
     if (kglobals.hasKey("XftHintStyle"))
     {
-      QString hintStyle = kglobals.readEntry("XftHintStyle", "hintmedium");
+      QString hintStyle = kglobals.readEntry("XftHintStyle", "hintfull");
       contents += "Xft.hinting: ";
       if(hintStyle.isEmpty())
         contents += "-1\n";
@@ -540,7 +540,7 @@ void runRdb( uint flags )
 
     if (kglobals.hasKey("XftSubPixel"))
     {
-      QString subPixel = kglobals.readEntry("XftSubPixel");
+      QString subPixel = kglobals.readEntry("XftSubPixel", "none");
       if(!subPixel.isEmpty())
         contents += "Xft.rgba: " + subPixel + '\n';
     }

@@ -161,24 +161,24 @@ void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/ )
     bool first_pass = true; //CT lame flag. Don't like it. What else would do?
 
     //loop over possible positions
-    do 
+    do
         {
         //test if enough room in x and y directions
         if (y + ch > maxRect.bottom() && ch < maxRect.height())
             overlap = h_wrong; // this throws the algorithm to an exit
         else if(x + cw > maxRect.right())
             overlap = w_wrong;
-        else 
+        else
             {
             overlap = none; //initialize
 
             cxl = x; cxr = x + cw;
             cyt = y; cyb = y + ch;
             ClientList::ConstIterator l;
-            for(l = m_WorkspacePtr->stackingOrder().begin(); l != m_WorkspacePtr->stackingOrder().end() ; ++l) 
+            for(l = m_WorkspacePtr->stackingOrder().begin(); l != m_WorkspacePtr->stackingOrder().end() ; ++l)
                 {
                 if((*l)->isOnDesktop(desktop) &&
-                   (*l)->isShown( false ) && (*l) != c) 
+                   (*l)->isShown( false ) && (*l) != c)
                     {
 
                     xl = (*l)->x();          yt = (*l)->y();
@@ -186,7 +186,7 @@ void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/ )
 
                     //if windows overlap, calc the overall overlapping
                     if((cxl < xr) && (cxr > xl) &&
-                       (cyt < yb) && (cyb > yt)) 
+                       (cyt < yb) && (cyb > yt))
                         {
                         xl = QMAX(cxl, xl); xr = QMIN(cxr, xr);
                         yt = QMAX(cyt, yt); yb = QMIN(cyb, yb);
@@ -202,20 +202,20 @@ void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/ )
             }
 
         //CT first time we get no overlap we stop.
-        if (overlap == none) 
+        if (overlap == none)
             {
             x_optimal = x;
             y_optimal = y;
             break;
             }
 
-        if (first_pass) 
+        if (first_pass)
             {
             first_pass = false;
             min_overlap = overlap;
             }
         //CT save the best position and the minimum overlap up to now
-        else if (overlap >= none && overlap < min_overlap) 
+        else if (overlap >= none && overlap < min_overlap)
             {
             min_overlap = overlap;
             x_optimal = x;
@@ -223,7 +223,7 @@ void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/ )
             }
 
         // really need to loop? test if there's any overlap
-        if (overlap > none) 
+        if (overlap > none)
             {
 
             possible = maxRect.right();
@@ -231,11 +231,11 @@ void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/ )
 
             // compare to the position of each client on the same desk
             ClientList::ConstIterator l;
-            for(l = m_WorkspacePtr->stackingOrder().begin(); l != m_WorkspacePtr->stackingOrder().end() ; ++l) 
+            for(l = m_WorkspacePtr->stackingOrder().begin(); l != m_WorkspacePtr->stackingOrder().end() ; ++l)
                 {
 
                 if ((*l)->isOnDesktop(desktop) &&
-                     (*l)->isShown( false ) &&  (*l) != c) 
+                     (*l)->isShown( false ) &&  (*l) != c)
                     {
 
                     xl = (*l)->x();          yt = (*l)->y();
@@ -243,7 +243,7 @@ void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/ )
 
                     // if not enough room above or under the current tested client
                     // determine the first non-overlapped x position
-                    if((y < yb) && (yt < ch + y)) 
+                    if((y < yb) && (yt < ch + y))
                         {
 
                         if((xr > x) && (possible > xr)) possible = xr;
@@ -257,7 +257,7 @@ void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/ )
             }
 
         // ... else ==> not enough x dimension (overlap was wrong on horizontal)
-        else if (overlap == w_wrong) 
+        else if (overlap == w_wrong)
             {
             x = maxRect.left();
             possible = maxRect.bottom();
@@ -266,10 +266,10 @@ void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/ )
 
             //test the position of each window on the desk
             ClientList::ConstIterator l;
-            for(l = m_WorkspacePtr->stackingOrder().begin(); l != m_WorkspacePtr->stackingOrder().end() ; ++l) 
+            for(l = m_WorkspacePtr->stackingOrder().begin(); l != m_WorkspacePtr->stackingOrder().end() ; ++l)
                 {
                 if((*l)->isOnDesktop(desktop) &&
-                    (*l) != c   &&  c->isShown( false )) 
+                    (*l) != c   &&  c->isShown( false ))
                     {
 
                     xl = (*l)->x();          yt = (*l)->y();
@@ -301,7 +301,7 @@ void Placement::reinitCascading( int desktop )
     if( desktop == 0 )
         {
         cci.clear();
-        for( int i = 0; i < m_WorkspacePtr->numberOfDesktops(); i++) 
+        for( int i = 0; i < m_WorkspacePtr->numberOfDesktops(); i++)
             {
             DesktopCascadingInfo inf;
             inf.pos = QPoint(-1,-1);
@@ -362,7 +362,7 @@ void Placement::placeCascaded (Client* c, QRect& area, Policy nextPlacement)
     if ((yp + ch) > H) yp = Y;
 
     if ((xp + cw) > W)
-        if (!yp) 
+        if (!yp)
         {
         place(c,area,nextPlacement);
         return;
@@ -370,7 +370,7 @@ void Placement::placeCascaded (Client* c, QRect& area, Policy nextPlacement)
     else xp = X;
 
   //if this isn't the first window
-    if (cci[dn].pos.x() != X && cci[dn].pos.y() != Y) 
+    if (cci[dn].pos.x() != X && cci[dn].pos.y() != Y)
         {
         /* The following statements cause an internal compiler error with
          * egcs-2.91.66 on SuSE Linux 6.3. The equivalent forms compile fine.
@@ -391,7 +391,7 @@ void Placement::placeCascaded (Client* c, QRect& area, Policy nextPlacement)
             }
 
         // last resort: if still doesn't fit, smart place it
-        if (((xp + cw) > W - X) || ((yp + ch) > H - Y)) 
+        if (((xp + cw) > W - X) || ((yp + ch) > H - Y))
             {
             place(c,area,nextPlacement);
             return;
@@ -473,7 +473,7 @@ void Placement::placeOnMainWindow(Client* c, QRect& area, Policy nextPlacement )
          it != mainwindows.end();
          ++it )
         {
-        if( mainwindows.count() > 1 && (*it)->isSpecialWindow())
+		if( mainwindows.count() > 1 && (*it)->isSpecialWindow())
             continue; // don't consider toolbars etc when placing
         ++mains_count;
         place_on2 = *it;
@@ -502,16 +502,16 @@ void Placement::placeOnMainWindow(Client* c, QRect& area, Policy nextPlacement )
             }
         place_on = place_on2; // use the only window filtered together with 'mains_count'
         }
-    if( place_on->isDesktop())
-        {
-        place( c, area, Centered );
-        return;
-        }
+	if( place_on->isDesktop())
+	{
+		place( c, area, Centered );
+		return;
+	}
     QRect geom = c->geometry();
     geom.moveCenter( place_on->geometry().center());
     c->move( geom.topLeft());
     // get area again, because the mainwindow may be on different xinerama screen
-    area = checkArea( c, QRect()); 
+    area = checkArea( c, QRect());
     c->keepInArea( area ); // make sure it's kept inside workarea
     }
 
@@ -598,7 +598,7 @@ void Workspace::slotWindowPackLeft()
 void Workspace::slotWindowPackRight()
     {
     if( active_client && active_client->isMovable())
-        active_client->move( 
+        active_client->move(
             packPositionRight( active_client, active_client->geometry().right(), true )
             - active_client->width() + 1, active_client->y());
     }

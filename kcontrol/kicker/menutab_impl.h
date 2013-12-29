@@ -27,7 +27,7 @@ class kSubMenuItem : public QObject, public QCheckListItem
     Q_OBJECT
 
     public:
-        kSubMenuItem(QListView* parent, 
+        kSubMenuItem(QListView* parent,
                      const QString& visibleName,
                      const QString& desktopFile,
                      const QPixmap& icon,
@@ -62,10 +62,14 @@ signals:
 
 public slots:
     void launchMenuEditor();
+    void launchIconEditor();
+    void kmenuChanged();
 
 protected:
     kSubMenuItem *m_bookmarkMenu;
     kSubMenuItem *m_quickBrowserMenu;
+    QString m_kmenu_icon;
+    bool m_kmenu_button_changed;
 };
 
 #endif

@@ -53,7 +53,7 @@ QPopupMenu* Workspace::clientPopup()
         popup->setFont(KGlobalSettings::menuFont());
         connect( popup, SIGNAL( aboutToShow() ), this, SLOT( clientPopupAboutToShow() ) );
         connect( popup, SIGNAL( activated(int) ), this, SLOT( clientPopupActivated(int) ) );
-      
+
         advanced_popup = new QPopupMenu( popup );
         advanced_popup->setCheckable( TRUE );
         advanced_popup->setFont(KGlobalSettings::menuFont());
@@ -72,7 +72,7 @@ QPopupMenu* Workspace::clientPopup()
 
         popup->insertItem(i18n("Ad&vanced"), advanced_popup );
         desk_popup_index = popup->count();
-        
+
         if (options->useTranslucency){
             QPopupMenu *trans_popup = new QPopupMenu( popup );
             QVBox *transBox = new QVBox(trans_popup);
@@ -88,7 +88,7 @@ QPopupMenu* Workspace::clientPopup()
             trans_popup->insertItem(transBox);
             popup->insertItem(i18n("&Opacity"), trans_popup );
         }
-        
+
         popup->insertItem( SmallIconSet( "move" ), i18n("&Move")+'\t'+keys->shortcut("Window Move").seq(0).toString(), Options::MoveOp );
         popup->insertItem( i18n("Re&size")+'\t'+keys->shortcut("Window Resize").seq(0).toString(), Options::ResizeOp );
         popup->insertItem( i18n("Mi&nimize")+'\t'+keys->shortcut("Window Minimize").seq(0).toString(), Options::MinimizeOp );
@@ -97,7 +97,7 @@ QPopupMenu* Workspace::clientPopup()
 
         popup->insertSeparator();
 
-        if (!KGlobal::config()->isImmutable() && 
+        if (!KGlobal::config()->isImmutable() &&
             !kapp->authorizeControlModules(Workspace::configModules(true)).isEmpty())
             {
             popup->insertItem(SmallIconSet( "configure" ), i18n("Configur&e Window Behavior..."), this, SLOT( configureWM() ));
@@ -108,7 +108,7 @@ QPopupMenu* Workspace::clientPopup()
         }
     return popup;
     }
-    
+
 //sets the transparency of the client to given value(given by slider)
 void Workspace::setPopupClientOpacity(int value)
     {
@@ -214,7 +214,7 @@ void Workspace::desktopPopupAboutToShow()
     desk_popup->insertSeparator( -1 );
     int id;
     const int BASE = 10;
-    for ( int i = 1; i <= numberOfDesktops(); i++ ) 
+    for ( int i = 1; i <= numberOfDesktops(); i++ )
         {
         QString basic_name("%1  %2");
         if (i<BASE)
@@ -271,7 +271,7 @@ void Workspace::readShortcuts()
 
     keys->updateConnections();
     disable_shortcuts_keys->updateConnections();
-    
+
     delete popup;
     popup = NULL; // so that it's recreated next time
     desk_popup = NULL;
@@ -353,7 +353,7 @@ void Workspace::clientPopupActivated( int id )
     }
 
 
-void Workspace::performWindowOperation( Client* c, Options::WindowOperation op ) 
+void Workspace::performWindowOperation( Client* c, Options::WindowOperation op )
     {
     if ( !c )
         return;
@@ -362,7 +362,7 @@ void Workspace::performWindowOperation( Client* c, Options::WindowOperation op )
         QCursor::setPos( c->geometry().center() );
     if (op == Options::ResizeOp || op == Options::UnrestrictedResizeOp )
         QCursor::setPos( c->geometry().bottomRight());
-    switch ( op ) 
+    switch ( op )
         {
         case Options::MoveOp:
             c->performMouseCommand( Options::MouseMove, QCursor::pos() );
@@ -451,7 +451,7 @@ void Workspace::performWindowOperation( Client* c, Options::WindowOperation op )
 bool Client::performMouseCommand( Options::MouseCommand command, QPoint globalPos, bool handled )
     {
     bool replay = FALSE;
-    switch (command) 
+    switch (command)
         {
         case Options::MouseRaise:
             workspace()->raiseClient( this );
@@ -640,13 +640,13 @@ void Workspace::slotActivateAttentionWindow()
 void Workspace::slotSwitchDesktopNext()
     {
     int d = currentDesktop() + 1;
-     if ( d > numberOfDesktops() ) 
+     if ( d > numberOfDesktops() )
         {
-        if ( options->rollOverDesktops ) 
+        if ( options->rollOverDesktops )
             {
             d = 1;
             }
-        else 
+        else
             {
             return;
             }
@@ -657,7 +657,7 @@ void Workspace::slotSwitchDesktopNext()
 void Workspace::slotSwitchDesktopPrevious()
     {
     int d = currentDesktop() - 1;
-    if ( d <= 0 ) 
+    if ( d <= 0 )
         {
         if ( options->rollOverDesktops )
           d = numberOfDesktops();
@@ -716,17 +716,17 @@ void Workspace::slotWindowToDesktop( int i )
     }
 
 void Workspace::slotSwitchToScreen( int i )
-    {
+{
     setCurrentScreen( i );
-    }
+}
 
 void Workspace::slotSwitchToNextScreen()
-    {
+{
     slotSwitchToScreen(( activeScreen() + 1 ) % numScreens());
-    }
+}
 
 void Workspace::slotWindowToScreen( int i )
-    {
+{
     Client* c = active_popup_client ? active_popup_client : active_client;
     if( i >= 0 && i <= numScreens() && c
         && !c->isDesktop()
@@ -735,10 +735,10 @@ void Workspace::slotWindowToScreen( int i )
         {
         sendClientToScreen( c, i );
         }
-    }
+}
 
 void Workspace::slotWindowToNextScreen()
-    {
+{
     Client* c = active_popup_client ? active_popup_client : active_client;
     if( c
         && !c->isDesktop()
@@ -747,7 +747,7 @@ void Workspace::slotWindowToNextScreen()
         {
         sendClientToScreen( c, ( c->screen() + 1 ) % numScreens());
         }
-    }
+}
 
 /*!
   Maximizes the popup client
@@ -876,7 +876,7 @@ void Workspace::slotWindowToNextDesktop()
     {
     windowToNextDesktop( active_popup_client ? active_popup_client : active_client );
     }
-    
+
 void Workspace::windowToNextDesktop( Client* c )
     {
     int d = currentDesktop() + 1;
@@ -898,7 +898,7 @@ void Workspace::slotWindowToPreviousDesktop()
     {
     windowToPreviousDesktop( active_popup_client ? active_popup_client : active_client );
     }
-    
+
 void Workspace::windowToPreviousDesktop( Client* c )
     {
     int d = currentDesktop() - 1;
@@ -992,7 +992,7 @@ void Workspace::slotSendToDesktop( int desk )
     {
     if ( !active_popup_client )
         return;
-    if ( desk == 0 ) 
+    if ( desk == 0 )
         { // the 'on_all_desktops' menu entry
         active_popup_client->setOnAllDesktops( !active_popup_client->isOnAllDesktops());
         return;
@@ -1151,7 +1151,7 @@ bool Workspace::shortcutAvailable( const KShortcut& cut, Client* ignore ) const
          ++it )
         {
         if( (*it) != ignore && (*it)->shortcut() == cut )
-            return false;    
+            return false;
         }
     return true;
     }

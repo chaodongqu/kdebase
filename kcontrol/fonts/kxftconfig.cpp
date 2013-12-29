@@ -107,7 +107,7 @@ static QString xDirSyntax(const QString &d)
     {
         QString ds(d);
         int     slashPos=ds.findRev('/');
- 
+
         if(slashPos==(((int)ds.length())-1))
             ds.remove(slashPos, 1);
         return ds;
@@ -258,7 +258,7 @@ static KXftConfig::SubPixel::Type strToType(const char *str)
 {
     if(0==strcmp(str, "rgb"))
         return KXftConfig::SubPixel::Rgb;
-    else if(0==strcmp(str, "bgr")) 
+    else if(0==strcmp(str, "bgr"))
         return KXftConfig::SubPixel::Bgr;
     else if(0==strcmp(str, "vrgb"))
         return KXftConfig::SubPixel::Vrgb;
@@ -282,7 +282,7 @@ static KXftConfig::Hint::Style strToStyle(const char *str)
 
 #else
 static bool strToType(const char *str, KXftConfig::SubPixel::Type &type)
-{   
+{
     if(0==memcmp(str, "rgb", 3))
         type=KXftConfig::SubPixel::Rgb;
     else if(0==memcmp(str, "bgr", 3))
@@ -429,7 +429,7 @@ KXftConfig::KXftConfig(int required, bool system)
     kdDebug(1208) << "Using fontconfig file:" << m_file << endl;
     m_antiAliasing = aliasingEnabled();
 #else
-    if(system) 
+    if(system)
     {
         int f;
 
@@ -605,17 +605,17 @@ bool KXftConfig::apply()
                 m_excludePixelRange.from=(int)point2Pixel(m_excludeRange.from);
                 m_excludePixelRange.to=(int)point2Pixel(m_excludeRange.to);
             }
-    
+
 #ifdef HAVE_FONTCONFIG
             FcAtomic *atomic=FcAtomicCreate((const unsigned char *)((const char *)(QFile::encodeName(m_file))));
-    
+
             ok=false;
             if(atomic)
             {
                 if(FcAtomicLock(atomic))
                 {
                     FILE *f=fopen((char *)FcAtomicNewFile(atomic), "w");
-    
+
                     if(f)
                     {
                         if(m_required&Dirs)
@@ -634,30 +634,30 @@ bool KXftConfig::apply()
                             applyExcludeRange(false);
                             applyExcludeRange(true);
                         }
-    
+
                         //
                         // Check document syntax...
                         const char qtXmlHeader[]   = "<?xml version = '1.0'?>";
                         const char xmlHeader[]     = "<?xml version=\"1.0\"?>";
                         const char qtDocTypeLine[] = "<!DOCTYPE fontconfig>";
                         const char docTypeLine[]   = "<!DOCTYPE fontconfig SYSTEM \"fonts.dtd\">";
-    
+
                         QString str(m_doc.toString());
                         int     idx;
-    
+
                         if(0!=str.find("<?xml"))
                             str.insert(0, xmlHeader);
                         else if(0==str.find(qtXmlHeader))
                             str.replace(0, strlen(qtXmlHeader), xmlHeader);
-    
+
                         if(-1!=(idx=str.find(qtDocTypeLine)))
                             str.replace(idx, strlen(qtDocTypeLine), docTypeLine);
-    
+
                         //
                         // Write to file...
                         fputs(str.utf8(), f);
                         fclose(f);
-    
+
                         if(FcAtomicReplaceOrig(atomic))
                         {
                             ok=true;
@@ -672,7 +672,7 @@ bool KXftConfig::apply()
             }
 #else
             std::ofstream f(QFile::encodeName(m_file));
-    
+
             if(f)
             {
                 ListItem *ldi=m_required&Dirs ? getLastItem(m_dirs) : NULL,
@@ -680,14 +680,14 @@ bool KXftConfig::apply()
                 char     *pos=m_data;
                 bool     finished=false,
                         pixel=false;
-    
+
                 while(!finished)
                 {
                     int      type=0;
                     ListItem *fdi=NULL,
                             *ffi=NULL;
                     Item     *first=NULL;
-    
+
                     if(m_required&Dirs && NULL!=(fdi=getFirstItem(m_dirs)) && (NULL==first || fdi->start < first->start))
                     {
                         first=fdi;
@@ -716,13 +716,13 @@ bool KXftConfig::apply()
                             type=ExcludeRange;
                             pixel=true;
                         }
-    
+
                     if(first && first->start!=pos)
                         f.write(pos, first->start-pos);
-    
+
                     if(0!=type)
                         pos=first->end+1;
-    
+
                     switch(type)
                     {
                         case Dirs:
@@ -757,7 +757,7 @@ bool KXftConfig::apply()
                             break;
                     }
                 };
-    
+
                 outputNewDirs(f);
                 outputNewSymbolFamilies(f);
                 outputSubPixelType(f, true);
@@ -957,7 +957,7 @@ bool KXftConfig::hasDir(const QString &d)
 }
 
 KXftConfig::ListItem * KXftConfig::findItem(QPtrList<ListItem> &list, const QString &i)
-{   
+{
     ListItem *item;
 
     for(item=list.first(); item; item=list.next())
@@ -1147,7 +1147,7 @@ void KXftConfig::readContents()
             if(*ptr=='\"')
             {
                 ptr++;
-                if(NULL!=(eostr=strchr(ptr, '\"')) && eostr-ptr<constMaxDataLen)
+                if(NULL!=(eostr=(char*)strchr(ptr, '\"')) && eostr-ptr<constMaxDataLen)
                 {
                     memcpy(data, ptr, eostr-ptr);
                     data[eostr-ptr]='\0';
@@ -1183,7 +1183,7 @@ void KXftConfig::readContents()
                     if(*ptr=='\"')
                     {
                         ptr++;
-                        if(NULL!=(eostr=strchr(ptr, '\"')) && eostr-ptr<constMaxDataLen)
+                        if(NULL!=(eostr=(char*)strchr(ptr, '\"')) && eostr-ptr<constMaxDataLen)
                         {
                             memcpy(data, ptr, eostr-ptr);
                             data[eostr-ptr]='\0';
@@ -1191,7 +1191,7 @@ void KXftConfig::readContents()
                             {
                                 ptr=eostr+1;
 
-                                if(skipToken(&ptr, "edit") && skipToken(&ptr, "encoding") && skipToken(&ptr, "=") && 
+                                if(skipToken(&ptr, "edit") && skipToken(&ptr, "encoding") && skipToken(&ptr, "=") &&
                                    skipToken(&ptr, constSymEnc) && skipToken(&ptr, ";"))
                                 {
                                     while(*ptr!='\n' && *ptr!='\0' && isWhiteSpace(*ptr))
@@ -1203,7 +1203,7 @@ void KXftConfig::readContents()
                         }
                     }
                 }
-                else if(m_required&ExcludeRange && skipToken(&ptr, "size") && (skipToken(&ptr, ">")||skipToken(&ptr, "<")) && 
+                else if(m_required&ExcludeRange && skipToken(&ptr, "size") && (skipToken(&ptr, ">")||skipToken(&ptr, "<")) &&
                         readNum(&ptr, &efrom) && skipToken(&ptr, "any") && skipToken(&ptr, "size") &&
                         (skipToken(&ptr, "<")||skipToken(&ptr, ">")) && readNum(&ptr, &eto) && skipToken(&ptr, "edit") &&
                         skipToken(&ptr, "antialias") && skipToken(&ptr, "=") && skipToken(&ptr, "false") && skipToken(&ptr, ";"))
@@ -1215,7 +1215,7 @@ void KXftConfig::readContents()
                     m_excludeRange.start=from;
                     m_excludeRange.end=ptr;
                 }
-                else if(m_required&ExcludeRange && skipToken(&ptr, "pixelsize") && (skipToken(&ptr, ">")||skipToken(&ptr, "<")) && 
+                else if(m_required&ExcludeRange && skipToken(&ptr, "pixelsize") && (skipToken(&ptr, ">")||skipToken(&ptr, "<")) &&
                         readNum(&ptr, &efrom) && skipToken(&ptr, "any") && skipToken(&ptr, "pixelsize") &&
                         (skipToken(&ptr, "<")||skipToken(&ptr, ">")) && readNum(&ptr, &eto) && skipToken(&ptr, "edit") &&
                         skipToken(&ptr, "antialias") && skipToken(&ptr, "=") && skipToken(&ptr, "false") && skipToken(&ptr, ";"))
@@ -1483,10 +1483,10 @@ bool KXftConfig::getAntiAliasing() const
 void KXftConfig::setAntiAliasing( bool set )
 {
     if ((set && !m_antiAliasing.set) || (!set && m_antiAliasing.set))
-    { 
-        m_antiAliasing.set = set; 
-        m_madeChanges = true; 
-    } 
+    {
+        m_antiAliasing.set = set;
+        m_madeChanges = true;
+    }
 }
 
 void KXftConfig::applyAntiAliasing()

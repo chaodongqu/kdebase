@@ -1,4 +1,5 @@
 /* vi: ts=8 sts=4 sw=4
+ * kate: space-indent on; indent-width 2; replace-tabs on; mixed-indent off;
  *
  * This file is part of the KDE project, module kdesu.
  * Copyright (C) 1998 Pietro Iglio <iglio@fub.it>
@@ -117,7 +118,7 @@ int main(int argc, char *argv[])
     {
         setenv( "SESSION_MANAGER", session_manager.data(), 1 );
     }
-    
+
     {
         KStartupInfoId id;
         id.initId( kapp->startupId());
@@ -157,7 +158,7 @@ static int startApp()
 
     QString icon;
     if ( args->isSet("i"))
-	icon = args->getOption("i");	
+	icon = args->getOption("i");
 
     bool prompt = true;
     if ( args->isSet("d"))
@@ -228,7 +229,7 @@ static int startApp()
             command += QFile::encodeName(arg);
         }
     }
-    else 
+    else
     {
         if( args->count() == 0 )
         {
@@ -274,23 +275,23 @@ static int startApp()
 
     // Try to exec the command with kdesud.
     bool keep = !args->isSet("n") && have_daemon;
-    bool terminal = args->isSet("t");
+    bool terminal = true;
     bool new_dcop = args->isSet("newdcop");
     bool withIgnoreButton = args->isSet("ignorebutton");
-    
+
     QCStringList env;
     QCString options;
     env << ( "DESKTOP_STARTUP_ID=" + kapp->startupId());
-    
+
     if (pw->pw_uid)
     {
        // Only propagate KDEHOME for non-root users,
        // root uses KDEROOTHOME
-       
+
        // Translate the KDEHOME of this user to the new user.
        QString kdeHome = KGlobal::dirs()->relativeLocation("home", KGlobal::dirs()->localkdedir());
        if (kdeHome[0] != '/')
-          kdeHome.prepend("~/"); 
+          kdeHome.prepend("~/");
        else
           kdeHome=QString::null; // Use default
 
@@ -299,7 +300,7 @@ static int startApp()
 
     KUser u;
     env << (QCString) ("KDESU_USER=" + u.loginName().local8Bit());
-    
+
     if (!new_dcop)
     {
         QCString ksycoca = "KDESYCOCA="+QFile::encodeName(locateLocal("cache", "ksycoca"));

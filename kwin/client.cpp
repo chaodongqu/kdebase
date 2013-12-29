@@ -143,9 +143,9 @@ Client::Client( Workspace *ws )
 
     max_mode = MaximizeRestore;
     maxmode_restore = MaximizeRestore;
-    
+
     cmap = None;
-    
+
     frame_geometry = QRect( 0, 0, 100, 100 ); // so that decorations don't start with size being (0,0)
     client_size = QSize( 100, 100 );
     custom_opacity = false;
@@ -225,7 +225,7 @@ void Client::releaseWindow( bool on_shutdown )
         {
         // Make sure it's not mapped if the app unmapped it (#65279). The app
         // may do map+unmap before we initially map the window by calling rawShow() from manage().
-        XUnmapWindow( qt_xdisplay(), client ); 
+        XUnmapWindow( qt_xdisplay(), client );
         }
     client = None;
     XDestroyWindow( qt_xdisplay(), wrapper );
@@ -466,7 +466,7 @@ void Client::setUserNoBorder( bool set )
 void Client::updateShape()
     {
     // workaround for #19644 - shaped windows shouldn't have decoration
-    if( shape() && !noBorder()) 
+    if( shape() && !noBorder())
         {
         noborder = true;
         updateDecoration( true );
@@ -544,7 +544,7 @@ QRegion Client::mask() const
         return QRegion( 0, 0, width(), height());
     return _mask;
     }
-    
+
 void Client::setShapable(bool b)
     {
     long tmp = b?1:0;
@@ -558,7 +558,7 @@ void Client::hideClient( bool hide )
     hidden = hide;
     updateVisibility();
     }
-    
+
 /*
   Returns whether the window is minimizable or not
  */
@@ -665,12 +665,12 @@ void Client::animateMinimizeOrUnminimize( bool minimize )
     QPixmap pm = animationPixmap( minimize ? width() : icongeom.width() );
 
     QRect before, after;
-    if ( minimize ) 
+    if ( minimize )
         {
         before = QRect( x(), y(), width(), pm.height() );
         after = QRect( icongeom.x(), icongeom.y(), icongeom.width(), pm.height() );
         }
-    else 
+    else
         {
         before = QRect( icongeom.x(), icongeom.y(), icongeom.width(), pm.height() );
         after = QRect( x(), y(), width(), pm.height() );
@@ -694,14 +694,14 @@ void Client::animateMinimizeOrUnminimize( bool minimize )
     QPainter p ( workspace()->desktopWidget() );
     bool need_to_clear = FALSE;
     QPixmap pm3;
-    do 
+    do
         {
         if (area2 != area)
             {
             pm = animationPixmap( area.width() );
             pm2 = QPixmap::grabWindow( qt_xrootwin(), area.x(), area.y(), area.width(), area.height() );
             p.drawPixmap( area.x(), area.y(), pm );
-            if ( need_to_clear ) 
+            if ( need_to_clear )
                 {
                 p.drawPixmap( area2.x(), area2.y(), pm3 );
                 need_to_clear = FALSE;
@@ -717,11 +717,11 @@ void Client::animateMinimizeOrUnminimize( bool minimize )
         area.setRight(before.right() + int(diff*rf));
         area.setTop(before.top() + int(diff*tf));
         area.setBottom(before.bottom() + int(diff*bf));
-        if (area2 != area ) 
+        if (area2 != area )
             {
             if ( area2.intersects( area ) )
                 p.drawPixmap( area2.x(), area2.y(), pm2 );
-            else 
+            else
                 { // no overlap, we can clear later to avoid flicker
                 pm3 = pm2;
                 need_to_clear = TRUE;
@@ -793,7 +793,7 @@ void Client::setShade( ShadeMode mode )
 
     int as = options->animateShade? 10 : 1;
 // TODO all this unmapping, resizing etc. feels too much duplicated from elsewhere
-    if ( isShade()) 
+    if ( isShade())
         { // shade_mode == ShadeNormal
         // we're about to shade, texx xcompmgr to prepare
         long _shade = 1;
@@ -807,13 +807,13 @@ void Client::setShade( ShadeMode mode )
         XUnmapWindow( qt_xdisplay(), wrapper );
         XUnmapWindow( qt_xdisplay(), client );
         XSelectInput( qt_xdisplay(), wrapper, ClientWinMask | SubstructureNotifyMask );
-        //as we hid the unmap event, xcompmgr didn't recognize the client wid has vanished, so we'll extra inform it        
+        //as we hid the unmap event, xcompmgr didn't recognize the client wid has vanished, so we'll extra inform it
         //done xcompmgr workaround
 // FRAME       repaint( FALSE );
 //        bool wasStaticContents = testWFlags( WStaticContents );
 //        setWFlags( WStaticContents );
         int step = QMAX( 4, QABS( h - s.height() ) / as )+1;
-        do 
+        do
             {
             h -= step;
             XResizeWindow( qt_xdisplay(), frameId(), s.width(), h );
@@ -833,9 +833,9 @@ void Client::setShade( ShadeMode mode )
             }
         // tell xcompmgr shade's done
         _shade = 2;
-        XChangeProperty(qt_xdisplay(), frameId(), atoms->net_wm_window_shade, XA_CARDINAL, 32, PropModeReplace, (unsigned char *) &_shade, 1L);    
+        XChangeProperty(qt_xdisplay(), frameId(), atoms->net_wm_window_shade, XA_CARDINAL, 32, PropModeReplace, (unsigned char *) &_shade, 1L);
         }
-    else 
+    else
         {
         int h = height();
         shade_geometry_change = true;
@@ -843,7 +843,7 @@ void Client::setShade( ShadeMode mode )
 // FRAME       bool wasStaticContents = testWFlags( WStaticContents );
 //        setWFlags( WStaticContents );
         int step = QMAX( 4, QABS( h - s.height() ) / as )+1;
-        do 
+        do
             {
             h += step;
             XResizeWindow( qt_xdisplay(), frameId(), s.width(), h );
@@ -1052,14 +1052,14 @@ void Client::closeWindow()
     if( !isCloseable())
         return;
     // Update user time, because the window may create a confirming dialog.
-    updateUserTime(); 
+    updateUserTime();
     if ( Pdeletewindow )
         {
         Notify::raise( Notify::Close );
         sendClientMessage( window(), atoms->wm_protocols, atoms->wm_delete_window);
         pingWindow();
         }
-    else 
+    else
         {
         // client will not react on wm_delete_window. We have not choice
         // but destroy his connection to the XServer.
@@ -1251,27 +1251,27 @@ void Client::setOnAllDesktops( bool b )
     }
 
 bool Client::isOnCurrentDesktop() const
-    {
+{
     return isOnDesktop( workspace()->currentDesktop());
-    }
+}
 
 int Client::screen() const
-    {
+{
     if( !options->xineramaEnabled )
         return 0;
     return workspace()->screenNumber( geometry().center());
-    }
+}
 
 bool Client::isOnScreen( int screen ) const
-    {
+{
     if( !options->xineramaEnabled )
         return screen == 0;
     return workspace()->screenGeometry( screen ).intersects( geometry());
-    }
+}
 
 // performs activation and/or raising of the window
 void Client::takeActivity( int flags, bool handled, allowed_t )
-    {
+{
     if( !handled || !Ptakeactivity )
         {
         if( flags & ActivityFocus )
@@ -1279,7 +1279,7 @@ void Client::takeActivity( int flags, bool handled, allowed_t )
         if( flags & ActivityRaise )
             workspace()->raiseClient( this );
         return;
-        }
+		}
 
 #ifndef NDEBUG
     static Time previous_activity_timestamp;
@@ -1293,7 +1293,7 @@ void Client::takeActivity( int flags, bool handled, allowed_t )
     previous_client = this;
 #endif
     workspace()->sendTakeActivity( this, qt_x_time, flags );
-    }
+}
 
 // performs the actual focusing of the window using XSetInputFocus and WM_TAKE_FOCUS
 void Client::takeFocus( allowed_t )
@@ -1339,7 +1339,7 @@ bool Client::providesContextHelp() const
  */
 void Client::showContextHelp()
     {
-    if ( Pcontexthelp ) 
+    if ( Pcontexthelp )
         {
         sendClientMessage(window(), atoms->wm_protocols, atoms->net_wm_context_help);
         QWhatsThis::enterWhatsThisMode(); // SELI?
@@ -1358,17 +1358,17 @@ void Client::fetchName()
 
 QString Client::readName() const
     {
-    if ( info->name() && info->name()[ 0 ] != '\0' ) 
+    if ( info->name() && info->name()[ 0 ] != '\0' )
         return QString::fromUtf8( info->name() );
-    else 
+    else
         return KWin::readNameProperty( window(), XA_WM_NAME );
     }
-    
+
 KWIN_COMPARE_PREDICATE( FetchNameInternalPredicate, const Client*, (!cl->isSpecialWindow() || cl->isToolbar()) && cl != value && cl->caption() == value->caption());
 
 void Client::setCaption( const QString& s, bool force )
     {
-    if ( s != cap_normal || force ) 
+    if ( s != cap_normal || force )
         {
         bool reset_name = force;
         for( unsigned int i = 0;
@@ -1383,10 +1383,10 @@ void Client::setCaption( const QString& s, bool force )
             machine_suffix = " <@" + wmClientMachine( true ) + ">";
         QString shortcut_suffix = !shortcut().isNull() ? ( " {" + shortcut().toString() + "}" ) : "";
         cap_suffix = machine_suffix + shortcut_suffix;
-        if ( ( !isSpecialWindow() || isToolbar()) && workspace()->findClient( FetchNameInternalPredicate( this ))) 
+        if ( ( !isSpecialWindow() || isToolbar()) && workspace()->findClient( FetchNameInternalPredicate( this )))
             {
             int i = 2;
-            do 
+            do
                 {
                 cap_suffix = machine_suffix + " <" + QString::number(i) + ">" + shortcut_suffix;
                 i++;
@@ -1416,11 +1416,11 @@ void Client::updateCaption()
 void Client::fetchIconicName()
     {
     QString s;
-    if ( info->iconName() && info->iconName()[ 0 ] != '\0' ) 
+    if ( info->iconName() && info->iconName()[ 0 ] != '\0' )
         s = QString::fromUtf8( info->iconName() );
-    else 
+    else
         s = KWin::readNameProperty( window(), XA_WM_ICON_NAME );
-    if ( s != cap_iconic ) 
+    if ( s != cap_iconic )
         {
 	bool was_set = !cap_iconic.isEmpty();
         cap_iconic = s;
@@ -1481,7 +1481,7 @@ void Client::getMotifHints()
     }
 
 void Client::readIcons( Window win, QPixmap* icon, QPixmap* miniicon )
-    {    
+    {
     // get the icons, allow scaling
     if( icon != NULL )
         *icon = KWin::icon( win, 32, 32, TRUE, KWin::NETWM | KWin::WMHints );
@@ -1595,7 +1595,7 @@ Window Client::staticWmClientLeader(WId w)
                                  FALSE, XA_WINDOW, &type, &format,
                                  &nitems, &extra, &data );
     XSetErrorHandler(oldHandler);
-    if (status  == Success ) 
+    if (status  == Success )
         {
         if (data && nitems > 0)
             result = *((Window*) data);
@@ -1773,7 +1773,7 @@ void Client::setCursor( Position m )
         {
         m = PositionCenter;
         }
-    switch ( m ) 
+    switch ( m )
         {
         case PositionTopLeft:
         case PositionBottomRight:
@@ -1852,7 +1852,7 @@ void Client::autoRaise()
     workspace()->raiseClient( this );
     cancelAutoRaise();
     }
-    
+
 void Client::cancelAutoRaise()
     {
     delete autoRaiseTimer;
@@ -1880,7 +1880,7 @@ void Client::setOpacity(bool translucent, uint opacity)
         XChangeProperty(qt_xdisplay(), window(), atoms->net_wm_window_opacity, XA_CARDINAL, 32, PropModeReplace, (unsigned char *) &data, 1L);
         }
     }
-    
+
 void Client::setShadowSize(uint shadowSize)
     {
     // ignoring all individual settings - if we control a window, we control it's shadow
@@ -1888,7 +1888,7 @@ void Client::setShadowSize(uint shadowSize)
     long data = shadowSize;
     XChangeProperty(qt_xdisplay(), frameId(), atoms->net_wm_window_shadow, XA_CARDINAL, 32, PropModeReplace, (unsigned char *) &data, 1L);
     }
-        
+
 void Client::updateOpacity()
 // extra syncscreen flag allows to avoid double syncs when active state changes (as it will usually change for two windows)
     {
@@ -2042,7 +2042,7 @@ void Client::updateOpacity()
             }
         }
     }
-    
+
 void Client::updateShadowSize()
 // extra syncscreen flag allows to avoid double syncs when active state changes (as it will usually change for two windows)
     {
@@ -2063,7 +2063,7 @@ uint Client::ruleOpacityActive()
     {
     return rule_opacity_active;// != 0;
     }
-    
+
 bool Client::getWindowOpacity() //query translucency settings from X, returns true if window opacity is set
     {
     unsigned char *data = 0;
@@ -2081,12 +2081,12 @@ bool Client::getWindowOpacity() //query translucency settings from X, returns tr
         }
     return FALSE;
     }
-    
+
 void Client::setCustomOpacityFlag(bool custom)
     {
     custom_opacity = custom;
     }
-    
+
 uint Client::opacity()
     {
     return opacity_;
@@ -2096,7 +2096,7 @@ int Client::opacityPercentage()
     {
     return int(100*((double)opacity_/0xffffffff));
     }
-    
+
 bool Client::touches(const Client* c)
 // checks if this client borders c, needed to test beep media player window state
     {
@@ -2110,7 +2110,7 @@ bool Client::touches(const Client* c)
         return TRUE;
     return FALSE;
     }
-    
+
 void Client::setDecoHashProperty(uint topHeight, uint rightWidth, uint bottomHeight, uint leftWidth)
 {
    long data = (topHeight < 255 ? topHeight : 255) << 24 |
@@ -2124,7 +2124,7 @@ void Client::unsetDecoHashProperty()
 {
    XDeleteProperty( qt_xdisplay(), frameId(), atoms->net_wm_window_decohash);
 }
-    
+
 #ifndef NDEBUG
 kdbgstream& operator<<( kdbgstream& stream, const Client* cl )
     {

@@ -4,7 +4,6 @@ Type=Application
 DocPath=kinfocenter/nics/index.html
 Icon=network
 
-
 X-KDE-Library=nic
 X-KDE-FactoryName=nic
 X-KDE-ParentApp=kinfocenter
@@ -170,4 +169,4 @@ Comment[zh_CN]=网络接口信息
 Comment[zh_TW]=網路界面資訊
 Comment[zu]=Ulwazi lomxhumanisi woxhumano olusakazekile
 
-Categories=Qt;KDE;X-KDE-information;
+Categories=Qt;KDE;X-KDE-settings-network;

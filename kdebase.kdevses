@@ -1,16 +1,37 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="3" >
-  <Doc0 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konsole/konsole/konsole_part.cpp" >
-   <View0 Encoding="" line="1075" Type="Source" />
+ <DocsAndViews NumberOfDocuments="10" >
+  <Doc0 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konqueror/iconview/konq_iconview.h" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konsole/konsole/konsole_part.h" >
-   <View0 Encoding="" line="196" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konqueror/iconview/konq_iconview.cc" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konsole/konsole/TEPty.h" >
-   <View0 Encoding="" line="25" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konqueror/konq_view.cc" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kioslave/sftp/sftpfileattr.cpp" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/kfrontend/kdmshutdown.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konsole/konsole/TEWidget.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kicker/kicker/core/container_extension.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc6>
+  <Doc7 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kcontrol/icons/icons.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kcontrol/konq/previews.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/libkonq/konq_iconviewwidget.cc" >
+   <View0 Encoding="" line="879" Type="Source" />
+  </Doc9>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

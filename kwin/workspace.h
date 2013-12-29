@@ -162,7 +162,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
          */
         int numberOfDesktops() const;
         void setNumberOfDesktops( int n );
-        
+
         int activeScreen() const;
         int numScreens() const;
         void checkActiveScreen( const Client* c );
@@ -196,8 +196,9 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
         void windowToNextDesktop( Client* c );
         void sendClientToScreen( Client* c, int screen );
 
-    // KDE4 remove me - and it's also in the DCOP interface :(
+	// KDE4 remove me - and it's also in the DCOP interface :(
         void showWindowMenuAt( unsigned long id, int x, int y );
+		void KDestopResized();
 
         /**
 	 * Shows the menu operations menu for the client and makes it active if
@@ -246,7 +247,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
 
         void sendPingToWindow( Window w, Time timestamp ); // called from Client::pingWindow()
         void sendTakeActivity( Client* c, Time timestamp, long flags ); // called from Client::takeActivity()
-        
+
         bool kompmgrIsRunning();
         void setOpacity(unsigned long winId, unsigned int opacityPercent);
         void setShadowSize(unsigned long winId, unsigned int shadowSizePercent);
@@ -265,7 +266,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
         void focusToNull(); // SELI public?
         enum FocusChainChange { FocusChainMakeFirst, FocusChainMakeLast, FocusChainUpdate };
         void updateFocusChains( Client* c, FocusChainChange change );
-        
+
         bool forcedGlobalMouseGrab() const;
         void clientShortcutUpdated( Client* c );
         bool shortcutAvailable( const KShortcut& cut, Client* ignore = NULL ) const;
@@ -294,7 +295,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
         void requestDelayFocus( Client* );
         void updateFocusMousePosition( const QPoint& pos );
         QPoint focusMousePosition() const;
-        
+
         void toggleTopDockShadows(bool on);
 
     public slots:
@@ -374,7 +375,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
         void setupWindowShortcutDone( bool );
 
         void updateClientArea();
-        
+
         // kompmgr, also dcop
         void startKompmgr();
 
@@ -401,7 +402,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
         void restartKompmgr();
         void handleKompmgrOutput( KProcess *proc, char *buffer, int buflen);
         void stopKompmgr();
-        // end 
+        // end
 
     protected:
         bool keyPressMouseEmulation( XKeyEvent& ev );
@@ -480,7 +481,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
         void raiseElectricBorders();
 
     // ------------------
-    
+
         void helperDialog( const QString& message, const Client* c );
 
         void calcDesktopLayout(int &x, int &y) const;
@@ -535,7 +536,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
         ClientList global_focus_chain; // this one is only for things like tabbox's MRU
         ClientList should_get_focus; // last is most recent
         ClientList attention_chain;
-        
+
         bool showing_desktop;
         ClientList showing_desktop_clients;
         int block_showing_desktop;
@@ -637,7 +638,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
         Window null_focus_window;
         bool forced_global_mouse_grab;
         friend class StackingUpdatesBlocker;
-        
+
         //kompmgr
         QSlider *transSlider;
         QPushButton *transButton;
@@ -646,7 +647,7 @@ class Workspace : public QObject, public KWinInterface, public KDecorationDefine
         int maximizedWindowCounter;
         int topDockShadowSize;*/
         //end
-        
+
      signals:
         void kompmgrStarted();
         void kompmgrStopped();

@@ -3,12 +3,9 @@ Exec=kcmshell cdinfo
 Icon=kcmdevices
 Type=Application
 DocPath=kinfocenter/cdinfo/index.html
-
-
 X-KDE-Library=info
 X-KDE-FactoryName=cdinfo
 X-KDE-ParentApp=kinfocenter
-
 Name=CD-ROM Information
 Name[bg]=CD-ROM
 Name[bn]=সিডি-রম তথ্য
@@ -117,7 +114,7 @@ Comment[vi]=Khả năng ổ đĩa CD/DVD
 Comment[wa]=Usteyes di léjheu CD/DVD
 Comment[zh_TW]=CD/DVD 相容性
 
-Keywords=CD-ROM Information,CD-ROM,CD,CD Drive,Writer Capabilities
+Keywords=CD-ROM Information,CD-ROM,CD,CD Drive,Writer Capabilities;
 Keywords[bg]=CD-ROM Information,CD-ROM,CD,CD Drive,Writer Capabilities, информация за CD-ROM, CD устройство;
 Keywords[ca]=Informació del CD-ROM,CD-ROM,CD,Dispositiu CD ,Capacitats d'escriptura;
 Keywords[cs]=Informace o CD, mechanice a možnostech vypalovačky;
@@ -163,4 +160,4 @@ Keywords[uk]=CD-ROM Information,CD-ROM,CD,CD Drive,Writer Capabilities,Інфо�
 Keywords[vi]=Thông tin đĩa CD-ROM,CD-ROM,CD, ổ đĩa CD, Khả năng ổ ghi;
 Keywords[wa]=Informåcion do CD-ROM,CD-ROM,CD,léjheu d' CD,Usteyes di scrijhaedje;
 
-Categories=Qt;KDE;X-KDE-information;
+Categories=Qt;KDE;X-KDE-settgings-hardware;

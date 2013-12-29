@@ -83,7 +83,7 @@ bool Client::manage( Window w, bool isMapped )
     cmap = attr.colormap;
 
     XClassHint classHint;
-    if ( XGetClassHint( qt_xdisplay(), client, &classHint ) ) 
+    if ( XGetClassHint( qt_xdisplay(), client, &classHint ) )
         {
         // Qt3.2 and older had this all lowercase, Qt3.3 capitalized resource class
         // force lowercase, so that workarounds listing resource classes still work
@@ -127,7 +127,7 @@ bool Client::manage( Window w, bool isMapped )
     workspace()->updateClientLayer( this );
 
     SessionInfo* session = workspace()->takeSessionInfo( this );
-    
+
     if ( session )
         {
         if ( session->minimized )
@@ -141,11 +141,11 @@ bool Client::manage( Window w, bool isMapped )
     init_minimize = rules()->checkMinimize( init_minimize, !isMapped );
     if( rules()->checkNoBorder( false, !isMapped ))
         setUserNoBorder( true );
-    
+
     checkAndSetInitialRuledOpacity();
 
     // initial desktop placement
-    if ( session ) 
+    if ( session )
         {
         desk = session->desktop;
         if( session->onAllDesktops )
@@ -201,15 +201,14 @@ bool Client::manage( Window w, bool isMapped )
     bool partial_keep_in_area = isMapped || session;
     if( isMapped || session )
         area = workspace()->clientArea( FullArea, geom.center(), desktop());
-    else if( options->xineramaPlacementEnabled )
-        {
-        int screen = options->xineramaPlacementScreen;
-        if( screen == -1 ) // active screen
-            screen = asn_data.xinerama() == -1 ? workspace()->activeScreen() : asn_data.xinerama();
-        area = workspace()->clientArea( PlacementArea, workspace()->screenGeometry( screen ).center(), desktop());
-        }
+    else if( options->xineramaPlacementEnabled ) {
+		int screen = options->xineramaPlacementScreen;
+		if( screen == -1 ) // active screen
+			screen = asn_data.xinerama() == -1 ? workspace()->activeScreen() : asn_data.xinerama();
+		area = workspace()->clientArea( PlacementArea, workspace()->screenGeometry( screen ).center(), desktop());
+	}
     else
-        area = workspace()->clientArea( PlacementArea, QCursor::pos(), desktop());
+		area = workspace()->clientArea( PlacementArea, QCursor::pos(), desktop());
 
     if( int type = checkFullScreenHack( geom ))
         {
@@ -225,7 +224,7 @@ bool Client::manage( Window w, bool isMapped )
         placementDone = true;
         }
 
-    if ( isDesktop() ) 
+    if ( isDesktop() )
         {
         // desktops are treated slightly special
         geom = workspace()->clientArea( FullArea, geom.center(), desktop());
@@ -269,7 +268,7 @@ bool Client::manage( Window w, bool isMapped )
         bool ignorePPosition = ( options->ignorePositionClasses.contains(QString::fromLatin1(resourceClass())));
 
         if ( ( (xSizeHint.flags & PPosition) && !ignorePPosition ) ||
-             (xSizeHint.flags & USPosition) ) 
+             (xSizeHint.flags & USPosition) )
             {
             placementDone = TRUE;
             // disobey xinerama placement option for now (#70943)
@@ -277,7 +276,7 @@ bool Client::manage( Window w, bool isMapped )
             }
         }
     if( true ) // size is always obeyed for now, only with constraints applied
-        if ( (xSizeHint.flags & USSize) || (xSizeHint.flags & PSize) ) 
+        if ( (xSizeHint.flags & USSize) || (xSizeHint.flags & PSize) )
             {
             // keep in mind that we now actually have a size :-)
             }
@@ -311,7 +310,7 @@ bool Client::manage( Window w, bool isMapped )
         partial_keep_in_area = true;
         area = workspace()->clientArea( FullArea, geom.center(), desktop());
         }
-    if( !placementDone ) 
+    if( !placementDone )
         { // placement needs to be after setting size
         workspace()->place( this, area );
         placementDone = TRUE;
@@ -323,7 +322,7 @@ bool Client::manage( Window w, bool isMapped )
     XShapeSelectInput( qt_xdisplay(), window(), ShapeNotifyMask );
     is_shape = Shape::hasShape( window());
     updateShape();
-	
+
     //CT extra check for stupid jdk 1.3.1. But should make sense in general
     // if client has initial state set to Iconic and is transient with a parent
     // window that is not Iconic, set init_state to Normal
@@ -363,7 +362,7 @@ bool Client::manage( Window w, bool isMapped )
         doNotShow = TRUE;
 
     // other settings from the previous session
-    if ( session ) 
+    if ( session )
         {
         // session restored windows are not considered to be new windows WRT rules,
         // i.e. obey only forcing rules
@@ -385,27 +384,27 @@ bool Client::manage( Window w, bool isMapped )
             geom_fs_restore = session->fsrestore;
             }
         }
-    else 
+    else
         {
         geom_restore = geometry(); // remember restore geometry
         if ( isMaximizable()
-             && ( width() >= area.width() || height() >= area.height() ) ) 
+             && ( width() >= area.width() || height() >= area.height() ) )
             {
             // window is too large for the screen, maximize in the
             // directions necessary
-            if ( width() >= area.width() && height() >= area.height() ) 
+            if ( width() >= area.width() && height() >= area.height() )
                 {
                 maximize( Client::MaximizeFull );
                 geom_restore = QRect(); // use placement when unmaximizing
                 }
-            else if ( width() >= area.width() ) 
+            else if ( width() >= area.width() )
                 {
                 maximize( Client::MaximizeHorizontal );
                 geom_restore = QRect(); // use placement when unmaximizing
                 geom_restore.setY( y()); // but only for horizontal direction
                 geom_restore.setHeight( height());
                 }
-            else if ( height() >= area.height() ) 
+            else if ( height() >= area.height() )
                 {
                 maximize( Client::MaximizeVertical );
                 geom_restore = QRect(); // use placement when unmaximizing
@@ -533,7 +532,7 @@ bool Client::manage( Window w, bool isMapped )
     delete session;
 
     ungrabXServer();
-    
+
     client_rules.discardTemporary();
     applyWindowRules(); // just in case
     workspace()->discardUsedWindowRules( this, false ); // remove ApplyNow rules

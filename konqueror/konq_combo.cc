@@ -93,7 +93,7 @@ public:
 
 KonqCombo::KonqCombo( QWidget *parent, const char *name )
           : KHistoryCombo( parent, name ),
-            m_returnPressed( false ), 
+            m_returnPressed( false ),
             m_permanent( false ),
             m_modifier( NoButton ),
 	    m_pageSecurity( KonqMainWindow::NotCrypted )
@@ -151,7 +151,7 @@ void KonqCombo::setURL( const QString& url )
     setTemporary( url );
 
     if ( m_returnPressed ) { // Really insert...
-        m_returnPressed = false;      
+        m_returnPressed = false;
         QByteArray data;
         QDataStream s( data, IO_WriteOnly );
         s << url << kapp->dcopClient()->defaultObject();
@@ -195,7 +195,7 @@ void KonqCombo::removeDuplicates( int index )
       url.truncate(url.length()-1);
 
     // Remove all dupes, if available...
-    for ( int i = index; i < count(); i++ ) 
+    for ( int i = index; i < count(); i++ )
     {
         QString item (text(i));
         if (item.endsWith("/"))
@@ -204,6 +204,7 @@ void KonqCombo::removeDuplicates( int index )
         if ( item == url )
             removeItem( i );
     }
+    lineEdit()->setCursorPosition( 0 );
 }
 
 // called via DCOP in all instances
@@ -260,7 +261,7 @@ void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, con
     //               << index << "'" << endl;
 
     // QComboBox::changeItem() doesn't honour the pixmap when
-    // using an editable combobox, so we just remove and insert    
+    // using an editable combobox, so we just remove and insert
     // ### use QComboBox::changeItem(), once that finally works
     // Well lets try it now as it seems to work fine for me. We
     // can always revert :)
@@ -345,7 +346,7 @@ void KonqCombo::slotSetIcon( int index )
     if( pixmap( index ) == NULL )
         // on-demand icon loading
         updateItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
-                    KIcon::SizeSmall ), text( index ), index, 
+                    KIcon::SizeSmall ), text( index ), index,
                     titleOfURL( text( index ) ) );
     update();
 }
@@ -430,23 +431,23 @@ void KonqCombo::keyPressEvent( QKeyEvent *e )
          setTemporary( currentText() );
 }
 
-/* 
+/*
    Handle Ctrl+Cursor etc better than the Qt widget, which always
    jumps to the next whitespace. This code additionally jumps to
-   the next [/#?:], which makes more sense for URLs. The list of 
+   the next [/#?:], which makes more sense for URLs. The list of
    chars that will stop the cursor are '/', '.', '?', '#', ':'.
 */
 void KonqCombo::selectWord(QKeyEvent *e)
 {
-    QLineEdit* edit = lineEdit();    
+    QLineEdit* edit = lineEdit();
     QString text = edit->text();
     int pos = edit->cursorPosition();
     int pos_old = pos;
-    int count = 0;  
+    int count = 0;
 
     // TODO: make these a parameter when in kdelibs/kdeui...
     QValueList<QChar> chars;
-    chars << QChar('/') << QChar('.') << QChar('?') << QChar('#') << QChar(':');    
+    chars << QChar('/') << QChar('.') << QChar('?') << QChar('#') << QChar(':');
     bool allow_space_break = true;
 
     if( e->key() == Key_Left || e->key() == Key_Backspace ) {
@@ -459,7 +460,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
 
         if( e->state() & ShiftButton ) {
                   edit->cursorForward(true, 1-count);
-        } 
+        }
         else if(  e->key() == Key_Backspace ) {
             edit->cursorForward(false, 1-count);
             QString text = edit->text();
@@ -467,11 +468,11 @@ void KonqCombo::selectWord(QKeyEvent *e)
             QString cut = text.left(edit->cursorPosition()) + text.right(pos_to_right);
             edit->setText(cut);
             edit->setCursorPosition(pos_old-count+1);
-        } 
+        }
         else {
             edit->cursorForward(false, 1-count);
         }
-     } 
+     }
      else if( e->key() == Key_Right || e->key() == Key_Delete ){
         do {
             pos++;
@@ -482,7 +483,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
 
         if( e->state() & ShiftButton ) {
             edit->cursorForward(true, count+1);
-        } 
+        }
         else if(  e->key() == Key_Delete ) {
             edit->cursorForward(false, -count-1);
             QString text = edit->text();
@@ -491,7 +492,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
                (pos_to_right > 0 ? text.right(pos_to_right) : QString::null );
             edit->setText(cut);
             edit->setCursorPosition(pos_old);
-        } 
+        }
         else {
             edit->cursorForward(false, count+1);
         }
@@ -593,7 +594,7 @@ void KonqCombo::paintEvent( QPaintEvent *pe )
     QLineEdit *edit = lineEdit();
     QRect re = style().querySubControlMetrics( QStyle::CC_ComboBox, this, QStyle::SC_ComboBoxEditField );
     re = QStyle::visualRect(re, this);
-    
+
     if ( m_pageSecurity!=KonqMainWindow::NotCrypted ) {
         QColor color(245, 246, 190);
         bool useColor = hasSufficientContrast(color,edit->paletteForegroundColor());
@@ -616,7 +617,7 @@ void KonqCombo::paintEvent( QPaintEvent *pe )
 	    edit->setPaletteBackgroundColor( color );
 
         pix = SmallIcon( m_pageSecurity==KonqMainWindow::Encrypted ? "encrypted" : "halfencrypted" );
-        p.fillRect( re.right() - pix.width() - 3 , re.y(), pix.width() + 4, re.height(), 
+        p.fillRect( re.right() - pix.width() - 3 , re.y(), pix.width() + 4, re.height(),
 		    QBrush( useColor ? color : edit->paletteBackgroundColor() ));
         p.drawPixmap( re.right() - pix.width() -1 , re.y() + ( re.height() - pix.height() ) / 2, pix );
         p.setClipping( FALSE );
@@ -717,7 +718,7 @@ void KonqComboListBoxPixmap::paint( QPainter *painter )
 
     if ( !text().isEmpty() ) {
         QString squeezedText = KStringHandler::rPixelSqueeze( text(), listBox()->fontMetrics(), urlWidth );
-        painter->drawText( pmWidth, 0, urlWidth + pmWidth, itemHeight, 
+        painter->drawText( pmWidth, 0, urlWidth + pmWidth, itemHeight,
                            Qt::AlignLeft | Qt::AlignTop, squeezedText );
 
         //painter->setPen( KGlobalSettings::inactiveTextColor() );

@@ -78,12 +78,13 @@ private slots:
     void slotTimeout();
     void slotImageDone(int desk);
     void slotChangeDesktop(int);
+    void slotChangeViewport(int, const QPoint&);
     void slotChangeNumberOfDesktops(int);
     void repaintBackground();
     void desktopResized();
     void clearRoot();
     void saveImages();
-    
+
 private:
     void applyCommon(bool common);
     void applyExport(bool _export);
@@ -92,6 +93,7 @@ private:
     int realDesktop();
     int effectiveDesktop();
     int validateDesk(int desk);
+    int m_numberOfViewports;
 
     void renderBackground(int desk);
     void exportBackground(int pixmap, int desk);
@@ -119,7 +121,7 @@ private:
 
     KWinModule *m_pKwinmodule;
     KPixmapServer *m_pPixmapServer;
-    
+
     unsigned long m_xrootpmap;
 };
 

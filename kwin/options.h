@@ -25,7 +25,7 @@ namespace KWinInternal
 
 class Client;
 
-class Options : public KDecorationOptions 
+class Options : public KDecorationOptions
     {
     public:
 
@@ -124,11 +124,11 @@ class Options : public KDecorationOptions
          */
         enum AltTabStyle { KDE, CDE };
         AltTabStyle altTabStyle;
-        
-        // whether to see Xinerama screens separately for focus (in Alt+Tab, when activating next client)
-        bool separateScreenFocus;
-        // whether active Xinerama screen is the one with mouse (or with the active window)
-        bool activeMouseScreen;
+
+		// whether to see Xinerama screens separately for focus (in Alt+Tab, when activating next client)
+		bool separateScreenFocus;
+		// whether active Xinerama screen is the one with mouse (or with the active window)
+		bool activeMouseScreen;
 
         /**
          * Xinerama options
@@ -138,9 +138,9 @@ class Options : public KDecorationOptions
         bool xineramaMovementEnabled;
         bool xineramaMaximizeEnabled;
         bool xineramaFullscreenEnabled;
-        
-        // number, or -1 = active screen (Workspace::activeScreen())
-        int xineramaPlacementScreen;
+
+		// number, or -1 = active screen (Workspace::activeScreen())
+		int xineramaPlacementScreen;
 
         /**
            MoveResizeMode, either Tranparent or Opaque.
@@ -149,13 +149,13 @@ class Options : public KDecorationOptions
 
         MoveResizeMode resizeMode;
         MoveResizeMode moveMode;
-        
+
         static MoveResizeMode stringToMoveResizeMode( const QString& s );
         static const char* moveResizeModeToString( MoveResizeMode mode );
 
         Placement::Policy placement;
 
-        bool focusPolicyIsReasonable() 
+        bool focusPolicyIsReasonable()
             {
             return focusPolicy == ClickToFocus || focusPolicy == FocusFollowsMouse;
             }
@@ -190,7 +190,7 @@ class Options : public KDecorationOptions
          * Animation speed (0 .. 10 )
         */
         int animateMinimizeSpeed;
-        
+
         bool showDesktopIsMinimizeAll;
 
         /**
@@ -205,12 +205,12 @@ class Options : public KDecorationOptions
          * List of window classes to ignore PPosition size hint
          */
         QStringList ignorePositionClasses;
-        
+
         bool checkIgnoreFocusStealing( const Client* c );
 
         WindowOperation operationTitlebarDblClick() { return OpTitlebarDblClick; }
 
-        enum MouseCommand 
+        enum MouseCommand
             {
             MouseRaise, MouseLower, MouseOperationsMenu, MouseToggleRaiseAndLower,
             MouseActivateAndRaise, MouseActivateAndLower, MouseActivate,
@@ -225,7 +225,7 @@ class Options : public KDecorationOptions
             MouseOpacityMore, MouseOpacityLess,
             MouseNothing
             };
-            
+
         enum MouseWheelCommand
             {
             MouseWheelRaiseLower, MouseWheelShadeUnshade, MouseWheelMaximizeRestore,
@@ -280,13 +280,13 @@ class Options : public KDecorationOptions
         * @returns the activation delay for electric borders in milliseconds.
         */
         int electricBorderDelay();
-        
+
         bool topMenuEnabled() const { return topmenus; }
         bool desktopTopMenu() const { return desktop_topmenu; }
-        
+
         // timeout before non-responding application will be killed after attempt to close
         int killPingTimeout;
-        
+
         // Whether to hide utility windows for inactive applications.
         bool hideUtilityWindowsForInactive;
 

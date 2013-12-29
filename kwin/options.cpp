@@ -71,12 +71,12 @@ unsigned long Options::updateSettings()
     altTabStyle = KDE; // what a default :-)
     if ( val == "CDE" )
         altTabStyle = CDE;
-        
-    separateScreenFocus = config->readBoolEntry( "SeparateScreenFocus", false );
-    activeMouseScreen = config->readBoolEntry( "ActiveMouseScreen", focusPolicy != ClickToFocus );
+
+	separateScreenFocus = config->readBoolEntry( "SeparateScreenFocus", false );
+	activeMouseScreen = config->readBoolEntry( "ActiveMouseScreen", focusPolicy != ClickToFocus );
 
     rollOverDesktops = config->readBoolEntry("RollOverDesktops", TRUE);
-    
+
 //    focusStealingPreventionLevel = config->readNumEntry( "FocusStealingPreventionLevel", 2 );
     // TODO use low level for now
     focusStealingPreventionLevel = config->readNumEntry( "FocusStealingPreventionLevel", 1 );
@@ -94,21 +94,21 @@ unsigned long Options::updateSettings()
     delete gc;
 
     placement = Placement::policyFromString( config->readEntry("Placement"), true );
-    xineramaPlacementScreen = KCLAMP( config->readNumEntry( "XineramaPlacementScreen", -1 ),
-        -1, qApp->desktop()->numScreens() - 1 );
+	xineramaPlacementScreen = KCLAMP( config->readNumEntry( "XineramaPlacementScreen", -1 ),
+										-1, qApp->desktop()->numScreens() - 1 );
 
     animateShade = config->readBoolEntry("AnimateShade", TRUE );
     animateMinimize = config->readBoolEntry("AnimateMinimize", TRUE );
     animateMinimizeSpeed = config->readNumEntry("AnimateMinimizeSpeed", 5 );
 
-    if( focusPolicy == ClickToFocus ) 
+    if( focusPolicy == ClickToFocus )
         {
         autoRaise = false;
         autoRaiseInterval = 0;
         delayFocus = false;
         delayFocusInterval = 0;
         }
-    else 
+    else
         {
         autoRaise = config->readBoolEntry("AutoRaise", FALSE );
         autoRaiseInterval = config->readNumEntry("AutoRaiseInterval", 0 );
@@ -192,9 +192,9 @@ unsigned long Options::updateSettings()
     resetKompmgr = config->readBoolEntry("ResetKompmgr", false);
     if (resetKompmgr)
         config->writeEntry("ResetKompmgr",FALSE);
-    
-    
-    
+
+
+
     // Read button tooltip animation effect from kdeglobals
     // Since we want to allow users to enable window decoration tooltips
     // and not kstyle tooltips and vise-versa, we don't read the
@@ -208,7 +208,7 @@ unsigned long Options::updateSettings()
     desktop_topmenu = kdesktopcfg.readBoolEntry( "ShowMenubar", false );
     if( desktop_topmenu )
         topmenus = true;
-        
+
     QToolTip::setGloballyEnabled( d->show_tooltips );
 
     return changed;

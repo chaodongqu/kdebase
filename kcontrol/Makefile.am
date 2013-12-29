@@ -1,4 +1,3 @@
-
 if include_kcontrol_access
 ACCESS_SUBDIR=access
 endif
@@ -9,6 +8,10 @@ endif
 
 if include_kcontrol_smartcard
 KSMCARD_SUBDIR=smartcard
+endif
+
+if include_kcontrol_iccconfig
+ICCCONFIG_SUBDIR=iccconfig
 endif
 
 if include_kcontrol_usbview
@@ -36,4 +39,4 @@ SUBDIRS = bell background dnssd filetypes samba krdb input info ioslaveinfo kdm\
 	konsole spellchecking $(USBVIEW_SUBDIR) \
 	$(KSMCARD_SUBDIR) nics $(FONTINST_SUBDIR) $(RANDR_SUBDIR) \
 	componentchooser performance xinerama $(VIEW1394_SUBDIR) display kthememanager \
-        $(JOYSTICK_SUBDIR)
+        $(JOYSTICK_SUBDIR) $(ICCCONFIG_SUBDIR)

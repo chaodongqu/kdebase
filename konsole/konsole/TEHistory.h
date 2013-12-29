@@ -137,16 +137,21 @@ public:
 
   void setMaxNbLines(unsigned int nbLines);
   unsigned int maxNbLines() { return m_maxNbLines; }
-  
+
 
 private:
   int adjustLineNb(int lineno);
 
+  // Normalize buffer so that the size can be changed.
+  void normalize();
+
+  bool m_hasScroll;
   QPtrVector<histline> m_histBuffer;
   QBitArray m_wrappedLine;
   unsigned int m_maxNbLines;
   unsigned int m_nbLines;
   unsigned int m_arrayIndex;
+  bool         m_buffFilled;
 
 };
 
@@ -227,7 +232,7 @@ class HistoryTypeBlockArray : public HistoryType
 {
 public:
   HistoryTypeBlockArray(size_t size);
-  
+
   virtual bool isOn() const;
   virtual unsigned int getSize() const;
 
@@ -237,7 +242,7 @@ protected:
   size_t m_size;
 };
 
-#if 1 // Disabled for now 
+#if 1 // Disabled for now
 class HistoryTypeFile : public HistoryType
 {
 public:
@@ -258,7 +263,7 @@ class HistoryTypeBuffer : public HistoryType
 {
 public:
   HistoryTypeBuffer(unsigned int nbLines);
-  
+
   virtual bool isOn() const;
   virtual unsigned int getSize() const;
 

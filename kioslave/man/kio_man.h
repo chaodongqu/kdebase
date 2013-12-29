@@ -61,15 +61,16 @@ public:
 
 private slots:
   void slotGetStdOutput(KProcess*, char*, int);
-    
+  void slotGetStdOutputUtf8(KProcess*, char*, int);
+
 private:
     void checkManPaths();
     QStringList manDirectories();
     QMap<QString, QString> buildIndexMap(const QString& section);
     bool addWhatIs(QMap<QString, QString>& i, const QString& f, const QString& mark);
     void parseWhatIs( QMap<QString, QString> &i, QTextStream &t, const QString &mark );
-    QStringList findPages(const QString& section, 
-                          const QString &title, 
+    QStringList findPages(const QString& section,
+                          const QString &title,
                           bool full_path = true);
 
     void addToBuffer(const char *buffer, int buflen);
@@ -85,7 +86,7 @@ private:
     QStringList m_mandbpath; ///< Path of catman directories
     QStringList section_names;
 
-    QString myStdStream;  
+    QString myStdStream;
     QString mySgml2RoffPath;
     void getProgramPath();
 
