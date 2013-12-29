@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Icon=usbpendrive_unmount_encrypt
+Type=MimeType
+MimeType=media/removable_unmounted_encrypted
+Comment=Unmounted Encrypted Removable Medium
+Comment[de]=Nicht eingebundenes, verschlüsseltes Wechsellaufwerk
+Patterns=
+
+X-KDE-AutoEmbed=true
+X-KDE-IsAlso=inode/directory
+

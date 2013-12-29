@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Icon=cdrom_mount_decrypt
+Type=MimeType
+MimeType=media/cdrom_mounted_decrypted
+Comment=Mounted Decrypted CD-ROM
+Comment[de]=Eingebundene, entschlüsselte CD-ROM
+Patterns=
+
+X-KDE-AutoEmbed=true
+X-KDE-IsAlso=inode/directory
+
