@@ -14,8 +14,8 @@
     <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description></description>
-    <defaultencoding></defaultencoding>
+    <description/>
+    <defaultencoding/>
     <versioncontrol/>
   </general>
   <kdevfileview>
@@ -74,10 +74,10 @@
   <kdevdebugger>
     <general>
       <dbgshell>libtool</dbgshell>
-      <gdbpath></gdbpath>
-      <configGdbScript></configGdbScript>
-      <runShellScript></runShellScript>
-      <runGdbScript></runGdbScript>
+      <gdbpath/>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
@@ -132,7 +132,7 @@
       <includePaths>.;</includePaths>
     </codecompletion>
     <creategettersetter>
-      <prefixGet></prefixGet>
+      <prefixGet/>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
@@ -161,13 +161,13 @@
       <runmultiplejobs>false</runmultiplejobs>
       <numberofjobs>3</numberofjobs>
       <dontact>false</dontact>
-      <makebin></makebin>
+      <makebin/>
       <prio>0</prio>
     </make>
     <run>
       <mainprogram>/home/rainman/projects/kde/kdebase</mainprogram>
-      <programargs></programargs>
-      <globaldebugarguments></globaldebugarguments>
+      <programargs/>
+      <globaldebugarguments/>
       <globalcwd>/home/rainman/projects/kde/kdebase</globalcwd>
       <useglobalprogram>false</useglobalprogram>
       <terminal>false</terminal>
@@ -177,11 +177,11 @@
       <envvars/>
       <runarguments>
         <kdialog/>
-        <krandrtray></krandrtray>
+        <krandrtray/>
       </runarguments>
       <debugarguments>
         <kdialog/>
-        <krandrtray></krandrtray>
+        <krandrtray/>
       </debugarguments>
       <cwd>
         <kdialog>/home/rainman/projects/kde/kdebase/./</kdialog>
@@ -242,7 +242,7 @@
     </projectdoc>
   </kdevdocumentation>
   <ctagspart>
-    <customArguments></customArguments>
+    <customArguments/>
     <customTagfilePath>/home/rainman/projects/kde/kdebase/tags</customTagfilePath>
     <activeTagsFiles>
       <file>/usr/local/share/ctags/tags</file>
