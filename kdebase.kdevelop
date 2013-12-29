@@ -165,16 +165,18 @@
       <prio>0</prio>
     </make>
     <run>
-      <mainprogram>/home/rainman/projects/kde/kdebase</mainprogram>
-      <programargs/>
+      <mainprogram>/home/rainman/projects/kde/kdebase/dbg_x86_64-pc-linux-gnu/kdm/backend/kdm</mainprogram>
+      <programargs>-nodaemon</programargs>
       <globaldebugarguments/>
-      <globalcwd>/home/rainman/projects/kde/kdebase</globalcwd>
-      <useglobalprogram>false</useglobalprogram>
+      <globalcwd>/home/rainman/projects/kde/kdebase/dbg_x86_64-pc-linux-gnu/kdm/backend/</globalcwd>
+      <useglobalprogram>true</useglobalprogram>
       <terminal>false</terminal>
       <autocompile>false</autocompile>
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
-      <envvars/>
+      <envvars>
+        <envvar value=":1" name="DISPLAY" />
+      </envvars>
       <runarguments>
         <kdialog/>
         <krandrtray/>
@@ -222,8 +224,8 @@
         <ccompilerbinary/>
         <cxxcompilerbinary/>
         <f77compilerbinary/>
-        <cflags>-O0 -Wall -ggdb3 -fno-omit-frame-pointer</cflags>
-        <cxxflags>-O0 -Wall -ggdb3 -fno-omit-frame-pointer</cxxflags>
+        <cflags>-O0 -ggdb3 -fno-omit-frame-pointer -W -Wall -Wchar-subscripts -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wformat-security -Wmissing-format-attribute -Wimplicit-function-declaration</cflags>
+        <cxxflags>-O0 -ggdb3 -fno-omit-frame-pointer -W -Wall -Wchar-subscripts -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wformat-security -Wmissing-format-attribute -Wimplicit-function-declaration</cxxflags>
         <f77flags/>
       </dbg_x86_64-pc-linux-gnu>
     </configurations>

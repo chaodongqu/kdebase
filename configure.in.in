@@ -23,7 +23,6 @@ AC_CHECK_HEADERS(sys/time.h crypt.h \
 AC_CHECK_HEADER(pty.h)
 AC_CHECK_FUNC(ptsname,,)
 
-
 dnl Checks for Alib on HP-UX (added by deller, Apr 29 1999)
 AC_CHECK_LIB(Alib, main, [LIBALIB="-lAlib"]) dnl HP-UX network audio server
 AC_SUBST(LIBALIB)
@@ -206,7 +205,6 @@ AC_SUBST(LIB_XRENDER)
 
 LDFLAGS="$ac_save_ldflags"
 dnl ----- end of X11 extension checks -----
-
 
 CXXFLAGS="$CXXFLAGS $KDE_DEFAULT_CXXFLAGS"
 
