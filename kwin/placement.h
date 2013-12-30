@@ -19,10 +19,10 @@ License. See the file "COPYING" for the exact licensing terms.
 namespace KWinInternal
 {
 
-class Workspace;
-class Client;
+    class Workspace;
+    class Client;
 
-class Placement
+    class Placement
     {
     public:
 
@@ -35,7 +35,7 @@ class Placement
          * is nil compared to the creation of the window itself in the memory
          */
         enum Policy
-            {
+        {
             NoPlacement, // not really a placement
             Default, // special, means to use the global default
             Unknown, // special, means the function should use its default
@@ -46,41 +46,43 @@ class Placement
             ZeroCornered,
             UnderMouse, // special
             OnMainWindow, // special
-            Maximizing
-            };
+            Maximizing,
+            Tiled
+        };
 
-        void place(Client* c, QRect& area );
-        
-        void placeAtRandom            (Client* c, const QRect& area, Policy next = Unknown );
-        void placeCascaded            (Client* c, QRect& area, Policy next = Unknown );
-        void placeSmart               (Client* c, const QRect& area, Policy next = Unknown );
-        void placeMaximizing          (Client* c, QRect& area, Policy next = Unknown );
-        void placeCentered    (Client* c, const QRect& area, Policy next = Unknown );
-        void placeZeroCornered(Client* c, const QRect& area, Policy next = Unknown );
-        void placeDialog      (Client* c, QRect& area, Policy next = Unknown );
-        void placeUtility     (Client* c, QRect& area, Policy next = Unknown );
+        void place(Client* c, QRect& area);
 
-        void reinitCascading( int desktop );
+        void placeAtRandom(Client* c, const QRect& area, Policy next = Unknown);
+        void placeCascaded(Client* c, QRect& area, Policy next = Unknown);
+        void placeSmart(Client* c, const QRect& area, Policy next = Unknown);
+        void placeMaximizing(Client* c, QRect& area, Policy next = Unknown);
+        void placeTiled(Client* c, QRect& area, Policy next = Tiled);
+        void placeCentered(Client* c, const QRect& area, Policy next = Unknown);
+        void placeZeroCornered(Client* c, const QRect& area, Policy next = Unknown);
+        void placeDialog(Client* c, QRect& area, Policy next = Unknown);
+        void placeUtility(Client* c, QRect& area, Policy next = Unknown);
 
-        static Policy policyFromString( const QString& policy, bool no_special );
-        static const char* policyToString( Policy policy );
+        void reinitCascading(int desktop);
+
+        static Policy policyFromString(const QString& policy, bool no_special);
+        static const char* policyToString(Policy policy);
 
     private:
 
-        void place(Client* c, QRect& area, Policy policy, Policy nextPlacement = Unknown );
-        void placeUnderMouse(Client* c, QRect& area, Policy next = Unknown );
-        void placeOnMainWindow(Client* c, QRect& area, Policy next = Unknown );
-        QRect checkArea( const Client*c, const QRect& area );
+        void place(Client* c, QRect& area, Policy policy, Policy nextPlacement = Unknown);
+        void placeUnderMouse(Client* c, QRect& area, Policy next = Unknown);
+        void placeOnMainWindow(Client* c, QRect& area, Policy next = Unknown);
+        QRect checkArea(const Client*c, const QRect& area);
 
         Placement();
 
-    //CT needed for cascading+
-        struct DesktopCascadingInfo 
-            {
+        //CT needed for cascading+
+        struct DesktopCascadingInfo
+        {
             QPoint pos;
             int col;
             int row;
-            };
+        };
 
         QValueList<DesktopCascadingInfo> cci;
 
@@ -90,3 +92,4 @@ class Placement
 } // namespace
 
 #endif
+//kate: space-indent on; tab-width 4; indent-width 4; indent-mode cstyle; encoding UTF-8;
