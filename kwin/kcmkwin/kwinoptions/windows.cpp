@@ -894,6 +894,7 @@ KMovingConfig::KMovingConfig(bool _standAlone, KConfig *_config, QWidget *parent
   placementCombo = new QComboBox(false, windowsBox);
   placementCombo->insertItem(i18n("Smart"), SMART_PLACEMENT);
   placementCombo->insertItem(i18n("Maximizing"), MAXIMIZING_PLACEMENT);
+  placementCombo->insertItem(i18n("Tiled"), TILED_PLACEMENT);
   placementCombo->insertItem(i18n("Cascade"), CASCADE_PLACEMENT);
   placementCombo->insertItem(i18n("Random"), RANDOM_PLACEMENT);
   placementCombo->insertItem(i18n("Centered"), CENTERED_PLACEMENT);
@@ -1110,6 +1111,7 @@ void KMovingConfig::load(void) {
   else if (key == "Centered") setPlacement(CENTERED_PLACEMENT);
   else if (key == "ZeroCornered") setPlacement(ZEROCORNERED_PLACEMENT);
   else if (key == "Maximizing") setPlacement(MAXIMIZING_PLACEMENT);
+  else if (key == "Tiled") setPlacement(TILED_PLACEMENT);
   else setPlacement(SMART_PLACEMENT);
   // }
 
@@ -1149,6 +1151,7 @@ void KMovingConfig::save(void) {
   else if (v == CENTERED_PLACEMENT) config->writeEntry(KWIN_PLACEMENT, "Centered");
   else if (v == ZEROCORNERED_PLACEMENT) config->writeEntry(KWIN_PLACEMENT, "ZeroCornered");
   else if (v == MAXIMIZING_PLACEMENT) config->writeEntry(KWIN_PLACEMENT, "Maximizing");
+  else if (v == TILED_PLACEMENT) config->writeEntry(KWIN_PLACEMENT, "Tiled");
 //CT 13mar98 manual and interactive placement
 // else if (v == MANUAL_PLACEMENT)
 //   config->writeEntry(KWIN_PLACEMENT, "Manual");
@@ -1184,7 +1187,7 @@ void KMovingConfig::defaults() {
   setMove(OPAQUE);
   setResizeOpaque(RESIZE_TRANSPARENT);
   setGeometryTip(false);
-  setPlacement(SMART_PLACEMENT);
+  setPlacement(TILED_PLACEMENT);
   setMoveResizeMaximized(false);
 
   //copied from kcontrol/konq/kwindesktop, aleXXX
