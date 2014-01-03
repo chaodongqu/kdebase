@@ -61,6 +61,7 @@ namespace KWinInternal
     else if (policy == UnderMouse) placeUnderMouse(c, area, nextPlacement);
     else if (policy == OnMainWindow) placeOnMainWindow(c, area, nextPlacement);
     else if (policy == Maximizing) placeMaximizing(c, area, nextPlacement);
+    else if (policy == Tiled) placeTiled(c, area, nextPlacement);
     else placeSmart(c, area, nextPlacement);
   }
 
@@ -366,6 +367,7 @@ namespace KWinInternal
       Place windows in tiled manner
   */
   void Placement::placeTiled(Client* c, const QRect& area, Policy next) {
+    c->move(0, 0);
   }
 
   /*!
@@ -492,6 +494,7 @@ namespace KWinInternal
     else if (policy == "UnderMouse" && !no_special) return UnderMouse;
     else if (policy == "OnMainWindow" && !no_special) return OnMainWindow;
     else if (policy == "Maximizing") return Maximizing;
+    else if (policy == "Tiled") return Tiled;
     else return Smart;
   }
 
@@ -499,7 +502,7 @@ namespace KWinInternal
     const char* const policies[] = {
       "NoPlacement", "Default", "XXX should never see",
       "Random", "Smart", "Cascade", "Centered", "ZeroCornered",
-      "UnderMouse", "OnMainWindow", "Maximizing"};
+      "UnderMouse", "OnMainWindow", "Maximizing", "Tiled"};
     assert(policy < int(sizeof(policies) / sizeof(policies[0])));
     return policies[policy];
   }
