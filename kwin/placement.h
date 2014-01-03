@@ -56,7 +56,7 @@ namespace KWinInternal
         void placeCascaded(Client* c, QRect& area, Policy next = Unknown);
         void placeSmart(Client* c, const QRect& area, Policy next = Unknown);
         void placeMaximizing(Client* c, QRect& area, Policy next = Unknown);
-        void placeTiled(Client* c, QRect& area, Policy next = Tiled);
+        void placeTiled(Client* c, const QRect& area, Policy next = Tiled);
         void placeCentered(Client* c, const QRect& area, Policy next = Unknown);
         void placeZeroCornered(Client* c, const QRect& area, Policy next = Unknown);
         void placeDialog(Client* c, QRect& area, Policy next = Unknown);
