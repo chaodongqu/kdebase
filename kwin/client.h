@@ -1,3 +1,4 @@
+//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*****************************************************************
  KWin - the KDE window manager
  This file is part of the KDE project.
@@ -36,435 +37,436 @@ class KStartupInfoData;
 
 namespace KWinInternal
 {
+  class Workspace;
+  class Client;
+  class WinInfo;
+  class SessionInfo;
+  class Bridge;
 
-    class Workspace;
-    class Client;
-    class WinInfo;
-    class SessionInfo;
-    class Bridge;
+  class Client : public QObject, public KDecorationDefines
+  {
+    Q_OBJECT
+  public:
+    Client(Workspace *ws);
+    Window window() const;
+    Window frameId() const;
+    Window wrapperId() const;
+    Window decorationId() const;
 
-    class Client : public QObject, public KDecorationDefines
+    Workspace* workspace() const;
+    const Client* transientFor() const;
+    Client* transientFor();
+    bool isTransient() const;
+    bool groupTransient() const;
+    bool wasOriginallyGroupTransient() const;
+    ClientList mainClients() const; // call once before loop , is not indirect
+    bool hasTransient(const Client* c, bool indirect) const;
+    const ClientList& transients() const; // is not indirect
+    void checkTransient(Window w);
+    Client* findModal();
+    const Group* group() const;
+    Group* group();
+    void checkGroup(Group* gr = NULL, bool force = false);
+    void changeClientLeaderGroup(Group* gr);
+    // prefer isXXX() instead
+    NET::WindowType windowType(bool direct = false, int supported_types = SUPPORTED_WINDOW_TYPES_MASK) const;
+    const WindowRules* rules() const;
+    void removeRule(Rules* r);
+    void setupWindowRules(bool ignore_temporary);
+    void applyWindowRules();
+    void updateWindowRules();
+
+    QRect geometry() const;
+    QSize size() const;
+    QSize minSize() const;
+    QSize maxSize() const;
+    QPoint pos() const;
+    QRect rect() const;
+    int x() const;
+    int y() const;
+    int width() const;
+    int height() const;
+    QPoint clientPos() const; // inside of geometry()
+    QSize clientSize() const;
+
+    bool windowEvent(XEvent* e);
+    virtual bool eventFilter(QObject* o, QEvent* e);
+
+    bool manage(Window w, bool isMapped);
+
+    void releaseWindow(bool on_shutdown = false);
+
+    enum Sizemode // how to resize the window in order to obey constains (mainly aspect ratios)
     {
-        Q_OBJECT
-    public:
-        Client(Workspace *ws);
-        Window window() const;
-        Window frameId() const;
-        Window wrapperId() const;
-        Window decorationId() const;
+      SizemodeAny,
+      SizemodeFixedW, // try not to affect width
+      SizemodeFixedH, // try not to affect height
+      SizemodeMax // try not to make it larger in either direction
+    };
+    QSize adjustedSize(const QSize&, Sizemode mode = SizemodeAny) const;
+    QSize adjustedSize() const;
 
-        Workspace* workspace() const;
-        const Client* transientFor() const;
-        Client* transientFor();
-        bool isTransient() const;
-        bool groupTransient() const;
-        bool wasOriginallyGroupTransient() const;
-        ClientList mainClients() const; // call once before loop , is not indirect
-        bool hasTransient(const Client* c, bool indirect) const;
-        const ClientList& transients() const; // is not indirect
-        void checkTransient(Window w);
-        Client* findModal();
-        const Group* group() const;
-        Group* group();
-        void checkGroup(Group* gr = NULL, bool force = false);
-        void changeClientLeaderGroup(Group* gr);
-        // prefer isXXX() instead
-        NET::WindowType windowType(bool direct = false, int supported_types = SUPPORTED_WINDOW_TYPES_MASK) const;
-        const WindowRules* rules() const;
-        void removeRule(Rules* r);
-        void setupWindowRules(bool ignore_temporary);
-        void applyWindowRules();
-        void updateWindowRules();
+    QPixmap icon() const;
+    QPixmap miniIcon() const;
 
-        QRect geometry() const;
-        QSize size() const;
-        QSize minSize() const;
-        QSize maxSize() const;
-        QPoint pos() const;
-        QRect rect() const;
-        int x() const;
-        int y() const;
-        int width() const;
-        int height() const;
-        QPoint clientPos() const; // inside of geometry()
-        QSize clientSize() const;
+    bool isActive() const;
+    void setActive(bool, bool updateOpacity = true);
 
-        bool windowEvent(XEvent* e);
-        virtual bool eventFilter(QObject* o, QEvent* e);
+    int desktop() const;
+    void setDesktop(int);
+    bool isOnDesktop(int d) const;
+    bool isOnCurrentDesktop() const;
+    bool isOnAllDesktops() const;
+    void setOnAllDesktops(bool set);
 
-        bool manage(Window w, bool isMapped);
+    bool isOnScreen(int screen) const;   // true if it's at least partially there
+    int screen() const; // the screen where the center is
 
-        void releaseWindow(bool on_shutdown = false);
+    // !isMinimized() && not hidden, i.e. normally visible on some virtual desktop
+    bool isShown(bool shaded_is_shown) const;
 
-        enum Sizemode // how to resize the window in order to obey constains (mainly aspect ratios)
-        {
-            SizemodeAny,
-            SizemodeFixedW, // try not to affect width
-            SizemodeFixedH, // try not to affect height
-            SizemodeMax // try not to make it larger in either direction
-        };
-        QSize adjustedSize(const QSize&, Sizemode mode = SizemodeAny) const;
-        QSize adjustedSize() const;
+    bool isShade() const; // true only for ShadeNormal
+    ShadeMode shadeMode() const; // prefer isShade()
+    void setShade(ShadeMode mode);
+    bool isShadeable() const;
 
-        QPixmap icon() const;
-        QPixmap miniIcon() const;
+    bool isTiled() const;
 
-        bool isActive() const;
-        void setActive(bool, bool updateOpacity = true);
+    bool isMinimized() const;
+    bool isMaximizable() const;
+    QRect geometryRestore() const;
+    MaximizeMode maximizeModeRestore() const;
+    MaximizeMode maximizeMode() const;
+    bool isMinimizable() const;
+    void setMaximize(bool vertically, bool horizontally);
 
-        int desktop() const;
-        void setDesktop(int);
-        bool isOnDesktop(int d) const;
-        bool isOnCurrentDesktop() const;
-        bool isOnAllDesktops() const;
-        void setOnAllDesktops(bool set);
+    void setFullScreen(bool set, bool user);
+    bool isFullScreen() const;
+    bool isFullScreenable(bool fullscreen_hack = false) const;
+    bool userCanSetFullScreen() const;
+    QRect geometryFSRestore() const { return geom_fs_restore; } // only for session saving
+    int fullScreenMode() const { return fullscreen_mode; } // only for session saving
 
-        bool isOnScreen(int screen) const;   // true if it's at least partially there
-        int screen() const; // the screen where the center is
+    bool isUserNoBorder() const;
+    void setUserNoBorder(bool set);
+    bool userCanSetNoBorder() const;
+    bool noBorder() const;
 
-        // !isMinimized() && not hidden, i.e. normally visible on some virtual desktop
-        bool isShown(bool shaded_is_shown) const;
+    bool skipTaskbar(bool from_outside = false) const;
+    void setSkipTaskbar(bool set, bool from_outside);
 
-        bool isShade() const; // true only for ShadeNormal
-        ShadeMode shadeMode() const; // prefer isShade()
-        void setShade(ShadeMode mode);
-        bool isShadeable() const;
+    bool skipPager() const;
+    void setSkipPager(bool);
 
-        bool isMinimized() const;
-        bool isMaximizable() const;
-        QRect geometryRestore() const;
-        MaximizeMode maximizeModeRestore() const;
-        MaximizeMode maximizeMode() const;
-        bool isMinimizable() const;
-        void setMaximize(bool vertically, bool horizontally);
+    bool keepAbove() const;
+    void setKeepAbove(bool);
+    bool keepBelow() const;
+    void setKeepBelow(bool);
+    Layer layer() const;
+    Layer belongsToLayer() const;
+    void invalidateLayer();
 
-        void setFullScreen(bool set, bool user);
-        bool isFullScreen() const;
-        bool isFullScreenable(bool fullscreen_hack = false) const;
-        bool userCanSetFullScreen() const;
-        QRect geometryFSRestore() const { return geom_fs_restore; } // only for session saving
-        int fullScreenMode() const { return fullscreen_mode; } // only for session saving
+    void setModal(bool modal);
+    bool isModal() const;
 
-        bool isUserNoBorder() const;
-        void setUserNoBorder(bool set);
-        bool userCanSetNoBorder() const;
-        bool noBorder() const;
+    // auxiliary functions, depend on the windowType
+    bool wantsTabFocus() const;
+    bool wantsInput() const;
+    bool hasNETSupport() const;
+    bool isMovable() const;
+    bool isDesktop() const;
+    bool isDock() const;
+    bool isToolbar() const;
+    bool isTopMenu() const;
+    bool isMenu() const;
+    bool isNormalWindow() const; // normal as in 'NET::Normal or NET::Unknown non-transient'
+    bool isDialog() const;
+    bool isSplash() const;
+    bool isUtility() const;
+    // returns true for "special" windows and false for windows which are "normal"
+    // (normal=window which has a border, can be moved by the user, can be closed, etc.)
+    // true for Desktop, Dock, Splash, Override and TopMenu (and Toolbar??? - for now)
+    // false for Normal, Dialog, Utility and Menu (and Toolbar??? - not yet) TODO
+    bool isSpecialWindow() const;
 
-        bool skipTaskbar(bool from_outside = false) const;
-        void setSkipTaskbar(bool set, bool from_outside);
+    bool isResizable() const;
+    bool isCloseable() const; // may be closed by the user (may have a close button)
 
-        bool skipPager() const;
-        void setSkipPager(bool);
+    void takeActivity(int flags, bool handled, allowed_t);   // takes ActivityFlags as arg (in utils.h)
+    void takeFocus(allowed_t);
+    void demandAttention(bool set = true);
 
-        bool keepAbove() const;
-        void setKeepAbove(bool);
-        bool keepBelow() const;
-        void setKeepBelow(bool);
-        Layer layer() const;
-        Layer belongsToLayer() const;
-        void invalidateLayer();
+    void setMask(const QRegion& r, int mode = X::Unsorted);
+    QRegion mask() const;
 
-        void setModal(bool modal);
-        bool isModal() const;
+    void updateDecoration(bool check_workspace_pos, bool force = false);
+    void checkBorderSizes();
 
-        // auxiliary functions, depend on the windowType
-        bool wantsTabFocus() const;
-        bool wantsInput() const;
-        bool hasNETSupport() const;
-        bool isMovable() const;
-        bool isDesktop() const;
-        bool isDock() const;
-        bool isToolbar() const;
-        bool isTopMenu() const;
-        bool isMenu() const;
-        bool isNormalWindow() const; // normal as in 'NET::Normal or NET::Unknown non-transient'
-        bool isDialog() const;
-        bool isSplash() const;
-        bool isUtility() const;
-        // returns true for "special" windows and false for windows which are "normal"
-        // (normal=window which has a border, can be moved by the user, can be closed, etc.)
-        // true for Desktop, Dock, Splash, Override and TopMenu (and Toolbar??? - for now)
-        // false for Normal, Dialog, Utility and Menu (and Toolbar??? - not yet) TODO
-        bool isSpecialWindow() const;
+    // shape extensions
+    bool shape() const;
+    void updateShape();
 
-        bool isResizable() const;
-        bool isCloseable() const; // may be closed by the user (may have a close button)
+    void setGeometry(int x, int y, int w, int h, ForceGeometry_t force = NormalGeometrySet);
+    void setGeometry(const QRect& r, ForceGeometry_t force = NormalGeometrySet);
+    void move(int x, int y, ForceGeometry_t force = NormalGeometrySet);
+    void move(const QPoint & p, ForceGeometry_t force = NormalGeometrySet);
+    // plainResize() simply resizes
+    void plainResize(int w, int h, ForceGeometry_t force = NormalGeometrySet);
+    void plainResize(const QSize& s, ForceGeometry_t force = NormalGeometrySet);
+    // resizeWithChecks() resizes according to gravity, and checks workarea position
+    void resizeWithChecks(int w, int h, ForceGeometry_t force = NormalGeometrySet);
+    void resizeWithChecks(const QSize& s, ForceGeometry_t force = NormalGeometrySet);
+    void keepInArea(QRect area, bool partial = false);
 
-        void takeActivity(int flags, bool handled, allowed_t);   // takes ActivityFlags as arg (in utils.h)
-        void takeFocus(allowed_t);
-        void demandAttention(bool set = true);
+    void growHorizontal();
+    void shrinkHorizontal();
+    void growVertical();
+    void shrinkVertical();
 
-        void setMask(const QRegion& r, int mode = X::Unsorted);
-        QRegion mask() const;
+    bool providesContextHelp() const;
+    KShortcut shortcut() const;
+    void setShortcut(const QString& cut);
 
-        void updateDecoration(bool check_workspace_pos, bool force = false);
-        void checkBorderSizes();
+    bool performMouseCommand(Options::MouseCommand, QPoint globalPos, bool handled = false);
 
-        // shape extensions
-        bool shape() const;
-        void updateShape();
+    QCString windowRole() const;
+    QCString sessionId();
+    QCString resourceName() const;
+    QCString resourceClass() const;
+    QCString wmCommand();
+    QCString wmClientMachine(bool use_localhost) const;
+    Window   wmClientLeader() const;
+    pid_t pid() const;
 
-        void setGeometry(int x, int y, int w, int h, ForceGeometry_t force = NormalGeometrySet);
-        void setGeometry(const QRect& r, ForceGeometry_t force = NormalGeometrySet);
-        void move(int x, int y, ForceGeometry_t force = NormalGeometrySet);
-        void move(const QPoint & p, ForceGeometry_t force = NormalGeometrySet);
-        // plainResize() simply resizes
-        void plainResize(int w, int h, ForceGeometry_t force = NormalGeometrySet);
-        void plainResize(const QSize& s, ForceGeometry_t force = NormalGeometrySet);
-        // resizeWithChecks() resizes according to gravity, and checks workarea position
-        void resizeWithChecks(int w, int h, ForceGeometry_t force = NormalGeometrySet);
-        void resizeWithChecks(const QSize& s, ForceGeometry_t force = NormalGeometrySet);
-        void keepInArea(QRect area, bool partial = false);
+    QRect adjustedClientArea(const QRect& desktop, const QRect& area) const;
 
-        void growHorizontal();
-        void shrinkHorizontal();
-        void growVertical();
-        void shrinkVertical();
+    Colormap colormap() const;
 
-        bool providesContextHelp() const;
-        KShortcut shortcut() const;
-        void setShortcut(const QString& cut);
+    // updates visibility depending on being shaded, virtual desktop, etc.
+    void updateVisibility();
+    // hides a client - basically like minimize, but without effects, it's simply hidden
+    void hideClient(bool hide);
 
-        bool performMouseCommand(Options::MouseCommand, QPoint globalPos, bool handled = false);
+    QString caption(bool full = true) const;
+    void updateCaption();
 
-        QCString windowRole() const;
-        QCString sessionId();
-        QCString resourceName() const;
-        QCString resourceClass() const;
-        QCString wmCommand();
-        QCString wmClientMachine(bool use_localhost) const;
-        Window   wmClientLeader() const;
-        pid_t pid() const;
+    void keyPressEvent(uint key_code);   // FRAME ??
+    void updateMouseGrab();
+    Window moveResizeGrabWindow() const;
 
-        QRect adjustedClientArea(const QRect& desktop, const QRect& area) const;
+    const QPoint calculateGravitation(bool invert, int gravity = 0) const;   // FRAME public?
 
-        Colormap colormap() const;
+    void NETMoveResize(int x_root, int y_root, NET::Direction direction);
+    void NETMoveResizeWindow(int flags, int x, int y, int width, int height);
+    void restackWindow(Window above, int detail, NET::RequestSource source, Time timestamp, bool send_event = false);
 
-        // updates visibility depending on being shaded, virtual desktop, etc.
-        void updateVisibility();
-        // hides a client - basically like minimize, but without effects, it's simply hidden
-        void hideClient(bool hide);
+    void gotPing(Time timestamp);
 
-        QString caption(bool full = true) const;
-        void updateCaption();
+    static QCString staticWindowRole(WId);
+    static QCString staticSessionId(WId);
+    static QCString staticWmCommand(WId);
+    static QCString staticWmClientMachine(WId);
+    static Window   staticWmClientLeader(WId);
 
-        void keyPressEvent(uint key_code);   // FRAME ??
-        void updateMouseGrab();
-        Window moveResizeGrabWindow() const;
+    void checkWorkspacePosition();
+    void updateUserTime(Time time = CurrentTime);
+    Time userTime() const;
+    bool hasUserTimeSupport() const;
+    bool ignoreFocusStealing() const;
 
-        const QPoint calculateGravitation(bool invert, int gravity = 0) const;   // FRAME public?
+    // does 'delete c;'
+    static void deleteClient(Client* c, allowed_t);
 
-        void NETMoveResize(int x_root, int y_root, NET::Direction direction);
-        void NETMoveResizeWindow(int flags, int x, int y, int width, int height);
-        void restackWindow(Window above, int detail, NET::RequestSource source, Time timestamp, bool send_event = false);
+    static bool resourceMatch(const Client* c1, const Client* c2);
+    static bool belongToSameApplication(const Client* c1, const Client* c2, bool active_hack = false);
+    static void readIcons(Window win, QPixmap* icon, QPixmap* miniicon);
 
-        void gotPing(Time timestamp);
+    void minimize(bool avoid_animation = false);
+    void unminimize(bool avoid_animation = false);
+    void closeWindow();
+    void killWindow();
+    void maximize(MaximizeMode);
+    void toggleShade();
+    void showContextHelp();
+    void cancelShadeHover();
+    void cancelAutoRaise();
+    void destroyClient();
+    void checkActiveModal();
+    void setOpacity(bool translucent, uint opacity = 0);
+    void setShadowSize(uint shadowSize);
+    void updateOpacity();
+    void updateShadowSize();
+    bool hasCustomOpacity(){return custom_opacity;}
+    void setCustomOpacityFlag(bool custom = true);
+    bool getWindowOpacity();
+    int opacityPercentage();
+    void checkAndSetInitialRuledOpacity();
+    uint ruleOpacityInactive();
+    uint ruleOpacityActive();
+    unsigned int opacity();
+    bool isBMP();
+    void setBMP(bool b);
+    bool touches(const Client* c);
+    void setShapable(bool b);
+    bool hasStrut() const;
 
-        static QCString staticWindowRole(WId);
-        static QCString staticSessionId(WId);
-        static QCString staticWmCommand(WId);
-        static QCString staticWmClientMachine(WId);
-        static Window   staticWmClientLeader(WId);
+private slots:
+    void autoRaise();
+    void shadeHover();
+    void shortcutActivated();
 
-        void checkWorkspacePosition();
-        void updateUserTime(Time time = CurrentTime);
-        Time userTime() const;
-        bool hasUserTimeSupport() const;
-        bool ignoreFocusStealing() const;
+private:
+    friend class Bridge; // FRAME
+    virtual void processMousePressEvent(QMouseEvent* e);
 
-        // does 'delete c;'
-        static void deleteClient(Client* c, allowed_t);
+private: // TODO cleanup the order of things in the .h file
+    // use Workspace::createClient()
+    virtual ~Client(); // use destroyClient() or releaseWindow()
 
-        static bool resourceMatch(const Client* c1, const Client* c2);
-        static bool belongToSameApplication(const Client* c1, const Client* c2, bool active_hack = false);
-        static void readIcons(Window win, QPixmap* icon, QPixmap* miniicon);
+    Position mousePosition(const QPoint&) const;
+    void setCursor(Position m);
+    void setCursor(const QCursor& c);
 
-        void minimize(bool avoid_animation = false);
-        void unminimize(bool avoid_animation = false);
-        void closeWindow();
-        void killWindow();
-        void maximize(MaximizeMode);
-        void toggleShade();
-        void showContextHelp();
-        void cancelShadeHover();
-        void cancelAutoRaise();
-        void destroyClient();
-        void checkActiveModal();
-        void setOpacity(bool translucent, uint opacity = 0);
-        void setShadowSize(uint shadowSize);
-        void updateOpacity();
-        void updateShadowSize();
-        bool hasCustomOpacity(){return custom_opacity;}
-        void setCustomOpacityFlag(bool custom = true);
-        bool getWindowOpacity();
-        int opacityPercentage();
-        void checkAndSetInitialRuledOpacity();
-        uint ruleOpacityInactive();
-        uint ruleOpacityActive();
-        unsigned int opacity();
-        bool isBMP();
-        void setBMP(bool b);
-        bool touches(const Client* c);
-        void setShapable(bool b);
-        bool hasStrut() const;
+    void  animateMinimizeOrUnminimize(bool minimize);
+    QPixmap animationPixmap(int w);
+    // transparent stuff
+    void drawbound(const QRect& geom);
+    void clearbound();
+    void doDrawbound(const QRect& geom, bool clear);
 
-    private slots:
-        void autoRaise();
-        void shadeHover();
-        void shortcutActivated();
+    // handlers for X11 events
+    bool mapRequestEvent(XMapRequestEvent* e);
+    void unmapNotifyEvent(XUnmapEvent*e);
+    void destroyNotifyEvent(XDestroyWindowEvent*e);
+    void configureRequestEvent(XConfigureRequestEvent* e);
+    void propertyNotifyEvent(XPropertyEvent* e);
+    void clientMessageEvent(XClientMessageEvent* e);
+    void enterNotifyEvent(XCrossingEvent* e);
+    void leaveNotifyEvent(XCrossingEvent* e);
+    void focusInEvent(XFocusInEvent* e);
+    void focusOutEvent(XFocusOutEvent* e);
 
-    private:
-        friend class Bridge; // FRAME
-        virtual void processMousePressEvent(QMouseEvent* e);
+    bool buttonPressEvent(Window w, int button, int state, int x, int y, int x_root, int y_root);
+    bool buttonReleaseEvent(Window w, int button, int state, int x, int y, int x_root, int y_root);
+    bool motionNotifyEvent(Window w, int state, int x, int y, int x_root, int y_root);
 
-    private: // TODO cleanup the order of things in the .h file
-        // use Workspace::createClient()
-        virtual ~Client(); // use destroyClient() or releaseWindow()
+    void processDecorationButtonPress(int button, int state, int x, int y, int x_root, int y_root);
 
-        Position mousePosition(const QPoint&) const;
-        void setCursor(Position m);
-        void setCursor(const QCursor& c);
+private slots:
+    void pingTimeout();
+    void processKillerExited();
+    void demandAttentionKNotify();
 
-        void  animateMinimizeOrUnminimize(bool minimize);
-        QPixmap animationPixmap(int w);
-        // transparent stuff
-        void drawbound(const QRect& geom);
-        void clearbound();
-        void doDrawbound(const QRect& geom, bool clear);
+private:
+    // ICCCM 4.1.3.1, 4.1.4 , NETWM 2.5.1
+    void setMappingState(int s);
+    int mappingState() const;
+    bool isIconicState() const;
+    bool isNormalState() const;
+    bool isManaged() const; // returns false if this client is not yet managed
+    void updateAllowedActions(bool force = false);
+    QSize sizeForClientSize(const QSize&, Sizemode mode = SizemodeAny, bool noframe = false) const;
+    void changeMaximize(bool horizontal, bool vertical, bool adjust);
+    void checkMaximizeGeometry();
+    int checkFullScreenHack(const QRect& geom) const;   // 0 - none, 1 - one xinerama screen, 2 - full area
+    void updateFullScreenHack(const QRect& geom);
+    void getWmNormalHints();
+    void getMotifHints();
+    void getIcons();
+    void getWmClientLeader();
+    void getWmClientMachine();
+    void fetchName();
+    void fetchIconicName();
+    QString readName() const;
+    void setCaption(const QString& s, bool force = false);
+    bool hasTransientInternal(const Client* c, bool indirect, ConstClientList& set) const;
+    void finishWindowRules();
+    void setShortcutInternal(const KShortcut& cut);
 
-        // handlers for X11 events
-        bool mapRequestEvent(XMapRequestEvent* e);
-        void unmapNotifyEvent(XUnmapEvent*e);
-        void destroyNotifyEvent(XDestroyWindowEvent*e);
-        void configureRequestEvent(XConfigureRequestEvent* e);
-        void propertyNotifyEvent(XPropertyEvent* e);
-        void clientMessageEvent(XClientMessageEvent* e);
-        void enterNotifyEvent(XCrossingEvent* e);
-        void leaveNotifyEvent(XCrossingEvent* e);
-        void focusInEvent(XFocusInEvent* e);
-        void focusOutEvent(XFocusOutEvent* e);
+    void updateWorkareaDiffs();
+    void checkDirection(int new_diff, int old_diff, QRect& rect, const QRect& area);
+    static int computeWorkareaDiff(int left, int right, int a_left, int a_right);
+    void configureRequest(int value_mask, int rx, int ry, int rw, int rh, int gravity, bool from_tool);
+    NETExtendedStrut strut() const;
+    int checkShadeGeometry(int w, int h);
+    void postponeGeometryUpdates(bool postpone);
 
-        bool buttonPressEvent(Window w, int button, int state, int x, int y, int x_root, int y_root);
-        bool buttonReleaseEvent(Window w, int button, int state, int x, int y, int x_root, int y_root);
-        bool motionNotifyEvent(Window w, int state, int x, int y, int x_root, int y_root);
+    bool startMoveResize();
+    void finishMoveResize(bool cancel);
+    void leaveMoveResize();
+    void checkUnrestrictedMoveResize();
+    void handleMoveResize(int x, int y, int x_root, int y_root);
+    void positionGeometryTip();
+    void grabButton(int mod);
+    void ungrabButton(int mod);
+    void resetMaximize();
+    void resizeDecoration(const QSize& s);
+    void setDecoHashProperty(uint topHeight, uint rightWidth, uint bottomHeight, uint leftWidth);
+    void unsetDecoHashProperty();
 
-        void processDecorationButtonPress(int button, int state, int x, int y, int x_root, int y_root);
+    void pingWindow();
+    void killProcess(bool ask, Time timestamp = CurrentTime);
+    void updateUrgency();
+    static void sendClientMessage(Window w, Atom a, Atom protocol,
+                                  long data1 = 0, long data2 = 0, long data3 = 0);
 
-    private slots:
-        void pingTimeout();
-        void processKillerExited();
-        void demandAttentionKNotify();
+    void embedClient(Window w, const XWindowAttributes &attr);
+    void detectNoBorder();
+    void detectShapable();
+    void destroyDecoration();
+    void updateFrameExtents();
 
-    private:
-        // ICCCM 4.1.3.1, 4.1.4 , NETWM 2.5.1
-        void setMappingState(int s);
-        int mappingState() const;
-        bool isIconicState() const;
-        bool isNormalState() const;
-        bool isManaged() const; // returns false if this client is not yet managed
-        void updateAllowedActions(bool force = false);
-        QSize sizeForClientSize(const QSize&, Sizemode mode = SizemodeAny, bool noframe = false) const;
-        void changeMaximize(bool horizontal, bool vertical, bool adjust);
-        void checkMaximizeGeometry();
-        int checkFullScreenHack(const QRect& geom) const;   // 0 - none, 1 - one xinerama screen, 2 - full area
-        void updateFullScreenHack(const QRect& geom);
-        void getWmNormalHints();
-        void getMotifHints();
-        void getIcons();
-        void getWmClientLeader();
-        void getWmClientMachine();
-        void fetchName();
-        void fetchIconicName();
-        QString readName() const;
-        void setCaption(const QString& s, bool force = false);
-        bool hasTransientInternal(const Client* c, bool indirect, ConstClientList& set) const;
-        void finishWindowRules();
-        void setShortcutInternal(const KShortcut& cut);
+    void rawShow(); // just shows it
+    void rawHide(); // just hides it
 
-        void updateWorkareaDiffs();
-        void checkDirection(int new_diff, int old_diff, QRect& rect, const QRect& area);
-        static int computeWorkareaDiff(int left, int right, int a_left, int a_right);
-        void configureRequest(int value_mask, int rx, int ry, int rw, int rh, int gravity, bool from_tool);
-        NETExtendedStrut strut() const;
-        int checkShadeGeometry(int w, int h);
-        void postponeGeometryUpdates(bool postpone);
+    Time readUserTimeMapTimestamp(const KStartupInfoId* asn_id, const KStartupInfoData* asn_data,
+                                  bool session) const;
+    Time readUserCreationTime() const;
+    static bool sameAppWindowRoleMatch(const Client* c1, const Client* c2, bool active_hack);
+    void startupIdChanged();
 
-        bool startMoveResize();
-        void finishMoveResize(bool cancel);
-        void leaveMoveResize();
-        void checkUnrestrictedMoveResize();
-        void handleMoveResize(int x, int y, int x_root, int y_root);
-        void positionGeometryTip();
-        void grabButton(int mod);
-        void ungrabButton(int mod);
-        void resetMaximize();
-        void resizeDecoration(const QSize& s);
-        void setDecoHashProperty(uint topHeight, uint rightWidth, uint bottomHeight, uint leftWidth);
-        void unsetDecoHashProperty();
+    Window client;
+    Window wrapper;
+    Window frame;
+    KDecoration* decoration;
+    Workspace* wspace;
+    Bridge* bridge;
+    int desk;
+    bool buttonDown;
+    bool moveResizeMode;
+    bool move_faked_activity;
+    Window move_resize_grab_window;
+    bool unrestrictedMoveResize;
+    bool isMove() const
+    {
+        return moveResizeMode && mode == PositionCenter;
+    }
+    bool isResize() const
+    {
+        return moveResizeMode && mode != PositionCenter;
+    }
 
-        void pingWindow();
-        void killProcess(bool ask, Time timestamp = CurrentTime);
-        void updateUrgency();
-        static void sendClientMessage(Window w, Atom a, Atom protocol,
-                                      long data1 = 0, long data2 = 0, long data3 = 0);
-
-        void embedClient(Window w, const XWindowAttributes &attr);
-        void detectNoBorder();
-        void detectShapable();
-        void destroyDecoration();
-        void updateFrameExtents();
-
-        void rawShow(); // just shows it
-        void rawHide(); // just hides it
-
-        Time readUserTimeMapTimestamp(const KStartupInfoId* asn_id, const KStartupInfoData* asn_data,
-                                      bool session) const;
-        Time readUserCreationTime() const;
-        static bool sameAppWindowRoleMatch(const Client* c1, const Client* c2, bool active_hack);
-        void startupIdChanged();
-
-        Window client;
-        Window wrapper;
-        Window frame;
-        KDecoration* decoration;
-        Workspace* wspace;
-        Bridge* bridge;
-        int desk;
-        bool buttonDown;
-        bool moveResizeMode;
-        bool move_faked_activity;
-        Window move_resize_grab_window;
-        bool unrestrictedMoveResize;
-        bool isMove() const
-        {
-            return moveResizeMode && mode == PositionCenter;
-        }
-        bool isResize() const
-        {
-            return moveResizeMode && mode != PositionCenter;
-        }
-
-        Position mode;
-        QPoint moveOffset;
-        QPoint invertedMoveOffset;
-        QRect moveResizeGeom;
-        QRect initialMoveResizeGeom;
-        XSizeHints  xSizeHint;
-        void sendSyntheticConfigureNotify();
-        int mapping_state;
-        void readTransient();
-        Window verifyTransientFor(Window transient_for, bool set);
-        void addTransient(Client* cl);
-        void removeTransient(Client* cl);
-        void removeFromMainClients();
-        void cleanGrouping();
-        void checkGroupTransients();
-        void setTransient(Window new_transient_for_id);
-        Client* transient_for;
-        Window transient_for_id;
-        Window original_transient_for_id;
-        ClientList transients_list; // SELI make this ordered in stacking order?
-        ShadeMode shade_mode;
+    Position mode;
+    QPoint moveOffset;
+    QPoint invertedMoveOffset;
+    QRect moveResizeGeom;
+    QRect initialMoveResizeGeom;
+    XSizeHints  xSizeHint;
+    void sendSyntheticConfigureNotify();
+    int mapping_state;
+    void readTransient();
+    Window verifyTransientFor(Window transient_for, bool set);
+    void addTransient(Client* cl);
+    void removeTransient(Client* cl);
+    void removeFromMainClients();
+    void cleanGrouping();
+    void checkGroupTransients();
+    void setTransient(Window new_transient_for_id);
+    Client* transient_for;
+    Window transient_for_id;
+    Window original_transient_for_id;
+    ClientList transients_list; // SELI make this ordered in stacking order?
+    ShadeMode shade_mode;
     uint active :1;
     uint deleting : 1; // true when doing cleanup and destroying the client
     uint keep_above : 1; // NET::KeepAbove (was stays_on_top)
@@ -491,66 +493,67 @@ namespace KWinInternal
     uint urgency : 1; // XWMHints, UrgencyHint
     uint ignore_focus_stealing : 1; // don't apply focus stealing prevention to this client
     uint demands_attention : 1;
-        WindowRules client_rules;
-        void getWMHints();
-        void readIcons();
-        void getWindowProtocols();
-        QPixmap icon_pix;
-        QPixmap miniicon_pix;
-        QCursor cursor;
-        // FullScreenHack - non-NETWM fullscreen (noborder,size of desktop)
-        // DON'T reorder - saved to config files !!!
-        enum FullScreenMode { FullScreenNone, FullScreenNormal, FullScreenHack };
-        FullScreenMode fullscreen_mode;
-        MaximizeMode max_mode;
-        QRect geom_restore;
-        QRect geom_fs_restore;
-        MaximizeMode maxmode_restore;
-        int workarea_diff_x, workarea_diff_y;
-        WinInfo* info;
-        QTimer* autoRaiseTimer;
-        QTimer* shadeHoverTimer;
-        Colormap cmap;
-        QCString resource_name;
-        QCString resource_class;
-        QCString client_machine;
-        QString cap_normal, cap_iconic, cap_suffix;
-        WId wmClientLeaderWin;
-        QCString window_role;
-        Group* in_group;
-        Window window_group;
-        Layer in_layer;
-        QTimer* ping_timer;
-        KProcess* process_killer;
-        Time ping_timestamp;
-        Time user_time;
-        unsigned long allowed_actions;
-        QRect frame_geometry;
-        QSize client_size;
-        int postpone_geometry_updates; // >0 - new geometry is remembered, but not actually set
-        bool pending_geometry_update;
-        bool shade_geometry_change;
-        int border_left, border_right, border_top, border_bottom;
-        QRegion _mask;
-        static bool check_active_modal; // see Client::checkActiveModal()
-        KShortcut _shortcut;
-        friend struct FetchNameInternalPredicate;
-        friend struct CheckIgnoreFocusStealingProcedure;
-        friend struct ResetupRulesProcedure;
-        friend class GeometryUpdatesPostponer;
-        void show() { assert(false); }   // SELI remove after Client is no longer QWidget
-        void hide() { assert(false); }
-        uint opacity_;
-        uint savedOpacity_;
-        bool custom_opacity;
-        uint rule_opacity_active; //translucency rules
-        uint rule_opacity_inactive; //dto.
-        //int shadeOriginalHeight;
-        bool isBMP_;
-        QTimer* demandAttentionKNotifyTimer;
+    uint is_tiled;  // becomes 1 when client is in tiled mode
+    WindowRules client_rules;
+    void getWMHints();
+    void readIcons();
+    void getWindowProtocols();
+    QPixmap icon_pix;
+    QPixmap miniicon_pix;
+    QCursor cursor;
+    // FullScreenHack - non-NETWM fullscreen (noborder,size of desktop)
+    // DON'T reorder - saved to config files !!!
+    enum FullScreenMode { FullScreenNone, FullScreenNormal, FullScreenHack };
+    FullScreenMode fullscreen_mode;
+    MaximizeMode max_mode;
+    QRect geom_restore;
+    QRect geom_fs_restore;
+    MaximizeMode maxmode_restore;
+    int workarea_diff_x, workarea_diff_y;
+    WinInfo* info;
+    QTimer* autoRaiseTimer;
+    QTimer* shadeHoverTimer;
+    Colormap cmap;
+    QCString resource_name;
+    QCString resource_class;
+    QCString client_machine;
+    QString cap_normal, cap_iconic, cap_suffix;
+    WId wmClientLeaderWin;
+    QCString window_role;
+    Group* in_group;
+    Window window_group;
+    Layer in_layer;
+    QTimer* ping_timer;
+    KProcess* process_killer;
+    Time ping_timestamp;
+    Time user_time;
+    unsigned long allowed_actions;
+    QRect frame_geometry;
+    QSize client_size;
+    int postpone_geometry_updates; // >0 - new geometry is remembered, but not actually set
+    bool pending_geometry_update;
+    bool shade_geometry_change;
+    int border_left, border_right, border_top, border_bottom;
+    QRegion _mask;
+    static bool check_active_modal; // see Client::checkActiveModal()
+    KShortcut _shortcut;
+    friend struct FetchNameInternalPredicate;
+    friend struct CheckIgnoreFocusStealingProcedure;
+    friend struct ResetupRulesProcedure;
+    friend class GeometryUpdatesPostponer;
+    // void show() { assert(false); }   // SELI remove after Client is no longer QWidget
+    // void hide() { assert(false); }
+    uint opacity_;
+    uint savedOpacity_;
+    bool custom_opacity;
+    uint rule_opacity_active; //translucency rules
+    uint rule_opacity_inactive; //dto.
+    //int shadeOriginalHeight;
+    bool isBMP_;
+    QTimer* demandAttentionKNotifyTimer;
 
-        friend bool performTransiencyCheck();
-    };
+    friend bool performTransiencyCheck();
+  };
 
 // helper for Client::postponeGeometryUpdates() being called in pairs (true/false)
     class GeometryUpdatesPostponer
@@ -947,4 +950,3 @@ namespace KWinInternal
 } // namespace
 
 #endif
-//kate: space-indent on; tab-width 4; indent-width 4; indent-mode cstyle; encoding UTF-8;

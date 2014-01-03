@@ -56,7 +56,7 @@ TabBox::TabBox( Workspace *ws, const char *name )
     reconfigure();
     reset();
     connect(&delayedShowTimer, SIGNAL(timeout()), this, SLOT(show()));
-    
+
     XSetWindowAttributes attr;
     attr.override_redirect = 1;
     outline_left = XCreateWindow( qt_xdisplay(), qt_xrootwin(), 0, 0, 1, 1, 0,
@@ -165,7 +165,7 @@ void TabBox::reset()
     {
     int w, h, cw = 0, wmax = 0;
 
-    QRect r = workspace()->screenGeometry( workspace()->activeScreen());
+    QRect r = workspace()->sc_geom( workspace()->activeScreen());
 
     // calculate height of 1 line
     // fontheight + 1 pixel above + 1 pixel below, or 32x32 icon + 2 pixel above + below
@@ -416,7 +416,7 @@ void TabBox::drawContents( QPainter * )
                       icon = (*it)->icon();
                     else if ( menu_pix )
                       icon = *menu_pix;
-                
+
                   if( !icon.isNull())
                     {
                     if( (*it)->isMinimized())

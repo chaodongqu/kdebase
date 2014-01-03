@@ -22,18 +22,18 @@ namespace KWinInternal
     class Workspace;
     class Client;
 
+    /**
+     * Placement policies. How workspace decides the way windows get positioned
+     * on the screen. The better the policy, the heavier the resource use.
+     * Normally you don't have to worry. What the WM adds to the startup time
+     * is nil compared to the creation of the window itself in the memory
+     */
     class Placement
     {
     public:
 
         Placement(Workspace* w);
 
-        /**
-         * Placement policies. How workspace decides the way windows get positioned
-         * on the screen. The better the policy, the heavier the resource use.
-         * Normally you don't have to worry. What the WM adds to the startup time
-         * is nil compared to the creation of the window itself in the memory
-         */
         enum Policy
         {
             NoPlacement, // not really a placement

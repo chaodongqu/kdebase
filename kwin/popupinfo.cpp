@@ -59,7 +59,7 @@ PopupInfo::~PopupInfo()
  */
 void PopupInfo::reset()
     {
-    QRect r = workspace->screenGeometry( workspace->activeScreen());
+    QRect r = workspace->sc_geom(workspace->activeScreen());
 
     int w = fontMetrics().width( m_infoString ) + 30;
 

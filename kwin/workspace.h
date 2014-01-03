@@ -170,8 +170,8 @@ namespace KWinInternal
         int numScreens() const;
         void checkActiveScreen(const Client* c);
         void setActiveScreenMouse(QPoint mousepos);
-        QRect screenGeometry(int screen) const;
-        int screenNumber(QPoint pos) const;
+        QRect sc_geom(int sc_num) const;            // Get screen geometry
+        int sc_num(QPoint pos) const;       // Get screen number
 
         QWidget* desktopWidget();
 
@@ -188,7 +188,7 @@ namespace KWinInternal
         * Returns the list of clients sorted in stacking order, with topmost client
         * at the last position
         */
-        const ClientList& stackingOrder() const;
+        const ClientList& stk_order() const;
 
         ClientList ensureStackingOrder(const ClientList& clients) const;
 
