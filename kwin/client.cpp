@@ -146,7 +146,9 @@ namespace KWinInternal
 
         cmap = None;
 
-        frame_geometry = QRect(0, 0, 100, 100);   // so that decorations don't start with size being (0,0)
+        // so that decorations don't start with size being (0,0)
+        frame_geometry = QRect(0, 0, 100, 100);
+
         client_size = QSize(100, 100);
         custom_opacity = false;
         rule_opacity_active = 0;; //translucency rules
@@ -261,7 +263,10 @@ namespace KWinInternal
         wrapper = None;
         XDestroyWindow(qt_xdisplay(), frame);
         frame = None;
-        --postpone_geometry_updates; // don't use GeometryUpdatesBlocker, it would now set the geometry
+
+        // don't use GeometryUpdatesBlocker, it would now set the geometry
+        --postpone_geometry_updates;
+
         checkNonExistentClients();
         deleteClient(this, Allowed);
     }

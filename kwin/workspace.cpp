@@ -190,9 +190,58 @@ namespace KWinInternal
     }
   }
 
+  Workspace::~Workspace() {
+    if (kompmgr) delete kompmgr;
 
-  void Workspace::init()
-  {
+    blockStackingUpdates(true);
+
+    // TODO    grabXServer();
+
+    // use stacking_order, so that kwin --replace keeps stacking order
+    for (ClientList::ConstIterator it = stacking_order.begin(); it != stacking_order.end(); ++it) {
+      // only release the window
+      (*it)->releaseWindow(true);
+      // No removeClient() is called, it does more than just removing.
+      // However, remove from some lists to e.g. prevent performTransiencyCheck()
+      // from crashing.
+      clients.remove(*it);
+      desktops.remove(*it);
+    }
+
+    delete desktop_widget;
+    delete tab_box;
+    delete popupinfo;
+    delete popup;
+    if (root == qt_xrootwin())
+      XDeleteProperty(qt_xdisplay(), qt_xrootwin(), atoms->kwin_running);
+
+    writeWindowRules();
+    KGlobal::config()->sync();
+
+    delete rootInfo;
+    delete supportWindow;
+    delete mgr;
+    delete[] workarea;
+    delete[] screenarea;
+    delete startup;
+    delete initPositioning;
+    delete topmenu_watcher;
+    delete topmenu_selection;
+    delete topmenu_space;
+    delete client_keys_dialog;
+    while (!rules.isEmpty()) {
+      delete rules.front();
+      rules.pop_front();
+    }
+
+    XDestroyWindow(qt_xdisplay(), null_focus_window);
+
+    // TODO    ungrabXServer();
+
+    _self = 0;
+  }
+
+  void Workspace::init() {
     checkElectricBorders();
 
     // not used yet
@@ -404,59 +453,7 @@ namespace KWinInternal
     // TODO ungrabXServer()
   }
 
-  Workspace::~Workspace()
-  {
-    if (kompmgr) delete kompmgr;
-
-    blockStackingUpdates(true);
-
-    // TODO    grabXServer();
-
-    // use stacking_order, so that kwin --replace keeps stacking order
-    for (ClientList::ConstIterator it = stacking_order.begin(); it != stacking_order.end(); ++it) {
-      // only release the window
-      (*it)->releaseWindow(true);
-      // No removeClient() is called, it does more than just removing.
-      // However, remove from some lists to e.g. prevent performTransiencyCheck()
-      // from crashing.
-      clients.remove(*it);
-      desktops.remove(*it);
-    }
-    delete desktop_widget;
-    delete tab_box;
-    delete popupinfo;
-    delete popup;
-    if (root == qt_xrootwin())
-      XDeleteProperty(qt_xdisplay(), qt_xrootwin(), atoms->kwin_running);
-
-    writeWindowRules();
-    KGlobal::config()->sync();
-
-    delete rootInfo;
-    delete supportWindow;
-    delete mgr;
-    delete[] workarea;
-    delete[] screenarea;
-    delete startup;
-    delete initPositioning;
-    delete topmenu_watcher;
-    delete topmenu_selection;
-    delete topmenu_space;
-    delete client_keys_dialog;
-    while (!rules.isEmpty()) {
-      delete rules.front();
-      rules.pop_front();
-    }
-
-    XDestroyWindow(qt_xdisplay(), null_focus_window);
-
-    // TODO    ungrabXServer();
-
-    _self = 0;
-  }
-
-  Client* Workspace::createClient(Window w, bool is_mapped)
-  {
+  Client* Workspace::createClient(Window w, bool is_mapped) {
     StackingUpdatesBlocker blocker(this);
     Client* c = new Client(this);
     if (!c->manage(w, is_mapped)) {
@@ -467,8 +464,7 @@ namespace KWinInternal
     return c;
   }
 
-  void Workspace::addClient(Client* c, allowed_t)
-  {
+  void Workspace::addClient(Client* c, allowed_t) {
     // waited with trans settings until window figured out if active or not ;)
     // qWarning("%s", (const char*)(c->resourceClass()));
     c->setBMP(c->resourceName() == "beep-media-player" || c->decorationId() == None);
@@ -483,7 +479,7 @@ namespace KWinInternal
         c->setOpacity(options->translucentDocks, options->dockOpacity);
       }
     }
-//------------------------------------------------
+    //------------------------------------------------
     Group* grp = findGroup(c->window());
     if (grp != NULL) grp->gotLeader(c);
 
@@ -521,143 +517,145 @@ namespace KWinInternal
     checkNonExistentClients();
   }
 
-    /*
-      Destroys the client \a c
-    */
-    void Workspace::removeClient(Client* c, allowed_t)
+  /*
+    Destroys the client \a c
+  */
+  void Workspace::removeClient(Client* c, allowed_t)
+  {
+    if (c == active_popup_client)
+      closeActivePopup();
+
+    if (client_keys_client == c)
+      setupWindowShortcutDone(false);
+    if (!c->shortcut().isNull())
+      c->setShortcut(QString::null);   // remove from client_keys
+
+    if (c->isDialog())
+      Notify::raise(Notify::TransDelete);
+    if (c->isNormalWindow())
+      Notify::raise(Notify::Delete);
+
+    Q_ASSERT(clients.contains(c) || desktops.contains(c));
+    clients.remove(c);
+    desktops.remove(c);
+    unconstrained_stacking_order.remove(c);
+    stacking_order.remove(c);
+    for (int i = 1; i <= numberOfDesktops(); ++i)
+      focus_chain[ i ].remove(c);
+    global_focus_chain.remove(c);
+    attention_chain.remove(c);
+    showing_desktop_clients.remove(c);
+    if (c->isTopMenu())
+      removeTopMenu(c);
+    Group* group = findGroup(c->window());
+    if (group != NULL)
+      group->lostLeader();
+
+    if (c == most_recently_raised)
+      most_recently_raised = 0;
+    should_get_focus.remove(c);
+    Q_ASSERT(c != active_client);
+    if (c == last_active_client)
+      last_active_client = 0;
+    if (c == pending_take_activity)
+      pending_take_activity = NULL;
+    if (c == delayfocus_client)
+      cancelDelayFocus();
+
+    updateStackingOrder(true);
+
+    if (tab_grab)
+      tab_box->repaint();
+
+    updateClientArea();
+  }
+
+  void Workspace::updateFocusChains(Client* c, FocusChainChange change)
+  {
+    if (!c->wantsTabFocus()) // doesn't want tab focus, remove
     {
-        if (c == active_popup_client)
-            closeActivePopup();
-
-        if (client_keys_client == c)
-            setupWindowShortcutDone(false);
-        if (!c->shortcut().isNull())
-            c->setShortcut(QString::null);   // remove from client_keys
-
-        if (c->isDialog())
-            Notify::raise(Notify::TransDelete);
-        if (c->isNormalWindow())
-            Notify::raise(Notify::Delete);
-
-        Q_ASSERT(clients.contains(c) || desktops.contains(c));
-        clients.remove(c);
-        desktops.remove(c);
-        unconstrained_stacking_order.remove(c);
-        stacking_order.remove(c);
-        for (int i = 1;
-            i <= numberOfDesktops();
-            ++i)
-            focus_chain[ i ].remove(c);
-        global_focus_chain.remove(c);
-        attention_chain.remove(c);
-        showing_desktop_clients.remove(c);
-        if (c->isTopMenu())
-            removeTopMenu(c);
-        Group* group = findGroup(c->window());
-        if (group != NULL)
-            group->lostLeader();
-
-        if (c == most_recently_raised)
-            most_recently_raised = 0;
-        should_get_focus.remove(c);
-        Q_ASSERT(c != active_client);
-        if (c == last_active_client)
-            last_active_client = 0;
-        if (c == pending_take_activity)
-            pending_take_activity = NULL;
-        if (c == delayfocus_client)
-            cancelDelayFocus();
-
-        updateStackingOrder(true);
-
-        if (tab_grab)
-            tab_box->repaint();
-
-        updateClientArea();
+      for (int i=1; i<= numberOfDesktops(); ++i)
+        focus_chain[i].remove(c);
+      global_focus_chain.remove(c);
+      return;
     }
-
-    void Workspace::updateFocusChains(Client* c, FocusChainChange change)
+    if (c->desktop() == NET::OnAllDesktops)
+    { //now on all desktops, add it to focus_chains it is not already in
+      for (int i=1; i<= numberOfDesktops(); i++)
+      { // making first/last works only on current desktop, don't affect all desktops
+        if (i == currentDesktop()
+            && (change == FocusChainMakeFirst || change == FocusChainMakeLast))
+        {
+          focus_chain[ i ].remove(c);
+          if (change == FocusChainMakeFirst)
+            focus_chain[ i ].append(c);
+          else
+            focus_chain[ i ].prepend(c);
+        }
+        else if (!focus_chain[ i ].contains(c))
+        { // add it after the active one
+          if (active_client != NULL &&
+              active_client != c &&
+              !focus_chain[i].isEmpty() &&
+              focus_chain[i].last() == active_client )
+            focus_chain[i].insert(focus_chain[i].fromLast(), c);
+          else
+            focus_chain[i].append(c);   // otherwise add as the first one
+        }
+      }
+    }
+    else    //now only on desktop, remove it anywhere else
     {
-        if (!c->wantsTabFocus()) // doesn't want tab focus, remove
+      for (int i=1; i<= numberOfDesktops(); i++)
+      {
+        if (i == c->desktop())
         {
-            for (int i=1;
-                i<= numberOfDesktops();
-                ++i)
-                focus_chain[i].remove(c);
-            global_focus_chain.remove(c);
-            return;
-        }
-        if (c->desktop() == NET::OnAllDesktops)
-        { //now on all desktops, add it to focus_chains it is not already in
-            for (int i=1; i<= numberOfDesktops(); i++)
-            { // making first/last works only on current desktop, don't affect all desktops
-                if (i == currentDesktop()
-                    && (change == FocusChainMakeFirst || change == FocusChainMakeLast))
-                {
-                    focus_chain[ i ].remove(c);
-                    if (change == FocusChainMakeFirst)
-                        focus_chain[ i ].append(c);
-                    else
-                        focus_chain[ i ].prepend(c);
-                }
-                else if (!focus_chain[ i ].contains(c))
-                { // add it after the active one
-                    if (active_client != NULL && active_client != c
-                        && !focus_chain[ i ].isEmpty() && focus_chain[ i ].last() == active_client)
-                        focus_chain[ i ].insert(focus_chain[ i ].fromLast(), c);
-                    else
-                        focus_chain[ i ].append(c);   // otherwise add as the first one
-                }
-            }
-        }
-        else    //now only on desktop, remove it anywhere else
-        {
-            for (int i=1; i<= numberOfDesktops(); i++)
-            {
-                if (i == c->desktop())
-                {
-                    if (change == FocusChainMakeFirst)
-                    {
-                        focus_chain[ i ].remove(c);
-                        focus_chain[ i ].append(c);
-                    }
-                    else if (change == FocusChainMakeLast)
-                    {
-                        focus_chain[ i ].remove(c);
-                        focus_chain[ i ].prepend(c);
-                    }
-                    else if (!focus_chain[ i ].contains(c))
-                    {
-                        if (active_client != NULL && active_client != c
-                            && !focus_chain[ i ].isEmpty() && focus_chain[ i ].last() == active_client)
-                            focus_chain[ i ].insert(focus_chain[ i ].fromLast(), c);
-                        else
-                            focus_chain[ i ].append(c);   // otherwise add as the first one
-                    }
-                }
-                else
-                    focus_chain[ i ].remove(c);
-            }
-        }
-        if (change == FocusChainMakeFirst)
-        {
-            global_focus_chain.remove(c);
-            global_focus_chain.append(c);
-        }
-        else if (change == FocusChainMakeLast)
-        {
-            global_focus_chain.remove(c);
-            global_focus_chain.prepend(c);
-        }
-        else if (!global_focus_chain.contains(c))
-        {
-            if (active_client != NULL && active_client != c
-                && !global_focus_chain.isEmpty() && global_focus_chain.last() == active_client)
-                global_focus_chain.insert(global_focus_chain.fromLast(), c);
+          if (change == FocusChainMakeFirst)
+          {
+            focus_chain[i].remove(c);
+            focus_chain[i].append(c);
+          }
+          else if (change == FocusChainMakeLast)
+          {
+            focus_chain[i].remove(c);
+            focus_chain[i].prepend(c);
+          }
+          else if (!focus_chain[i].contains(c))
+          {
+            if (active_client != NULL &&
+                active_client != c &&
+                !focus_chain[i].isEmpty() &&
+                focus_chain[i].last() == active_client)
+              focus_chain[i].insert(focus_chain[i].fromLast(), c);
             else
-                global_focus_chain.append(c);   // otherwise add as the first one
+              focus_chain[i].append(c);   // otherwise add as the first one
+          }
         }
+        else
+          focus_chain[i].remove(c);
+      }
     }
+    if (change == FocusChainMakeFirst)
+    {
+      global_focus_chain.remove(c);
+      global_focus_chain.append(c);
+    }
+    else if (change == FocusChainMakeLast)
+    {
+      global_focus_chain.remove(c);
+      global_focus_chain.prepend(c);
+    }
+    else if (!global_focus_chain.contains(c))
+    {
+      if (active_client != NULL &&
+          active_client != c &&
+          !global_focus_chain.isEmpty() &&
+          global_focus_chain.last() == active_client)
+        global_focus_chain.insert(global_focus_chain.fromLast(), c);
+      else
+        global_focus_chain.append(c);   // otherwise add as the first one
+    }
+  }
 
     void Workspace::updateCurrentTopMenu()
     {
