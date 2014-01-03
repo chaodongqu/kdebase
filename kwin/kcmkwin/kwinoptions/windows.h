@@ -62,6 +62,7 @@ class KIntNumInput;
 #define ZEROCORNERED_PLACEMENT 5
 #define INTERACTIVE_PLACEMENT  6
 #define MANUAL_PLACEMENT       7
+#define TILED_PLACEMENT         8
 
 #define  CLICK_TO_FOCUS               0
 #define  FOCUS_FOLLOWS_MOUSE          1

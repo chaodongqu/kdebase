@@ -136,6 +136,7 @@ namespace KWinInternal
 
         void place(Client *c, QRect& area);
         void placeSmart(Client* c, const QRect& area);
+        void placeTiled(Client* c, const QRect& area);
 
         QPoint adjustClientPosition(Client* c, QPoint pos);
         QRect adjustClientSize(Client* c, QRect moveResizeGeom, int mode);
