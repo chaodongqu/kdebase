@@ -1,3 +1,4 @@
+//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*
  * mouse.h
  *
@@ -32,105 +33,105 @@ class KConfig;
 
 class ToolTipComboBox: public QComboBox
 {
-  Q_OBJECT
-    
+    Q_OBJECT
+
 public:
-  ToolTipComboBox(QWidget * owner, char const * const * toolTips_)
-    : QComboBox(owner)
-    , toolTips(toolTips_) {}
+    ToolTipComboBox(QWidget * owner, char const * const * toolTips_)
+            : QComboBox(owner)
+            , toolTips(toolTips_) {}
 
 public slots:
-  void changed() {QToolTip::add( this, i18n(toolTips[currentItem()]) );}
+    void changed() {QToolTip::add(this, i18n(toolTips[currentItem()]));}
 
 protected:
-  char const * const * toolTips;
+    char const * const * toolTips;
 };
 
 
 
 class KTitleBarActionsConfig : public KCModule
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  KTitleBarActionsConfig( bool _standAlone, KConfig *_config, QWidget *parent=0, const char* name=0 );
-  ~KTitleBarActionsConfig( );
+    KTitleBarActionsConfig(bool _standAlone, KConfig *_config, QWidget *parent=0, const char* name=0);
+    ~KTitleBarActionsConfig();
 
-  void load();
-  void save();
-  void defaults();
+    void load();
+    void save();
+    void defaults();
 
 public slots:
-	void changed() { emit KCModule::changed(true); }
+    void changed() { emit KCModule::changed(true); }
 
 private:
-  QComboBox* coTiDbl;
+    QComboBox* coTiDbl;
 
-  QComboBox* coTiAct1;
-  QComboBox* coTiAct2;
-  QComboBox* coTiAct3;
-  QComboBox* coTiAct4;  
-  QComboBox* coTiInAct1;
-  QComboBox* coTiInAct2;
-  QComboBox* coTiInAct3;
+    QComboBox* coTiAct1;
+    QComboBox* coTiAct2;
+    QComboBox* coTiAct3;
+    QComboBox* coTiAct4;
+    QComboBox* coTiInAct1;
+    QComboBox* coTiInAct2;
+    QComboBox* coTiInAct3;
 
-  ToolTipComboBox * coMax[3];
+    ToolTipComboBox * coMax[3];
 
-  KConfig *config;
-  bool standAlone;
+    KConfig *config;
+    bool standAlone;
 
-  const char* functionTiDbl(int);
-  const char* functionTiAc(int);
-  const char* functionTiWAc(int);  
-  const char* functionTiInAc(int);
-  const char* functionMax(int);
+    const char* functionTiDbl(int);
+    const char* functionTiAc(int);
+    const char* functionTiWAc(int);
+    const char* functionTiInAc(int);
+    const char* functionMax(int);
 
-  void setComboText(QComboBox* combo, const char* text);
-  const char* fixup( const char* s );
+    void setComboText(QComboBox* combo, const char* text);
+    const char* fixup(const char* s);
 
 private slots:
-  void paletteChanged();
+    void paletteChanged();
 
 };
 
 class KWindowActionsConfig : public KCModule
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  KWindowActionsConfig( bool _standAlone, KConfig *_config, QWidget *parent=0, const char* name=0 );
-  ~KWindowActionsConfig( );
+    KWindowActionsConfig(bool _standAlone, KConfig *_config, QWidget *parent=0, const char* name=0);
+    ~KWindowActionsConfig();
 
-  void load();
-  void save();
-  void defaults();
+    void load();
+    void save();
+    void defaults();
 
 public slots:
-	void changed() { emit KCModule::changed(true); }
+    void changed() { emit KCModule::changed(true); }
 
 private:
-  QComboBox* coWin1;
-  QComboBox* coWin2;
-  QComboBox* coWin3;
+    QComboBox* coWin1;
+    QComboBox* coWin2;
+    QComboBox* coWin3;
 
-  QComboBox* coAllKey;
-  QComboBox* coAll1;
-  QComboBox* coAll2;
-  QComboBox* coAll3;
-  QComboBox* coAllW;
+    QComboBox* coAllKey;
+    QComboBox* coAll1;
+    QComboBox* coAll2;
+    QComboBox* coAll3;
+    QComboBox* coAllW;
 
-  KConfig *config;
-  bool standAlone;
+    KConfig *config;
+    bool standAlone;
 
-  const char* functionWin(int);
-  const char* functionAllKey(int);
-  const char* functionAll(int);
-  const char* functionAllW(int);
+    const char* functionWin(int);
+    const char* functionAllKey(int);
+    const char* functionAll(int);
+    const char* functionAllW(int);
 
-  void setComboText(QComboBox* combo, const char* text);
-  const char* fixup( const char* s );
+    void setComboText(QComboBox* combo, const char* text);
+    const char* fixup(const char* s);
 };
 
 #endif
