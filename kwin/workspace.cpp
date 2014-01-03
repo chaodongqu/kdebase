@@ -381,9 +381,9 @@ namespace KWinInternal
       StackingUpdatesBlocker blocker(this);
 
       if (options->topMenuEnabled() && topmenu_selection->claim(false))
-          setupTopMenuHandling(); // this can call updateStackingOrder()
+        setupTopMenuHandling(); // this can call updateStackingOrder()
       else
-          lostTopMenuSelection();
+        lostTopMenuSelection();
 
       unsigned int i, nwins;
       Window root_return, parent_return, *wins;
@@ -657,77 +657,77 @@ namespace KWinInternal
     }
   }
 
-    void Workspace::updateCurrentTopMenu()
+  void Workspace::updateCurrentTopMenu()
+  {
+    if (!managingTopMenus()) return;
+
+    // toplevel menubar handling
+    Client* menubar = 0;
+    bool block_desktop_menubar = false;
+    if (active_client)
     {
-        if (!managingTopMenus())
-            return;
-        // toplevel menubar handling
-        Client* menubar = 0;
-        bool block_desktop_menubar = false;
-        if (active_client)
+      // show the new menu bar first...
+      Client* menu_client = active_client;
+      for (;;)
+      {
+        if (menu_client->isFullScreen()) block_desktop_menubar = true;
+
+        for (ClientList::ConstIterator it = menu_client->transients().begin();
+            it != menu_client->transients().end();
+            ++it)
+            if ((*it)->isTopMenu()) {
+                menubar = *it;
+                break;
+            }
+
+        if (menubar != NULL || !menu_client->isTransient()) break;
+
+        // don't use mainwindow's menu if this is modal or group transient
+        if (menu_client->isModal() || menu_client->transientFor() == NULL) break;
+
+        menu_client = menu_client->transientFor();
+      }
+
+      if(!menubar) {
+        // try to find any topmenu from the application (#72113)
+        for(ClientList::ConstIterator it = active_client->group()->members().begin();
+            it != active_client->group()->members().end();
+            ++it)
+          if ((*it)->isTopMenu()) {
+            menubar = *it;
+            break;
+          }
+      }
+    }
+    if (!menubar && !block_desktop_menubar && options->desktopTopMenu())
+    {
+        // Find the menubar of the desktop
+        Client* desktop = findDesktop(true, currentDesktop());
+        if (desktop != NULL)
         {
-            // show the new menu bar first...
-            Client* menu_client = active_client;
-            for (;;)
-            {
-                if (menu_client->isFullScreen())
-                    block_desktop_menubar = true;
-                for (ClientList::ConstIterator it = menu_client->transients().begin();
-                    it != menu_client->transients().end();
-                    ++it)
-                    if ((*it)->isTopMenu())
-                    {
-                        menubar = *it;
-                        break;
-                    }
-                if (menubar != NULL || !menu_client->isTransient())
-                    break;
-                if (menu_client->isModal() || menu_client->transientFor() == NULL)
-                    break; // don't use mainwindow's menu if this is modal or group transient
-                menu_client = menu_client->transientFor();
-            }
-            if (!menubar)
-            { // try to find any topmenu from the application (#72113)
-                for (ClientList::ConstIterator it = active_client->group()->members().begin();
-                    it != active_client->group()->members().end();
-                    ++it)
-                    if ((*it)->isTopMenu())
-                    {
-                        menubar = *it;
-                        break;
-                    }
-            }
+          for (ClientList::ConstIterator it = desktop->transients().begin();
+              it != desktop->transients().end();
+              ++it)
+              if ((*it)->isTopMenu()) {
+                menubar = *it;
+                break;
+              }
         }
-        if (!menubar && !block_desktop_menubar && options->desktopTopMenu())
+        // TODO to be cleaned app with window grouping
+        // Without qt-copy patch #0009, the topmenu and desktop are not in the same group,
+        // thus the topmenu is not transient for it :-/.
+        if (menubar == NULL)
         {
-            // Find the menubar of the desktop
-            Client* desktop = findDesktop(true, currentDesktop());
-            if (desktop != NULL)
-            {
-                for (ClientList::ConstIterator it = desktop->transients().begin();
-                    it != desktop->transients().end();
-                    ++it)
-                    if ((*it)->isTopMenu())
-                    {
-                        menubar = *it;
-                        break;
-                    }
-            }
-            // TODO to be cleaned app with window grouping
-            // Without qt-copy patch #0009, the topmenu and desktop are not in the same group,
-            // thus the topmenu is not transient for it :-/.
-            if (menubar == NULL)
-            {
-                for (ClientList::ConstIterator it = topmenus.begin();
-                    it != topmenus.end();
-                    ++it)
-                    if ((*it)->wasOriginallyGroupTransient()) // kdesktop's topmenu has WM_TRANSIENT_FOR
-                    {                                     // set pointing to the root window
-                        menubar = *it;                        // to recognize it here
-                        break;                                // Also, with the xroot hack in kdesktop,
-                    }                                     // there's no NET::Desktop window to be transient for
-            }
+            for (ClientList::ConstIterator it = topmenus.begin();
+                it != topmenus.end();
+                ++it)
+                if ((*it)->wasOriginallyGroupTransient()) // kdesktop's topmenu has WM_TRANSIENT_FOR
+                {                                     // set pointing to the root window
+                    menubar = *it;                        // to recognize it here
+                    break;                                // Also, with the xroot hack in kdesktop,
+                }                                     // there's no NET::Desktop window to be transient for
         }
+    }
 
 //    kdDebug() << "CURRENT TOPMENU:" << menubar << ":" << active_client << endl;
         if (menubar)
@@ -1538,14 +1538,14 @@ namespace KWinInternal
         active_screen = qApp->desktop()->screenNumber(mousepos);
     }
 
-    QRect Workspace::screenGeometry(int screen) const
+    QRect Workspace::sc_geom(int screen) const
     {
         if (!options->xineramaEnabled)
             return qApp->desktop()->geometry();
         return qApp->desktop()->screenGeometry(screen);
     }
 
-    int Workspace::screenNumber(QPoint pos) const
+    int Workspace::sc_num(QPoint pos) const
     {
         if (!options->xineramaEnabled)
             return 0;

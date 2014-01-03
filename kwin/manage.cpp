@@ -194,7 +194,7 @@ namespace KWinInternal {
             workspace()->activeScreen() : asn_data.xinerama();
       area = workspace()->clientArea(
                                      PlacementArea,
-                                     workspace()->screenGeometry(screen).center(),
+                                     workspace()->sc_geom(screen).center(),
                                      desktop());
     } else area = workspace()->clientArea(PlacementArea, QCursor::pos(), desktop());
 

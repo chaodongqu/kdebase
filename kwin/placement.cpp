@@ -114,8 +114,7 @@ namespace KWinInternal
     ---------------------------------
     Place the client \a c according to a really smart placement algorithm :-)
   */
-  void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/)
-  {
+  void Placement::placeSmart(Client* c, const QRect& area, Policy /*next*/) {
     const int none = 0, h_wrong = -1, w_wrong = -2; // overlap types
     long int overlap, min_overlap = 0;
     int x_optimal, y_optimal;
@@ -251,8 +250,8 @@ namespace KWinInternal
     c->move(x_optimal, y_optimal);
   }
 
-  void Placement::reinitCascading(int desktop)
-  { // desktop == 0 - reinit all
+  void Placement::reinitCascading(int desktop) {
+    // desktop == 0 - reinit all
     if (desktop == 0) {
       cci.clear();
       for (int i = 0; i < m_WorkspacePtr->numberOfDesktops(); i++) {
@@ -272,8 +271,7 @@ namespace KWinInternal
     - cascadePlacement by Cristian Tibirna (tibirna@kde.org) (30Jan98)
     Place windows in a cascading order, remembering positions for each desktop
   */
-  void Placement::placeCascaded(Client* c, QRect& area, Policy nextPlacement)
-  {
+  void Placement::placeCascaded(Client* c, QRect& area, Policy nextPlacement) {
     // work coords
     int xp, yp;
 
@@ -367,14 +365,13 @@ namespace KWinInternal
       Place windows in tiled manner
   */
   void Placement::placeTiled(Client* c, const QRect& area, Policy next) {
-    c->move(0, 0);
+    c->move(100, 100);
   }
 
   /*!
     Place windows in the (0,0) corner, on top of all others
   */
-  void Placement::placeZeroCornered(Client* c, const QRect& area, Policy /*next*/)
-  {
+  void Placement::placeZeroCornered(Client* c, const QRect& area, Policy /*next*/) {
     // get the maximum allowed windows space and desk's origin
     const QRect maxRect = checkArea(c, area);
 
@@ -391,7 +388,6 @@ namespace KWinInternal
     // use the default placement for now
     place(c, area, Default);
   }
-
 
   void Placement::placeDialog(Client* c, QRect& area, Policy nextPlacement) {
     placeOnMainWindow(c, area, nextPlacement);
@@ -544,8 +540,7 @@ namespace KWinInternal
     if (active_client) active_client->growHorizontal();
   }
 
-  void Client::growHorizontal()
-  {
+  void Client::growHorizontal() {
     if (!isResizable() || isShade()) return;
 
     QRect geom = geometry();
@@ -602,7 +597,6 @@ namespace KWinInternal
     geom.setSize(adjustedSize(geom.size(), SizemodeFixedH));
     setGeometry(geom);
   }
-
 
   void Workspace::slotWindowShrinkVertical() {
     if (active_client) active_client->shrinkVertical();
