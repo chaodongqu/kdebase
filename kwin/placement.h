@@ -47,7 +47,7 @@ namespace KWinInternal
             UnderMouse, // special
             OnMainWindow, // special
             Maximizing,
-            Tiled
+            Tiled   // tiling windows
         };
 
         void place(Client* c, QRect& area);
@@ -87,6 +87,8 @@ namespace KWinInternal
         QValueList<DesktopCascadingInfo> cci;
 
         Workspace* m_WorkspacePtr;
+
+        uint nmaster;   // count of master slots when tiling
     };
 
 } // namespace

@@ -1261,6 +1261,10 @@ namespace KWinInternal
         return isOnDesktop(workspace()->currentDesktop());
     }
 
+    bool Client::isTiled() const {
+      return is_tiled == 1;
+    }
+
     int Client::screen() const
     {
         if (!options->xineramaEnabled)
