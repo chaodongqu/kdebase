@@ -1,3 +1,4 @@
+//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*****************************************************************
  KWin - the KDE window manager
  This file is part of the KDE project.
@@ -1264,14 +1265,14 @@ namespace KWinInternal
     {
         if (!options->xineramaEnabled)
             return 0;
-        return workspace()->screenNumber(geometry().center());
+        return workspace()->sc_num(geometry().center());
     }
 
     bool Client::isOnScreen(int screen) const
     {
         if (!options->xineramaEnabled)
             return screen == 0;
-        return workspace()->screenGeometry(screen).intersects(geometry());
+        return workspace()->sc_geom(screen).intersects(geometry());
     }
 
 // performs activation and/or raising of the window
@@ -1399,8 +1400,7 @@ namespace KWinInternal
                 info->setVisibleName(caption().utf8());
                 reset_name = false;
             }
-            if ((was_suffix && cap_suffix.isEmpty()
-                 || reset_name))  // if it was new window, it may have old value still set, if the window is reused
+            if (((was_suffix && cap_suffix.isEmpty()) || reset_name))  // if it was new window, it may have old value still set, if the window is reused
             {
                 info->setVisibleName("");   // remove
                 info->setVisibleIconName("");   // remove
@@ -1488,13 +1488,17 @@ namespace KWinInternal
     void Client::readIcons(Window win, QPixmap* icon, QPixmap* miniicon)
     {
         // get the icons, allow scaling
-        if (icon != NULL)
+        if (icon != NULL) {
             *icon = KWin::icon(win, 32, 32, TRUE, KWin::NETWM | KWin::WMHints);
-        if (miniicon != NULL)
-            if (icon == NULL || !icon->isNull())
+        }
+
+        if (miniicon != NULL) {
+            if (icon == NULL || !icon->isNull()) {
                 *miniicon = KWin::icon(win, 16, 16, TRUE, KWin::NETWM | KWin::WMHints);
-            else
+            } else {
                 *miniicon = QPixmap();
+            }
+        }
     }
 
     void Client::getIcons()
@@ -1962,14 +1966,17 @@ namespace KWinInternal
                 }
             }
             else if (isNormalWindow())
-                // activate dependend minor windows as well
             {
-                for (ClientList::ConstIterator it = group()->members().begin(); it != group()->members().end(); it++)
-                    if ((*it)->isDialog() || (*it)->isUtility())
-                        if ((*it)->ruleOpacityActive())
+              // activate dependend minor windows as well
+                for (ClientList::ConstIterator it = group()->members().begin(); it != group()->members().end(); it++) {
+                    if ((*it)->isDialog() || (*it)->isUtility()) {
+                        if ((*it)->ruleOpacityActive()) {
                             (*it)->setOpacity((*it)->ruleOpacityActive() < 0xFFFFFFFF, (*it)->ruleOpacityActive());
-                        else
+                        } else {
                             (*it)->setOpacity(options->translucentActiveWindows, options->activeWindowOpacity);
+                        }
+                    }
+                }
             }
         }
         else
@@ -1981,8 +1988,9 @@ namespace KWinInternal
                            options->inactiveWindowOpacity);
             // deactivate dependend minor windows as well
             if (isBMP())
-                // beep-media-player, only undecorated windows (gtk2 xmms, xmms doesn't work with compmgr at all - s.e.p. :P )
             {
+              // beep-media-player, only undecorated windows
+              // (gtk2 xmms, xmms doesn't work with compmgr at all - s.e.p. :P )
                 ClientList tmpGroupMembers = group()->members();
                 ClientList inactiveGroupMembers;
                 inactiveGroupMembers.append(this);
@@ -2182,4 +2190,3 @@ namespace KWinInternal
 } // namespace
 
 #include "client.moc"
-//kate: space-indent on; tab-width 4; indent-width 4; indent-mode cstyle; encoding UTF-8;
