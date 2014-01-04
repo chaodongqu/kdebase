@@ -40,6 +40,11 @@ namespace KWinInternal
   typedef QValueList<Client*> ClientList;
   typedef QValueList<const Client*> ConstClientList;
 
+  //TODO: fix to long names (probably will take year or so)
+  // but for now typedef is "fix"
+  typedef QValueList<Client*>::ConstIterator cl_iter_c;   // client list const iterator
+  typedef QValueList<Client*>::Iterator cl_iter;      // client list iterator
+
   typedef QValueList< Group* > GroupList;
   typedef QValueList< const Group* > ConstGroupList;
 
