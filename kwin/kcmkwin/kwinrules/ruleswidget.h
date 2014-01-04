@@ -1,3 +1,4 @@
+//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*
  * Copyright (c) 2004 Lubos Lunak <l.lunak@kde.org>
  *
@@ -16,7 +17,6 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-
 #ifndef __RULESWIDGET_H__
 #define __RULESWIDGET_H__
 
@@ -29,120 +29,113 @@
 
 namespace KWinInternal
 {
+  class Rules;
+  class DetectDialog;
 
-class Rules;
-class DetectDialog;
-
-class RulesWidget
-    : public RulesWidgetBase
-    {
+  class RulesWidget : public RulesWidgetBase
+  {
     Q_OBJECT
-    public:
-        RulesWidget( QWidget* parent = NULL, const char* name = NULL );
-        void setRules( Rules* r );
-        Rules* rules() const;
-        bool finalCheck();
-        void prepareWindowSpecific( WId window );
-    signals:
-        void changed( bool state );
-    protected slots:
-        virtual void detectClicked();
-        virtual void wmclassMatchChanged();
-        virtual void roleMatchChanged();
-        virtual void titleMatchChanged();
-        virtual void extraMatchChanged();
-        virtual void machineMatchChanged();
-        virtual void shortcutEditClicked();
-    private slots:
-        // geometry tab
-        void updateEnableposition();
-        void updateEnablesize();
-        void updateEnabledesktop();
-        void updateEnablemaximizehoriz();
-        void updateEnablemaximizevert();
-        void updateEnableminimize();
-        void updateEnableshade();
-        void updateEnablefullscreen();
-        void updateEnableplacement();
-        // preferences tab
-        void updateEnableabove();
-        void updateEnablebelow();
-        void updateEnablenoborder();
-        void updateEnableskiptaskbar();
-        void updateEnableskippager();
-        void updateEnableacceptfocus();
-        void updateEnablecloseable();
-        void updateEnableopacityactive();
-        void updateEnableopacityinactive();
-        // workarounds tab
-        void updateEnablefsplevel();
-        void updateEnablemoveresizemode();
-        void updateEnabletype();
-        void updateEnableignoreposition();
-        void updateEnableminsize();
-        void updateEnablemaxsize();
-        void updateEnablestrictgeometry();
-        void updateEnableshortcut();
-        void updateEnabledisableglobalshortcuts();
-        // internal
-        void detected( bool );
-    private:
-        int desktopToCombo( int d ) const;
-        int comboToDesktop( int val ) const;
-        void prefillUnusedValues( const KWin::WindowInfo& info );
-        DetectDialog* detect_dlg;
-        bool detect_dlg_ok;
-    };
+  public:
+    RulesWidget(QWidget* parent = NULL, const char* name = NULL);
+    void setRules(Rules* r);
+    Rules* rules() const;
+    bool finalCheck();
+    void prepareWindowSpecific(WId window);
+  signals:
+    void changed(bool state);
+  protected slots:
+    virtual void detectClicked();
+    virtual void wmclassMatchChanged();
+    virtual void roleMatchChanged();
+    virtual void titleMatchChanged();
+    virtual void extraMatchChanged();
+    virtual void machineMatchChanged();
+    virtual void shortcutEditClicked();
+  private slots:
+    // geometry tab
+    void updateEnableposition();
+    void updateEnablesize();
+    void updateEnabledesktop();
+    void updateEnablemaximizehoriz();
+    void updateEnablemaximizevert();
+    void updateEnableminimize();
+    void updateEnableshade();
+    void updateEnablefullscreen();
+    void updateEnableplacement();
+    // preferences tab
+    void updateEnableabove();
+    void updateEnablebelow();
+    void updateEnablenoborder();
+    void updateEnableskiptaskbar();
+    void updateEnableskippager();
+    void updateEnableacceptfocus();
+    void updateEnablecloseable();
+    void updateEnableopacityactive();
+    void updateEnableopacityinactive();
+    // workarounds tab
+    void updateEnablefsplevel();
+    void updateEnablemoveresizemode();
+    void updateEnabletype();
+    void updateEnableignoreposition();
+    void updateEnableminsize();
+    void updateEnablemaxsize();
+    void updateEnablestrictgeometry();
+    void updateEnableshortcut();
+    void updateEnabledisableglobalshortcuts();
+    // internal
+    void detected(bool);
+  private:
+    int desktopToCombo(int d) const;
+    int comboToDesktop(int val) const;
+    void prefillUnusedValues(const KWin::WindowInfo& info);
+    DetectDialog* detect_dlg;
+    bool detect_dlg_ok;
+  };
 
-class RulesDialog
-    : public KDialogBase
-    {
+  class RulesDialog : public KDialogBase
+  {
     Q_OBJECT
-    public:
-        RulesDialog( QWidget* parent = NULL, const char* name = NULL );
-        Rules* edit( Rules* r, WId window, bool show_hints );
-    protected:
-        virtual void accept();
-    private slots:
-        void displayHints();
-    private:
-        RulesWidget* widget;
-        Rules* rules;
-    };
+  public:
+    RulesDialog(QWidget* parent = NULL, const char* name = NULL);
+    Rules* edit(Rules* r, WId window, bool show_hints);
+  protected:
+    virtual void accept();
+  private slots:
+    void displayHints();
+  private:
+    RulesWidget* widget;
+    Rules* rules;
+  };
 
-class EditShortcut
-    : public EditShortcutBase
-    {
+  class EditShortcut : public EditShortcutBase
+  {
     Q_OBJECT
-    public:
-        EditShortcut( QWidget* parent = NULL, const char* name = NULL );
-    protected:
-        void editShortcut();
-        void clearShortcut();
-    };
+  public:
+    EditShortcut(QWidget* parent = NULL, const char* name = NULL);
+  protected:
+    void editShortcut();
+    void clearShortcut();
+  };
 
-class EditShortcutDialog
-    : public KDialogBase
-    {
+  class EditShortcutDialog : public KDialogBase
+  {
     Q_OBJECT
-    public:
-        EditShortcutDialog( QWidget* parent = NULL, const char* name = NULL );
-        void setShortcut( const QString& cut );
-        QString shortcut() const;
-    private:
-        EditShortcut* widget;
-    };
+  public:
+    EditShortcutDialog(QWidget* parent = NULL, const char* name = NULL);
+    void setShortcut(const QString& cut);
+    QString shortcut() const;
+  private:
+    EditShortcut* widget;
+  };
 
-// slightly duped from utils.cpp
-class ShortcutDialog
-    : public KShortcutDialog
-    {
+  // slightly duped from utils.cpp
+  class ShortcutDialog : public KShortcutDialog
+  {
     Q_OBJECT
-    public:
-        ShortcutDialog( const KShortcut& cut, QWidget* parent = NULL, const char* name = NULL );
-        virtual void accept();
-    };
-
+  public:
+    ShortcutDialog(const KShortcut& cut, QWidget* parent = NULL, const char* name = NULL);
+    virtual void accept();
+  };
 } // namespace
 
 #endif

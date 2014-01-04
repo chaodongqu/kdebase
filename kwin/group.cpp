@@ -1,3 +1,4 @@
+//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*****************************************************************
  KWin - the KDE window manager
  This file is part of the KDE project.
@@ -839,7 +840,7 @@ void Client::addTransient( Client* cl )
 //    assert( !cl->hasTransient( this, true )); will be fixed in checkGroupTransients()
     assert( cl != this );
     transients_list.append( cl );
-    if( workspace()->mostRecentlyActivatedClient() == this && cl->isModal())        
+    if( workspace()->mostRecentlyActivatedClient() == this && cl->isModal())
         check_active_modal = true;
 //    kdDebug() << "ADDTRANS:" << this << ":" << cl << endl;
 //    kdDebug() << kdBacktrace() << endl;
@@ -1017,7 +1018,7 @@ void Client::checkGroup( Group* set_group, bool force )
             Group* new_group = workspace()->findClientLeaderGroup( this );
             if( in_group != NULL && in_group != new_group )
                 {
-                in_group->removeMember( this );            
+                in_group->removeMember( this );
                 in_group = NULL;
                 }
             if( new_group == NULL )
