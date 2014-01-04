@@ -28,7 +28,9 @@ namespace KWinInternal
 
 #ifndef KCMRULES
 
-  Placement::Placement(Workspace* w) {
+  Placement::Placement(Workspace* w)
+  : nmaster (1)
+  {
     m_WorkspacePtr = w;
     reinitCascading(0);
   }
@@ -306,11 +308,12 @@ namespace KWinInternal
     //here to touch in case people vote for resize on placement
     if ((yp + ch) > H) yp = Y;
 
-    if ((xp + cw) > W)
+    if ((xp + cw) > W) {
       if (!yp) {
         place(c,area,nextPlacement);
         return;
-      } else xp = X;
+      } else { xp = X; }
+    }
 
     //if this isn't the first window
     if (cci[dn].pos.x() != X && cci[dn].pos.y() != Y) {
@@ -365,7 +368,11 @@ namespace KWinInternal
       Place windows in tiled manner
   */
   void Placement::placeTiled(Client* c, const QRect& area, Policy next) {
-    c->move(100, 100);
+    QRect qr = m_WorkspacePtr->sc_geom(m_WorkspacePtr->activeScreen());
+
+    // Get rid of decorations
+    c->setUserNoBorder(true);
+    c->setGeometry(0, 0, qr.width() / 2, qr.height());
   }
 
   /*!
@@ -699,15 +706,33 @@ namespace KWinInternal
     Asks the internal positioning object to place a client
   */
   void Workspace::place(Client* c, QRect& area) {
-      initPositioning->place(c, area);
+    initPositioning->place(c, area);
   }
 
   void Workspace::placeSmart(Client* c, const QRect& area) {
-      initPositioning->placeSmart(c, area);
+    initPositioning->placeSmart(c, area);
   }
 
   void Workspace::placeTiled(Client* c, const QRect& area) {
-      initPositioning->placeTiled(c, area);
+    // Count clients that are in tiling mode
+    uint n = 0, h, mw, my, ty;
+    for (cl_iter_c ci=stk_order().begin(); ci!=stk_order().end(); ++ci) {
+      if(ci->isTiled()) {
+        ++n;
+      }
+    }
+
+    if(n > nmaster) {
+      mw = nmaster != 0 ?
+    }
+
+    initPositioning->placeTiled(c, area);
+
+    // tile windows that are in tiling mode
+    for (cl_iter_c ci=stk_order().begin(); ci!=stk_order().end(); ++ci) {
+      if(ci->isTiled()) {
+      }
+    }
   }
 
 #endif
