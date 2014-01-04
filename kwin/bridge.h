@@ -23,6 +23,7 @@ namespace KWinInternal
     {
     public:
         Bridge(Client* cl);
+        virtual ~Bridge();
         virtual bool isActive() const;
         virtual bool isCloseable() const;
         virtual bool isMaximizable() const;
