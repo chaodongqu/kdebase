@@ -894,11 +894,11 @@ KMovingConfig::KMovingConfig(bool _standAlone, KConfig *_config, QWidget *parent
   placementCombo = new QComboBox(false, windowsBox);
   placementCombo->insertItem(i18n("Smart"), SMART_PLACEMENT);
   placementCombo->insertItem(i18n("Maximizing"), MAXIMIZING_PLACEMENT);
-  placementCombo->insertItem(i18n("Tiled"), TILED_PLACEMENT);
   placementCombo->insertItem(i18n("Cascade"), CASCADE_PLACEMENT);
   placementCombo->insertItem(i18n("Random"), RANDOM_PLACEMENT);
   placementCombo->insertItem(i18n("Centered"), CENTERED_PLACEMENT);
   placementCombo->insertItem(i18n("Zero-Cornered"), ZEROCORNERED_PLACEMENT);
+  placementCombo->insertItem(i18n("Tiled"), TILED_PLACEMENT);
   // CT: disabling is needed as long as functionality misses in kwin
   //placementCombo->insertItem(i18n("Interactive"), INTERACTIVE_PLACEMENT);
   //placementCombo->insertItem(i18n("Manual"), MANUAL_PLACEMENT);
