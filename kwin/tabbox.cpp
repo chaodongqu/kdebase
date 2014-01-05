@@ -103,7 +103,7 @@ void TabBox::createClientList(ClientList &list, int desktop /*-1 = all*/, Client
     if ( chain )
         c = workspace()->nextFocusChainClient(c);
     else
-        c = workspace()->stackingOrder().first();
+        c = workspace()->stk_order().first();
 
     Client* stop = c;
 
@@ -145,10 +145,10 @@ void TabBox::createClientList(ClientList &list, int desktop /*-1 = all*/, Client
           c = workspace()->nextFocusChainClient( c );
         else
           {
-          if ( idx >= (workspace()->stackingOrder().size()-1) )
+          if ( idx >= (workspace()->stk_order().size()-1) )
             c = 0;
           else
-            c = workspace()->stackingOrder()[++idx];
+            c = workspace()->stk_order()[++idx];
           }
 
         if ( c == stop )

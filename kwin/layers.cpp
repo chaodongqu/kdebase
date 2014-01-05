@@ -163,7 +163,7 @@ namespace KWinInternal
 
     cl = new Window[ stacking_order.count()];
     pos = 0;
-    for (cl_iter_c it = stk_order.begin(); it != stk_order.end(); ++it)
+    for (cl_iter_c it = stacking_order.begin(); it != stacking_order.end(); ++it)
       cl[pos++] = (*it)->window();
     rootInfo->setClientListStacking(cl, pos);
     delete [] cl;
@@ -198,7 +198,7 @@ namespace KWinInternal
   Client* Workspace::findDesktop(bool topmost, int desktop) const {
     //TODO: Q_ASSERT( block_stacking_updates == 0 );
     if (topmost) {
-      for (cl_iter_c it = stk_order.fromLast(); it != stk_order.end(); --it) {
+      for (cl_iter_c it = stacking_order.fromLast(); it != stacking_order.end(); --it) {
         if ((*it)->isOnDesktop(desktop) && (*it)->isDesktop() && (*it)->isShown(true))
           return *it;
       }
@@ -511,7 +511,7 @@ namespace KWinInternal
     if (list.count() < 2) return list;
     //TODO: is this worth optimizing?
     ClientList result = list;
-    for (cl_iter_c it = stk_order.begin(); it != stk_order.end(); ++it)
+    for (cl_iter_c it = stacking_order.begin(); it != stacking_order.end(); ++it)
       if (result.remove(*it) != 0) result.append(*it);
     return result;
   }
