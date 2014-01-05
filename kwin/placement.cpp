@@ -30,6 +30,7 @@ namespace KWinInternal
 
   Placement::Placement(Workspace* w)
   : nmaster (1)
+  , mfactor(0.55f)
   {
     wkspc = w;
     reinitCascading(0);
@@ -367,12 +368,9 @@ namespace KWinInternal
   /*!
       Place windows in tiled manner
   */
-  void Placement::placeTiled(Client* c, const QRect& area, Policy next) {
-    QRect qr = m_WorkspacePtr->sc_geom(m_WorkspacePtr->activeScreen());
-
-    // Get rid of decorations
-    c->setUserNoBorder(true);
-    c->setGeometry(0, 0, qr.width() / 2, qr.height());
+  void Placement::placeTiled(Client* c, const QRect& /*area*/, Policy /*next*/) {
+    c->setTiled();
+    // c->setUserNoBorder(true);
   }
 
   /*!
@@ -715,24 +713,37 @@ namespace KWinInternal
 
   void Workspace::placeTiled(Client* c, const QRect& area) {
     // Count clients that are in tiling mode
-    uint n = 0, h, mw, my, ty;
-    for (cl_iter_c ci=stk_order().begin(); ci!=stk_order().end(); ++ci) {
-      if(ci->isTiled()) {
-        ++n;
-      }
-    }
-
-    if(n > nmaster) {
-      mw = nmaster != 0 ?
-    }
-
+//     uint n=0, i=0, h, mw, my, ty;
+//     for (cl_iter_c ci=stk_order().begin(); ci!=stk_order().end(); ++ci) {
+//       if((*ci)->isTiled()) {
+//         ++n;
+//       }
+//     }
+//
+//     if(n > initPositioning->master_n()) {
+//       mw = initPositioning->master_n() != 0 ? (uint)(area.width() * initPositioning->factor_m()) : 0;
+//     } else {
+//       mw = area.width();
+//     }
+//
     initPositioning->placeTiled(c, area);
-
-    // tile windows that are in tiling mode
-    for (cl_iter_c ci=stk_order().begin(); ci!=stk_order().end(); ++ci) {
-      if(ci->isTiled()) {
-      }
-    }
+//
+//     // tile windows that are in tiling mode
+//     for (cl_iter_c ci=stk_order().begin(); ci!=stk_order().end(); ++ci, ++i) {
+//       if((*ci)->isTiled()) {
+//         (*ci)->setUserNoBorder(false);
+//
+//         if(i < initPositioning->master_n()) {
+//           h = (area.height()-my)/(QMIN(n, initPositioning->master_n())-i);
+//           (*ci)->setGeometry(area.left(), area.top()+my, mw, 100);
+//           my += (*ci)->height();
+//         } else {
+//           h = (area.width()-ty)/(n-i);
+//           (*ci)->setGeometry(area.left()+mw, area.top()+ty, area.width()-mw, 200);
+//           ty += (*ci)->height();
+//         }
+//       }
+//     }
   }
 
 #endif
