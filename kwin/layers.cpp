@@ -98,6 +98,50 @@ namespace KWinInternal
     ClientList new_stacking_order = constrainedStackingOrder();
     bool changed = (new_stacking_order != stacking_order);
     stacking_order = new_stacking_order;
+
+    //BEGIN: Update tiled windows on current desktop
+    int desk = currentDesktop();
+    uint n=0;
+    // Count clients that are in tiling mode
+    for (cl_iter_c ci=stacking_order.begin(); ci!=stacking_order.end(); ++ci) {
+      if((*ci)->isOnDesktop(desk) && !(*ci)->isMinimized()) {
+        if((*ci)->isTiled()) {
+          ++n;
+        }
+      }
+    }
+
+    if(n > 0) {
+      uint i=0, h=0, mw=0, my=0, ty=0;
+      QRect area = sc_geom(activeScreen());
+
+      if(n > initPositioning->master_n()) {
+        mw = (uint)(area.width() * initPositioning->factor_m());
+      } else {
+        mw = area.width();
+      }
+
+      // tile windows that are in tiling mode
+      for (cl_iter_c ci=stacking_order.begin(); ci!=stacking_order.end(); ++ci) {
+        if((*ci)->isOnDesktop(desk) && !(*ci)->isMinimized()) {
+          if((*ci)->isTiled()) {
+            (*ci)->setUserNoBorder(true);
+
+            if(i < initPositioning->master_n()) {
+              h = (area.height()-my)/(QMIN(n, initPositioning->master_n())-i);
+              (*ci)->setGeometry(area.x(), area.y()+my, mw, h, ForceGeometrySet);
+              my += (*ci)->height();
+            } else {
+              h = (area.height()-ty)/(n-i);
+              (*ci)->setGeometry(area.x()+mw, area.y()+ty, area.width()-mw, h, ForceGeometrySet);
+              ty += (*ci)->height();
+            }
+            ++i;
+          }
+        }
+      }
+    }
+    //END: Update tiled windows on current desktop
 #if 0
     kdDebug() << "stacking:" << changed << endl;
     if (changed || propagate_new_clients) {
