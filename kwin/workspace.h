@@ -735,7 +735,7 @@ namespace KWinInternal
         groups.remove(group);
     }
 
-    inline const ClientList& Workspace::stackingOrder() const
+    inline const ClientList& Workspace::stk_order() const
     {
 // TODO    Q_ASSERT( block_stacking_updates == 0 );
         return stacking_order;

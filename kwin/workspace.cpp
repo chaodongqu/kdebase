@@ -2621,7 +2621,7 @@ namespace KWinInternal
     void Workspace::setOpacity(unsigned long winId, unsigned int opacityPercent)
     {
         if (opacityPercent > 100) opacityPercent = 100;
-        for (ClientList::ConstIterator it = stackingOrder().begin(); it != stackingOrder().end(); it++)
+        for (cl_iter_c it = stk_order().begin(); it != stk_order().end(); it++)
             if (winId == (*it)->window())
             {
                 (*it)->setOpacity(opacityPercent < 100, (unsigned int)((opacityPercent/100.0)*0xFFFFFFFF));
@@ -2633,7 +2633,7 @@ namespace KWinInternal
     {
         //this is open to the user by dcop - to avoid stupid trials, we limit the max shadow size to 400%
         if (shadowSizePercent > 400) shadowSizePercent = 400;
-        for (ClientList::ConstIterator it = stackingOrder().begin(); it != stackingOrder().end(); it++)
+        for (cl_iter_c it = stk_order().begin(); it != stk_order().end(); it++)
             if (winId == (*it)->window())
             {
                 (*it)->setShadowSize(shadowSizePercent);
@@ -2643,7 +2643,7 @@ namespace KWinInternal
 
     void Workspace::setUnshadowed(unsigned long winId)
     {
-        for (ClientList::ConstIterator it = stackingOrder().begin(); it != stackingOrder().end(); it++)
+      for (cl_iter_c it = stk_order().begin(); it != stk_order().end(); it++)
             if (winId == (*it)->window())
             {
                 (*it)->setShadowSize(0);
@@ -2660,17 +2660,17 @@ namespace KWinInternal
         {
             showing_desktop_clients.clear();
             ++block_focus;
-            ClientList cls = stackingOrder();
+            ClientList cls = stk_order();
             // find them first, then minimize, otherwise transients may get minimized with the window
             // they're transient for
-            for (ClientList::ConstIterator it = cls.begin();
+            for (cl_iter_c it = cls.begin();
                 it != cls.end();
                 ++it)
             {
                 if ((*it)->isOnCurrentDesktop() && (*it)->isShown(true) && !(*it)->isSpecialWindow())
                     showing_desktop_clients.prepend(*it);   // topmost first to reduce flicker
             }
-            for (ClientList::ConstIterator it = showing_desktop_clients.begin();
+            for (cl_iter_c it = showing_desktop_clients.begin();
                 it != showing_desktop_clients.end();
                 ++it)
                 (*it)->minimize(true);
