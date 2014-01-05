@@ -131,6 +131,7 @@ namespace KWinInternal
     bool isShadeable() const;
 
     bool isTiled() const;
+    void setTiled();
 
     bool isMinimized() const;
     bool isMaximizable() const;
@@ -493,7 +494,7 @@ private:
     uint urgency : 1; // XWMHints, UrgencyHint
     uint ignore_focus_stealing : 1; // don't apply focus stealing prevention to this client
     uint demands_attention : 1;
-    uint is_tiled;  // becomes 1 when client is in tiled mode
+    uint is_tiled : 1;  // becomes 1 when client is in tiled mode
     WindowRules client_rules;
     void getWMHints();
     void readIcons();
