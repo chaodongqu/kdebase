@@ -1156,6 +1156,11 @@
                                 <string>On Main Window</string>
                             </property>
                         </item>
+                        <item>
+                          <property name="text">
+                            <string>Tiled</string>
+                          </property>
+                        </item>
                         <property name="name">
                             <cstring>placement</cstring>
                         </property>
