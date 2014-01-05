@@ -162,8 +162,8 @@ void Bridge::helperShowHide( bool show )
 QRegion Bridge::unobscuredRegion( const QRegion& r ) const
     {
     QRegion reg( r );
-    const ClientList stacking_order = c->workspace()->stackingOrder();
-    ClientList::ConstIterator it = stacking_order.find( c );
+    const ClientList stacking_order = c->workspace()->stk_order();
+    cl_iter_c it = stacking_order.find( c );
     ++it;
     for(;
          it != stacking_order.end();
