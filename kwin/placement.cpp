@@ -31,7 +31,7 @@ namespace KWinInternal
   Placement::Placement(Workspace* w)
   : nmaster (1)
   {
-    m_WorkspacePtr = w;
+    wkspc = w;
     reinitCascading(0);
   }
 
@@ -121,7 +121,7 @@ namespace KWinInternal
     long int overlap, min_overlap = 0;
     int x_optimal, y_optimal;
     int possible;
-    int desktop = c->desktop() == 0 || c->isOnAllDesktops() ? m_WorkspacePtr->currentDesktop() : c->desktop();
+    int desktop = c->desktop() == 0 || c->isOnAllDesktops() ? wkspc->currentDesktop() : c->desktop();
 
     int cxl, cxr, cyt, cyb;     //temp coords
     int  xl,  xr,  yt,  yb;     //temp coords
@@ -152,7 +152,7 @@ namespace KWinInternal
         cyt = y; cyb = y + ch;
 
         ClientList::ConstIterator l;
-        for (l = m_WorkspacePtr->stackingOrder().begin(); l != m_WorkspacePtr->stackingOrder().end() ; ++l) {
+        for (l = wkspc->stk_order().begin(); l != wkspc->stk_order().end() ; ++l) {
           if ((*l)->isOnDesktop(desktop) && (*l)->isShown(false) && (*l) != c) {
             xl = (*l)->x();          yt = (*l)->y();
             xr = xl + (*l)->width(); yb = yt + (*l)->height();
@@ -201,7 +201,7 @@ namespace KWinInternal
 
         // compare to the position of each client on the same desk
         ClientList::ConstIterator l;
-        for (l = m_WorkspacePtr->stackingOrder().begin(); l != m_WorkspacePtr->stackingOrder().end() ; ++l) {
+        for (l = wkspc->stk_order().begin(); l != wkspc->stk_order().end() ; ++l) {
           if ((*l)->isOnDesktop(desktop) && (*l)->isShown(false) && (*l) != c) {
             xl = (*l)->x();          yt = (*l)->y();
             xr = xl + (*l)->width(); yb = yt + (*l)->height();
@@ -228,7 +228,7 @@ namespace KWinInternal
 
         //test the position of each window on the desk
         ClientList::ConstIterator l;
-        for (l = m_WorkspacePtr->stackingOrder().begin(); l != m_WorkspacePtr->stackingOrder().end() ; ++l) {
+        for (l = wkspc->stk_order().begin(); l != wkspc->stk_order().end() ; ++l) {
           if ((*l)->isOnDesktop(desktop) && (*l) != c   &&  c->isShown(false)) {
             xl = (*l)->x();          yt = (*l)->y();
             xr = xl + (*l)->width(); yb = yt + (*l)->height();
@@ -256,7 +256,7 @@ namespace KWinInternal
     // desktop == 0 - reinit all
     if (desktop == 0) {
       cci.clear();
-      for (int i = 0; i < m_WorkspacePtr->numberOfDesktops(); i++) {
+      for (int i = 0; i < wkspc->numberOfDesktops(); i++) {
         DesktopCascadingInfo inf;
         inf.pos = QPoint(-1,-1);
         inf.col = 0;
@@ -281,7 +281,7 @@ namespace KWinInternal
     const int delta_x = 24;
     const int delta_y = 24;
 
-    const int dn = c->desktop() == 0 || c->isOnAllDesktops() ? (m_WorkspacePtr->currentDesktop() - 1) : (c->desktop() - 1);
+    const int dn = c->desktop() == 0 || c->isOnAllDesktops() ? (wkspc->currentDesktop() - 1) : (c->desktop() - 1);
 
     // get the maximum allowed windows space and desk's origin
     QRect maxRect = checkArea(c, area);
@@ -466,7 +466,7 @@ namespace KWinInternal
     if (nextPlacement == Unknown) nextPlacement = Smart;
 
     if (c->isMaximizable() && c->maxSize().width() >= area.width() && c->maxSize().height() >= area.height()) {
-      if (m_WorkspacePtr->clientArea(MaximizeArea, c) == area)
+      if (wkspc->clientArea(MaximizeArea, c) == area)
         c->maximize(Client::MaximizeFull);
       else  {
         // if the geometry doesn't match default maximize area (xinerama case?),
@@ -481,7 +481,7 @@ namespace KWinInternal
 
   QRect Placement::checkArea(const Client* c, const QRect& area) {
     if (area.isNull())
-      return m_WorkspacePtr->clientArea(PlacementArea, c->geometry().center(), c->desktop());
+      return wkspc->clientArea(PlacementArea, c->geometry().center(), c->desktop());
     return area;
   }
 
