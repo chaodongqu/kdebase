@@ -158,25 +158,23 @@
         <envvar value="1.11" name="WANT_AUTOMAKE" />
       </envvars>
       <abortonerror>true</abortonerror>
-      <runmultiplejobs>false</runmultiplejobs>
-      <numberofjobs>3</numberofjobs>
+      <runmultiplejobs>true</runmultiplejobs>
+      <numberofjobs>5</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
+      <makebin>gmake</makebin>
       <prio>0</prio>
     </make>
     <run>
-      <mainprogram>/home/rainman/projects/kde/kdebase/dbg_x86_64-pc-linux-gnu/kdm/backend/kdm</mainprogram>
-      <programargs>-nodaemon</programargs>
+      <mainprogram/>
+      <programargs/>
       <globaldebugarguments/>
-      <globalcwd>/home/rainman/projects/kde/kdebase/dbg_x86_64-pc-linux-gnu/kdm/backend/</globalcwd>
-      <useglobalprogram>true</useglobalprogram>
+      <globalcwd/>
+      <useglobalprogram>false</useglobalprogram>
       <terminal>false</terminal>
       <autocompile>false</autocompile>
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
-      <envvars>
-        <envvar value=":1" name="DISPLAY" />
-      </envvars>
+      <envvars/>
       <runarguments>
         <kdialog/>
         <krandrtray/>
@@ -213,7 +211,7 @@
       </dbg_i686-pc-linux-gnu>
       <dbg_x86_64-pc-linux-gnu>
         <envvars/>
-        <configargs>--host=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/kde/git --mandir=/usr/kde/git/share/man --infodir=/usr/kde/git/share/info --datadir=/usr/kde/git/share --sysconfdir=/usr/kde/git/etc --localstatedir=/var/lib --with-qt-dir=/usr/qt/3 --with-qt-libraries=/usr/qt/3/lib --enable-mt --enable-debug=full --libdir=/usr/kde/git/lib --with-distribution=Gentoo --enable-libsuffix=64 --disable-fast-malloc --with-libart --with-libidn --with-ssl --without-hspell --enable-libfam --enable-dnotify --with-acl --with-alsa --enable-cups --without-gssapi --with-tiff --with-jasper --without-openexr --without-utempter --without-lua --enable-sendfile --enable-mitshm --with-aspell --with-hal --disable-dnssd --with-rgbfile=/usr/share/X11/rgb.txt --without-arts</configargs>
+        <configargs>--host=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/kde/git --mandir=/usr/kde/git/share/man --infodir=/usr/kde/git/share/info --datadir=/usr/kde/git/share --sysconfdir=/usr/kde/git/etc --localstatedir=/var/lib --with-qt-dir=/usr/qt/3 --with-qt-libraries=/usr/qt/3/lib --enable-mt --enable-debug=full --libdir=/usr/kde/git/lib --enable-libsuffix=64 --with-ssl --without-openexr --with-hal --disable-dnssd --without-arts</configargs>
         <builddir>dbg_x86_64-pc-linux-gnu</builddir>
         <topsourcedir/>
         <cppflags/>
@@ -224,8 +222,8 @@
         <ccompilerbinary/>
         <cxxcompilerbinary/>
         <f77compilerbinary/>
-        <cflags>-O0 -ggdb3 -fno-omit-frame-pointer -W -Wall -Wchar-subscripts -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wformat-security -Wmissing-format-attribute -Wimplicit-function-declaration</cflags>
-        <cxxflags>-O0 -ggdb3 -fno-omit-frame-pointer -W -Wall -Wchar-subscripts -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wformat-security -Wmissing-format-attribute -Wimplicit-function-declaration</cxxflags>
+        <cflags>-O0 -ggdb3 -fno-omit-frame-pointer -Wall</cflags>
+        <cxxflags>-O0 -ggdb3 -fno-omit-frame-pointer -Wall</cxxflags>
         <f77flags/>
       </dbg_x86_64-pc-linux-gnu>
     </configurations>
