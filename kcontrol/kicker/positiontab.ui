@@ -13,6 +13,9 @@
             <height>400</height>
         </rect>
     </property>
+    <property name="caption">
+        <string>PositionTabBase</string>
+    </property>
     <property name="whatsThis" stdset="0">
         <string>This is a list of all the panels currently active on your desktop. Select one to configure.</string>
     </property>
@@ -457,7 +460,7 @@ how it is positioned on the screen and how much of the screen it should use.</st
                                 </sizepolicy>
                             </property>
                             <property name="minValue">
-                                <number>24</number>
+                                <number>16</number>
                             </property>
                             <property name="maxValue">
                                 <number>128</number>
@@ -495,7 +498,7 @@ how it is positioned on the screen and how much of the screen it should use.</st
                                 <number>58</number>
                             </property>
                             <property name="minValue">
-                                <number>24</number>
+                                <number>16</number>
                             </property>
                             <property name="maxValue">
                                 <number>128</number>
@@ -1024,6 +1027,8 @@ how it is positioned on the screen and how much of the screen it should use.</st
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>m_percentSlider</sender>
