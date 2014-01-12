@@ -41,7 +41,7 @@ void ExtensionInfo::load() {
     _name = i18n("Main Panel");
     _resizeable = true;
     _useStdSizes = true;
-    _customSizeMin = 24;
+    _customSizeMin = 16;
     _customSizeMax = 256;
     _customSize = 56;
     _showLeftHB     = false;
