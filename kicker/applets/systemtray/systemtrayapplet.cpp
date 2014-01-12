@@ -76,7 +76,7 @@ SystemTrayApplet::SystemTrayApplet(const QString& configFile, Type type, int act
     m_iconSelector(0),
     m_autoRetractTimer(0),
     m_autoRetract(false),
-    m_iconSize(24),
+    m_iconSize(16),
     m_layout(0)
 {
     loadSettings();
