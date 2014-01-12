@@ -153,7 +153,7 @@ void SystemTrayApplet::initialize()
 
         XSendEvent (display, root, False, StructureNotifyMask, (XEvent *)&xev);
     }
-    
+
     setBackground();
 }
 
@@ -461,7 +461,7 @@ void SystemTrayApplet::embedWindow( WId w, bool kde_tray )
         delete emb;
         return;
     }
-    
+
     connect(emb, SIGNAL(embeddedWindowDestroyed()), SLOT(updateTrayWindows()));
     emb->getIconSize(m_iconSize);
 
@@ -556,7 +556,7 @@ void SystemTrayApplet::refreshExpandButton()
         a = m_showHidden ? Qt::DownArrow : Qt::UpArrow;
     else
         a = (m_showHidden ^ kapp->reverseLayout()) ? Qt::RightArrow : Qt::LeftArrow;
-    
+
     m_expandButton->setArrowType(a);
 }
 
@@ -754,7 +754,7 @@ int SystemTrayApplet::widthForHeight(int h) const
         me->setFixedHeight(h);
     }
 
-    return sizeHint().width(); 
+    return sizeHint().width();
 }
 
 int SystemTrayApplet::heightForWidth(int w) const
@@ -773,7 +773,7 @@ int SystemTrayApplet::heightForWidth(int w) const
         me->setFixedWidth(w);
     }
 
-    return sizeHint().height(); 
+    return sizeHint().height();
 }
 
 void SystemTrayApplet::moveEvent( QMoveEvent* )
@@ -824,7 +824,7 @@ void SystemTrayApplet::layoutTray()
     // the opposite direction of line
     int col = 0;
 
-    // 
+    //
     // The margin and spacing specified in the layout implies that:
     // [-- ICON_MARGIN pixels --] [-- first icon --] [-- ICON_MARGIN pixels --] ... [-- ICON_MARGIN pixels --] [-- last icon --] [-- ICON_MARGIN pixels --]
     //
@@ -841,7 +841,7 @@ void SystemTrayApplet::layoutTray()
         // to avoid nbrOfLines=0 we ensure heightWidth >= iconWidth!
         heightWidth = heightWidth < iconWidth ? iconWidth : heightWidth;
         nbrOfLines = heightWidth / iconWidth;
-        
+
         if (showExpandButton)
         {
             m_layout->addMultiCellWidget(m_expandButton,
@@ -958,11 +958,11 @@ void SystemTrayApplet::paletteChange(const QPalette & /* oldPalette */)
 void SystemTrayApplet::setBackground()
 {
     TrayEmbedList::const_iterator lastEmb;
-    
+
     lastEmb = m_shownWins.end();
     for (TrayEmbedList::const_iterator emb = m_shownWins.begin(); emb != lastEmb; ++emb)
         (*emb)->setBackground();
-    
+
     lastEmb = m_hiddenWins.end();
     for (TrayEmbedList::const_iterator emb = m_hiddenWins.begin(); emb != lastEmb; ++emb)
         (*emb)->setBackground();
@@ -978,15 +978,15 @@ TrayEmbed::TrayEmbed( bool kdeTray, QWidget* parent )
 void TrayEmbed::getIconSize(int defaultIconSize)
 {
     QSize minSize = minimumSizeHint();
-    
+
     int width = minSize.width();
     int height = minSize.height();
-    
+
     if (width < 1 || width > defaultIconSize)
         width = defaultIconSize;
     if (height < 1 || height > defaultIconSize)
         height = defaultIconSize;
-    
+
     setFixedSize(width, height);
     setBackground();
 }
@@ -994,7 +994,7 @@ void TrayEmbed::getIconSize(int defaultIconSize)
 void TrayEmbed::setBackground()
 {
     const QPixmap *pbg = parentWidget()->backgroundPixmap();
-    
+
     if (pbg)
     {
         QPixmap bg(width(), height());
@@ -1004,7 +1004,7 @@ void TrayEmbed::setBackground()
     }
     else
         unsetPalette();
-    
+
     if (!isHidden())
     {
         XClearArea(x11Display(), embeddedWinId(), 0, 0, 0, 0, True);
