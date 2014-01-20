@@ -5,8 +5,6 @@ ksmserver - the KDE session management server
 Copyright (C) 2000 Matthias Ettrich <ettrich@kde.org>
 ******************************************************************/
 
-#include <config.h>
-
 #include "shutdowndlg.h"
 #include <qapplication.h>
 #include <qlayout.h>
@@ -313,7 +311,9 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
     connect(btnLogout, SIGNAL(clicked()), SLOT(slotLogout()));
   }
 
+#ifdef COMPILE_HALBACKEND
   m_halCtx = NULL;
+#endif
 
   if (maysd) {
     // respect lock on resume & disable suspend/hibernate settings
@@ -326,6 +326,7 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
     bool canSuspend = false;
     bool canHibernate = false;
 
+#ifdef COMPILE_HALBACKEND
     // Query HAL for suspend/resume support
     m_halCtx = libhal_ctx_new();
 
@@ -371,7 +372,7 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
         canHibernate = true;
       }
     }
-
+#endif
 
     if (doUbuntuLogout) {
       if (canSuspend && !disableSuspend) {
@@ -543,12 +544,14 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
 }
 
 KSMShutdownDlg::~KSMShutdownDlg() {
+#ifdef COMPILE_HALBACKEND
   if (m_halCtx) {
     DBusError error;
     dbus_error_init(&error);
     libhal_ctx_shutdown(m_halCtx, &error);
     libhal_ctx_free(m_halCtx);
   }
+#endif
 }
 
 void KSMShutdownDlg::slotLogout() {
@@ -576,6 +579,7 @@ void KSMShutdownDlg::slotHalt() {
 }
 
 void KSMShutdownDlg::slotSuspend() {
+#ifdef COMPILE_HALBACKEND
   if (m_lockOnResume) {
     DCOPRef("kdesktop", "KScreensaverIface").send("lock");
   }
@@ -594,9 +598,11 @@ void KSMShutdownDlg::slotSuspend() {
   }
 
   reject(); // continue on resume
+#endif
 }
 
 void KSMShutdownDlg::slotHibernate() {
+#ifdef COMPILE_HALBACKEND
   if (m_lockOnResume) {
     DCOPRef("kdesktop", "KScreensaverIface").send("lock");
   }
@@ -614,6 +620,7 @@ void KSMShutdownDlg::slotHibernate() {
   }
 
   reject(); // continue on resume
+#endif
 }
 
 bool KSMShutdownDlg::confirmShutdown(bool maysd, KApplication::ShutdownType& sdtype, QString& bootOption) {

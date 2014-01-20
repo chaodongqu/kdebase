@@ -29,10 +29,14 @@ class KAction;
 #include <kapplication.h>
 #include <kpixmapio.h>
 
+#include <config.h>
+
 /* We acknowledge the dbus API is unstable */
 #define DBUS_API_SUBJECT_TO_CHANGE
 #include <dbus/dbus.h>
+#ifdef COMPILE_HALBACKEND
 #include <hal/libhal.h>
+#endif
 
 // The (singleton) widget that makes/fades the desktop gray.
 class KSMShutdownFeedback : public QWidget
@@ -92,8 +96,10 @@ private:
   QString m_bootOption;
   QPopupMenu *targets;
   QStringList rebootOptions;
+#ifdef COMPILE_HALBACKEND
   LibHalContext* m_halCtx;
   DBusConnection *m_dbusConn;
+#endif
   bool m_lockOnResume;
 };
 
