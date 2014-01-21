@@ -1,3 +1,4 @@
+//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*****************************************************************
 
 Copyright (c) 1996-2001 the kicker authors. See file AUTHORS.
@@ -44,83 +45,83 @@ class KActionSelector;
 
 class SystemTrayApplet : public KPanelApplet, public DCOPObject
 {
-    Q_OBJECT
-    K_DCOP
-    typedef QValueVector<TrayEmbed*> TrayEmbedList;
+  Q_OBJECT
+  K_DCOP
+  typedef QValueVector<TrayEmbed*> TrayEmbedList;
 
 public:
 
-    SystemTrayApplet(const QString& configFile, Type t = Normal, int actions = 0,
-                     QWidget *parent = 0, const char *name = 0);
-    ~SystemTrayApplet();
+  SystemTrayApplet(const QString& configFile, Type t = Normal, int actions = 0,
+                    QWidget *parent = 0, const char *name = 0);
+  ~SystemTrayApplet();
 
-    int widthForHeight(int h) const;
-    int heightForWidth(int w) const;
-    int maxIconWidth() const;
-    int maxIconHeight() const;
+  int widthForHeight(int h) const;
+  int heightForWidth(int w) const;
+  int maxIconWidth() const;
+  int maxIconHeight() const;
 
-    bool eventFilter(QObject* watched, QEvent* e);
+  bool eventFilter(QObject* watched, QEvent* e);
 
 k_dcop:
-    void loadSettings();
+  void loadSettings();
 
 protected:
-    void resizeEvent(QResizeEvent*);
-    void moveEvent(QMoveEvent *);
-    bool x11Event( XEvent *e );
-    void preferences();
-    void orientationChange( Orientation );
+  void resizeEvent(QResizeEvent*);
+  void moveEvent(QMoveEvent *);
+  bool x11Event(XEvent *e);
+  void preferences();
+  void orientationChange(Orientation);
 
 protected slots:
-    void initialize();
-    void systemTrayWindowAdded( WId );
-    void updateTrayWindows();
-    void layoutTray();
-    void paletteChange(const QPalette & /* oldPalette */);
-    void toggleExpanded();
-    void settingsDialogFinished();
-    void applySettings();
-    void checkAutoRetract();
-    void configure() { preferences(); }
-    void setBackground();
+  void initialize();
+  void systemTrayWindowAdded(WId);
+  void updateTrayWindows();
+  void layoutTray();
+  void paletteChange(const QPalette & /* oldPalette */);
+  void toggleExpanded();
+  void settingsDialogFinished();
+  void applySettings();
+  void checkAutoRetract();
+  void configure() { preferences(); }
+  void setBackground();
 
 private:
-    void embedWindow( WId w, bool kde_tray );
-    bool isWinManaged( WId w);
-    bool shouldHide( WId w);
-    void updateVisibleWins();
-    void expand();
-    void retract();
-    void showExpandButton(bool show);
-    void refreshExpandButton();
+  void embedWindow(WId w, bool kde_tray);
+  bool isWinManaged(WId w);
+  bool shouldHide(WId w);
+  void updateVisibleWins();
+  void expand();
+  void retract();
+  void showExpandButton(bool show);
+  void refreshExpandButton();
 
-    TrayEmbedList m_shownWins;
-    TrayEmbedList m_hiddenWins;
-    QStringList m_hiddenIconList;
-    KWinModule *kwin_module;
-    Atom net_system_tray_selection;
-    Atom net_system_tray_opcode;
-    bool m_showFrame;
-    bool m_showHidden;
-    SimpleArrowButton *m_expandButton;
-    KDialogBase* m_settingsDialog;
-    KActionSelector* m_iconSelector;
-    QTimer* m_autoRetractTimer;
-    bool m_autoRetract;
-    int m_iconSize;
-    QGridLayout* m_layout;
+  TrayEmbedList m_shownWins;
+  TrayEmbedList m_hiddenWins;
+  QStringList m_hiddenIconList;
+  KWinModule *kwin_module;
+  Atom net_system_tray_selection;
+  Atom net_system_tray_opcode;
+  bool m_showFrame;
+  bool m_showHidden;
+  SimpleArrowButton *m_expandButton;
+  KDialogBase* m_settingsDialog;
+  KActionSelector* m_iconSelector;
+  QTimer* m_autoRetractTimer;
+  bool m_autoRetract;
+  int m_iconSize;
+  QGridLayout* m_layout;
 };
 
 class TrayEmbed : public QXEmbed
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    TrayEmbed( bool kdeTray, QWidget* parent = NULL );
-    bool kdeTray() const { return kde_tray; }
-    void setBackground();
-    void getIconSize(int defaultIconSize);
+  TrayEmbed(bool kdeTray, QWidget* parent = NULL);
+  bool kdeTray() const { return kde_tray; }
+  void setBackground();
+  void getIconSize(int defaultIconSize);
 private:
-    bool kde_tray;
+  bool kde_tray;
 };
 
 #endif
