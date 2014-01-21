@@ -87,8 +87,7 @@ void KSMShutdownFeedback::fadeBack(void) {
   // with completely gray when fading back...
   m_compensation = 1.0f - m_grayOpacity;
   // wait until we're completely back in color-mode...
-  while (m_grayOpacity > 0.0f)
-    slotPaintEffect();
+  while (m_grayOpacity > 0.0f) slotPaintEffect();
 }
 
 void KSMShutdownFeedback::slotPaintEffect() {
@@ -344,9 +343,7 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
         libhal_ctx_free(m_halCtx);
         m_dbusConn = NULL;
         m_halCtx = NULL;
-      }
-      else
-      {
+      } else {
         libhal_ctx_set_dbus_connection(m_halCtx, m_dbusConn);
         if (!libhal_ctx_init(m_halCtx, &error)) {
           if (dbus_error_is_set(&error)) dbus_error_free(&error);
@@ -445,8 +442,7 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
       btnHalt->setAccel("ALT+" + btnHalt->textLabel().lower()[i+1]) ;
       hbuttonbox2->addWidget(btnHalt);
       connect(btnHalt, SIGNAL(clicked()), SLOT(slotHalt()));
-      if (sdtype == KApplication::ShutdownTypeHalt)
-          btnHalt->setFocus();
+      if (sdtype == KApplication::ShutdownTypeHalt) btnHalt->setFocus();
 
       // cancel buttonbox
       QHBoxLayout* hbuttonbox3 = new QHBoxLayout(vbox, factor * KDialog::spacingHint());
@@ -517,8 +513,7 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
       buttonlay->addWidget(btnBack);
       connect(btnBack, SIGNAL(clicked()), SLOT(reject()));
     }
-  }
-  else {
+  } else {
     // finish the dialog correctly
     if (doUbuntuLogout) {
       // cancel buttonbox
@@ -607,8 +602,7 @@ void KSMShutdownDlg::slotHibernate() {
     DCOPRef("kdesktop", "KScreensaverIface").send("lock");
   }
 
-  if (m_dbusConn)
-  {
+  if (m_dbusConn) {
     DBusMessage *msg = dbus_message_new_method_call(
                             "org.freedesktop.Hal",
                             "/org/freedesktop/Hal/devices/computer",
@@ -744,8 +738,7 @@ void FlatButton::init() {
 }
 
 void FlatButton::keyPressEvent(QKeyEvent* e) {
-  switch (e->key())
-  {
+  switch (e->key()) {
     case Key_Enter:
     case Key_Return:
     case Key_Space:
