@@ -216,7 +216,7 @@ void SystemTrayApplet::preferences() {
   for (; it != itEnd; ++it) {
     QString name = KWin::windowInfo((*it)->embeddedWinId()).name();
     if (!shownListBox->findItem(name, Qt::ExactMatch | Qt::CaseSensitive)) {
-      shownListBox->insertItem(KWin::icon((*it)->embeddedWinId(), 22, 22, true), name);
+      shownListBox->insertItem(KWin::icon((*it)->embeddedWinId(), 16, 16, true), name);
     }
   }
 
@@ -225,7 +225,7 @@ void SystemTrayApplet::preferences() {
   for (; it != itEnd; ++it) {
     QString name = KWin::windowInfo((*it)->embeddedWinId()).name();
     if (!hiddenListBox->findItem(name, Qt::ExactMatch | Qt::CaseSensitive)) {
-      hiddenListBox->insertItem(KWin::icon((*it)->embeddedWinId(), 22, 22, true), name);
+      hiddenListBox->insertItem(KWin::icon((*it)->embeddedWinId(), 16, 16, true), name);
     }
   }
 
@@ -362,7 +362,7 @@ void SystemTrayApplet::loadSettings() {
 
   //Note This setting comes from kdeglobal.
   conf->setGroup("System Tray");
-  m_iconSize = conf->readNumEntry("systrayIconWidth", 22);
+  m_iconSize = conf->readNumEntry("systrayIconWidth", 16);
 }
 
 void SystemTrayApplet::systemTrayWindowAdded(WId w) {
