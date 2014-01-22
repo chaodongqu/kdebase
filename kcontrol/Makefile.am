@@ -39,4 +39,4 @@ SUBDIRS = bell background dnssd filetypes samba krdb input info ioslaveinfo kdm\
 	konsole spellchecking $(USBVIEW_SUBDIR) \
 	$(KSMCARD_SUBDIR) nics $(FONTINST_SUBDIR) $(RANDR_SUBDIR) \
 	componentchooser performance xinerama $(VIEW1394_SUBDIR) display kthememanager \
-        $(JOYSTICK_SUBDIR) $(ICCCONFIG_SUBDIR)
+	$(JOYSTICK_SUBDIR) $(ICCCONFIG_SUBDIR)
