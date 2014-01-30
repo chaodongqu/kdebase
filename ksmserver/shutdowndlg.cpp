@@ -297,10 +297,10 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
     buttonlay = new QVBoxLayout(hbox, factor * KDialog::spacingHint());
     buttonlay->setAlignment(Qt::AlignHCenter);
 
-    QLabel* icon = new QLabel(lfrm);
-    icon->setPixmap(UserIcon("shutdownkonq"));
-    lfrm->setFixedSize(icon->sizeHint());
-    icon->setFixedSize(icon->sizeHint());
+    // QLabel* icon = new QLabel(lfrm);
+    // icon->setPixmap(UserIcon("shutdownkonq"));
+    // lfrm->setFixedSize(icon->sizeHint());
+    // icon->setFixedSize(icon->sizeHint());
 
     buttonlay->addStretch(1);
     // End session
