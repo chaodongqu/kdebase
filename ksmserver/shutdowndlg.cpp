@@ -271,7 +271,7 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
   QHBoxLayout* hbox = new QHBoxLayout(vbox, factor * KDialog::spacingHint());
 
   // from here on we have to adapt to the two different dialogs
-  QFrame* lfrm;
+  //QFrame* lfrm;
   QVBoxLayout* buttonlay;
   QHBoxLayout* hbuttonbox;
   QFont btnFont;
@@ -290,9 +290,9 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
     connect(btnLogout, SIGNAL(clicked()), SLOT(slotLogout()));
   } else {
     // konqy
-    lfrm = new QFrame(frame);
-    lfrm->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    hbox->addWidget(lfrm, AlignCenter);
+    //lfrm = new QFrame(frame);
+    //lfrm->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    //hbox->addWidget(lfrm, AlignCenter);
 
     buttonlay = new QVBoxLayout(hbox, factor * KDialog::spacingHint());
     buttonlay->setAlignment(Qt::AlignHCenter);
