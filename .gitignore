@@ -9,3 +9,8 @@ dbg_x86_64-pc-linux-gnu/
 *_dummy.cc
 *~
 *.pcs
+html/
+latex/
+xml/
+kdebase.tag
+tags
