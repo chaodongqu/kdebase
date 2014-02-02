@@ -155,31 +155,31 @@ KCommonDecorationButton *WebClient::createButton(ButtonType type)
 WebClient::init()
 {
   // title height
-  const int textVMargin   = 2;
+  const int textVMargin   = 1;
   QFontMetrics fm(options()->font(isActive(), isToolWindow()));
 
   // border size
   switch(options()->preferredBorderSize( factory())) {
     case BorderLarge:
-      borderSize_ = 8;
+      borderSize_ = 4;
       break;
     case BorderVeryLarge:
-      borderSize_ = 12;
+      borderSize_ = 8;
       break;
     case BorderHuge:
-      borderSize_ = 18;
+      borderSize_ = 14;
       break;
     case BorderVeryHuge:
-      borderSize_ = 27;
+      borderSize_ = 20;
       break;
     case BorderOversized:
-      borderSize_ = 40;
+      borderSize_ = 22;
       break;
     case BorderNormal:
     default:
-      borderSize_ = 4;
+      borderSize_ = 2;
   }
-  titleHeight_ = QMAX(QMAX(14, fm.height() + textVMargin * 2), borderSize_);
+  titleHeight_ = QMAX(QMAX(10, fm.height() + textVMargin * 2), borderSize_);
   if (0 != titleHeight_ % 2)
     titleHeight_ += 1;
 
@@ -200,9 +200,9 @@ WebClient::reset( unsigned long changed )
   } else if (changed & SettingFont) {
     // font has changed -- update title height
     // title height
-    const int textVMargin   = 2;
+    const int textVMargin   = 1;
     QFontMetrics fm(options()->font(isActive(), isToolWindow()));
-    titleHeight_ = QMAX(QMAX(14, fm.height() + textVMargin * 2), borderSize_);
+    titleHeight_ = QMAX(QMAX(10, fm.height() + textVMargin * 2), borderSize_);
     if (0 != titleHeight_ % 2)
       titleHeight_ += 1;
 
