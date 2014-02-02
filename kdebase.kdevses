@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="34" >
+ <DocsAndViews NumberOfDocuments="35" >
   <Doc0 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konqueror/iconview/konq_iconview.h" >
    <View0 Encoding="" Type="Source" />
   </Doc0>
@@ -96,14 +96,17 @@
    <View0 Encoding="" Type="Source" />
   </Doc30>
   <Doc31 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/backend/dm.c" >
-   <View0 Encoding="" line="586" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc31>
   <Doc32 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/kfrontend/kgreeter.cpp" >
-   <View0 Encoding="" line="173" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc32>
   <Doc33 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/kfrontend/kgapp.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc33>
+  <Doc34 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/ksmserver/shutdowndlg.cpp" >
+   <View0 Encoding="UTF-8" line="367" Type="Source" />
+  </Doc34>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
