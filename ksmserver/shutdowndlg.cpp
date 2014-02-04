@@ -98,10 +98,10 @@ void KSMShutdownFeedback::slotPaintEffect() {
         readDoubleNumEntry("doFancyLogoutAdditionalDarkness", 0.6);
 
     float doFancyLogoutFadeTime = (float)KConfigGroup(KGlobal::config(), "Logout").
-        readDoubleNumEntry("doFancyLogoutFadeTime", 4000);
+        readDoubleNumEntry("doFancyLogoutFadeTime", 1000);
 
     float doFancyLogoutFadeBackTime = (float)KConfigGroup(KGlobal::config(), "Logout").
-        readDoubleNumEntry("doFancyLogoutFadeBackTime", 1000);
+        readDoubleNumEntry("doFancyLogoutFadeBackTime", 500);
 
     // if slotPaintEffect() is called first time, we have to initialize the gray image
     // we also could do that in the constructor, but then the displaying of the
@@ -245,7 +245,7 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
   frame->setLineWidth(style().pixelMetric(QStyle::PM_DefaultFrameWidth, frame));
   // we need to set the minimum size for the logout box, since it
   // gets too small if there isn't all options available
-  frame->setMinimumWidth(400);
+  frame->setMinimumWidth(100);
   vbox->addWidget(frame);
   vbox = new QVBoxLayout(frame, 2*KDialog::marginHint(), 2*KDialog::spacingHint());
 
