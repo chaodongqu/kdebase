@@ -216,7 +216,7 @@ namespace KWinInternal
     if (on_shutdown) {
       // map the window, so it can be found after another WM is started
       XMapWindow(qt_xdisplay(), client);
-      // TODO preserve minimized, shaded etc. state?
+      //TODO: preserve minimized, shaded etc. state?
     } else {
       // Make sure it's not mapped if the app unmapped it (#65279). The app
       // may do map+unmap before we initially map the window by calling
@@ -536,7 +536,7 @@ namespace KWinInternal
     }
     // this is here because kicker's taskbar doesn't provide separate entries
     // for windows with an explicitly given parent
-    // TODO perhaps this should be redone
+    //TODO: perhaps this should be redone
     if (transientFor() != NULL) return false;
 
     // SELI - NET::Utility? why wantsTabFocus() - skiptaskbar? ?
@@ -712,7 +712,7 @@ namespace KWinInternal
     decoration->borders(border_left, border_right, border_top, border_bottom);
 
     int as = options->animateShade? 10 : 1;
-    // TODO all this unmapping, resizing etc. feels too much duplicated from elsewhere
+    //TODO: all this unmapping, resizing etc. feels too much duplicated from elsewhere
     if (isShade()) { // shade_mode == ShadeNormal
       // we're about to shade, texx xcompmgr to prepare
       long _shade = 1;
@@ -1545,7 +1545,7 @@ namespace KWinInternal
           abs(width()-workspace()->clientArea(FullArea, this).width())<10)
         wt = NET::TopMenu;
     }
-    // TODO: change this to rule
+    //TODO: change this to rule
     const char* const oo_prefix = "openoffice.org"; // QCString has no startsWith()
     // oo_prefix is lowercase, because resourceClass() is forced to be lowercase
     if (qstrncmp(resourceClass(), oo_prefix, strlen(oo_prefix))==0 && wt==NET::Dialog)
@@ -1589,7 +1589,7 @@ namespace KWinInternal
     }
   }
 
-//TODO: mit nejake checkCursor(), ktere se zavola v manage() a pri vecech, kdy by se kurzor mohl zmenit?
+  //TODO: mit nejake checkCursor(), ktere se zavola v manage() a pri vecech, kdy by se kurzor mohl zmenit?
   void Client::setCursor(const QCursor& c) {
     if (c.handle() == cursor.handle()) return;
     cursor = c;
