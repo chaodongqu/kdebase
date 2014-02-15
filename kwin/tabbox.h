@@ -1,3 +1,4 @@
+//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*****************************************************************
  KWin - the KDE window manager
  This file is part of the KDE project.
@@ -19,84 +20,79 @@ License. See the file "COPYING" for the exact licensing terms.
 
 class QLabel;
 
-namespace KWinInternal
-{
+namespace KWinInternal {
+  class Workspace;
+  class Client;
 
-class Workspace;
-class Client;
-
-class TabBox : public QFrame
-    {
+  class TabBox : public QFrame
+  {
     Q_OBJECT
-    public:
-        TabBox( Workspace *ws, const char *name=0 );
-        ~TabBox();
+  public:
+    TabBox(Workspace *ws, const char *name=0);
+    ~TabBox();
 
-        Client* currentClient();
-        void setCurrentClient( Client* c );
-        int currentDesktop();
+    Client* currentClient();
+    void setCurrentClient(Client* c);
+    int currentDesktop();
 
     // DesktopMode and WindowsMode are based on the order in which the desktop
     //  or window were viewed.
     // DesktopListMode lists them in the order created.
-        enum Mode { DesktopMode, DesktopListMode, WindowsMode };
-        void setMode( Mode mode );
-        Mode mode() const;
+    enum Mode { DesktopMode, DesktopListMode, WindowsMode };
+    void setMode(Mode mode);
+    Mode mode() const;
 
-        void reset();
-        void nextPrev( bool next = TRUE);
+    void reset();
+    void nextPrev(bool next = TRUE);
 
-        void delayedShow();
-        void hide();
+    void delayedShow();
+    void hide();
 
-        void handleMouseEvent( XEvent* );
+    void handleMouseEvent(XEvent*);
 
-        Workspace* workspace() const;
+    Workspace* workspace() const;
 
-        void reconfigure();
+    void reconfigure();
 
-    protected:
-        void showEvent( QShowEvent* );
-        void hideEvent( QHideEvent* );
-        void drawContents( QPainter * );
+  protected:
+    void showEvent(QShowEvent*);
+    void hideEvent(QHideEvent*);
+    void drawContents(QPainter *);
 
-    private:
-        void createClientList(ClientList &list, int desktop /*-1 = all*/, Client *start, bool chain);
-        void updateOutline();
+  private:
+    void createClientList(ClientList &list, int desktop /*-1 = all*/, Client *start, bool chain);
+    void updateOutline();
 
-    private:
-        Client* current_client;
-        Mode m;
-        Workspace* wspace;
-        ClientList clients;
-        int desk;
-        int lineHeight;
-        bool showMiniIcon;
-        QTimer delayedShowTimer;
-        QString no_tasks;
-        bool options_traverse_all;
-        Window outline_left, outline_right, outline_top, outline_bottom;
-    };
+  private:
+    Client* current_client;
+    Mode m;
+    Workspace* wspace;
+    ClientList clients;
+    int desk;
+    int lineHeight;
+    bool showMiniIcon;
+    QTimer delayedShowTimer;
+    QString no_tasks;
+    bool options_traverse_all;
+    Window outline_left, outline_right, outline_top, outline_bottom;
+  };
 
 
-/*!
-  Returns the tab box' workspace
- */
-inline Workspace* TabBox::workspace() const
-    {
+  /*!
+    Returns the tab box' workspace
+  */
+  inline Workspace* TabBox::workspace() const {
     return wspace;
-    }
+  }
 
-/*!
-  Returns the current mode, either DesktopListMode or WindowsMode
+  /*!
+    Returns the current mode, either DesktopListMode or WindowsMode
 
-  \sa setMode()
- */
-inline TabBox::Mode TabBox::mode() const
-    {
+    \sa setMode()
+  */
+  inline TabBox::Mode TabBox::mode() const {
     return m;
-    }
-
+  }
 } // namespace
 
 #endif
