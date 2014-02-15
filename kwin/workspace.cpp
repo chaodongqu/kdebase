@@ -2181,6 +2181,12 @@ namespace KWinInternal
     kapp->dcopClient()->emitDCOPSignal("default", "kompmgrStopped()", ba);
   }
 
+  /*!
+    SLOT for handling tiling behaviour for active window
+  */
+  void Workspace::tileWindow() {
+  }
+
   bool Workspace::kompmgrIsRunning() {
     return kompmgr && kompmgr->isRunning();
   }
