@@ -102,7 +102,8 @@ public:
       NoBorderOp,
       NoOp,
       SetupWindowShortcutOp,
-      ApplicationRulesOp     ///< @since 3.5
+      ApplicationRulesOp,     ///< @since 3.5
+      ToggleTileOp,
     };
 
     /**

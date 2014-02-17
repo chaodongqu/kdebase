@@ -1109,6 +1109,10 @@ namespace KWinInternal
     is_tiled = 1;
   }
 
+  void Client::toggleTiled() {
+    is_tiled = is_tiled == 1 ? 0 : 1;
+  }
+
   int Client::screen() const {
     if (!options->xineramaEnabled) return 0;
     return workspace()->sc_num(geometry().center());

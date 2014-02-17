@@ -132,6 +132,7 @@ namespace KWinInternal
 
     bool isTiled() const;
     void setTiled();
+    void toggleTiled();
 
     bool isMinimized() const;
     bool isMaximizable() const;

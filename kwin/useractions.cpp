@@ -392,6 +392,10 @@ namespace KWinInternal {
       case Options::LowerOp:
         lowerClient(c);
         break;
+      case Options::ToggleTileOp:
+        c->toggleTiled();
+        updateStackingOrder(false);
+        break;
       case Options::NoOp:
         break;
     }
