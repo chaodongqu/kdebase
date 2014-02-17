@@ -2182,9 +2182,11 @@ namespace KWinInternal
   }
 
   /*!
-    SLOT for handling tiling behaviour for active window
+    SLOT method:
+    Toggles tiling behaviour for active window
   */
-  void Workspace::tileWindow() {
+  void Workspace::toggleTileWindow() {
+    performWindowOperation(active_client, Options::ToggleTileOp);
   }
 
   bool Workspace::kompmgrIsRunning() {

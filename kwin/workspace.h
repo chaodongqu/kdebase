@@ -406,7 +406,7 @@ namespace KWinInternal {
     void stopKompmgr();
     // end
 
-    void tileWindow();
+    void toggleTileWindow();
 
   protected:
     bool keyPressMouseEmulation(XKeyEvent& ev);

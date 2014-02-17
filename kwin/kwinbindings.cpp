@@ -1,12 +1,12 @@
 #ifndef NOSLOTS
-# define DEF2( name, descr, key3, key4, fnSlot ) \
+#define DEF2( name, descr, key3, key4, fnSlot ) \
    keys->insert( name, i18n(descr), QString::null, key3, key4, this, SLOT(fnSlot) )
-# define DEF( name, key3, key4, fnSlot ) \
+#define DEF( name, key3, key4, fnSlot ) \
    keys->insert( name, i18n(name), QString::null, key3, key4, this, SLOT(fnSlot) )
 #else
-# define DEF2( name, descr, key3, key4, fnSlot ) \
+#define DEF2( name, descr, key3, key4, fnSlot ) \
    keys->insert( name, i18n(descr), QString::null, key3, key4 )
-# define DEF( name, key3, key4, fnSlot ) \
+#define DEF( name, key3, key4, fnSlot ) \
    keys->insert( name, i18n(name), QString::null, key3, key4 )
 #endif
 
@@ -18,62 +18,41 @@
 	keys->insert( "Program:kwin", i18n("System") );
 
 	keys->insert( "Group:Navigation", i18n("Navigation") );
-	DEF( I18N_NOOP("Walk Through Windows"),                ALT+Qt::Key_Tab, ALT+Qt::Key_Tab, slotWalkThroughWindows() );
-	DEF( I18N_NOOP("Walk Through Windows (Reverse)"),      ALT+SHIFT+Qt::Key_Tab, ALT+SHIFT+Qt::Key_Tab, slotWalkBackThroughWindows() );
-	DEF( I18N_NOOP("Walk Through Desktops"),               0, WIN+Qt::Key_Tab, slotWalkThroughDesktops() );
-	DEF( I18N_NOOP("Walk Through Desktops (Reverse)"),     0, WIN+SHIFT+Qt::Key_Tab, slotWalkBackThroughDesktops() );
-	DEF( I18N_NOOP("Walk Through Desktop List"),           0, 0, slotWalkThroughDesktopList() );
+	DEF( I18N_NOOP("Walk Through Windows"), ALT+Qt::Key_Tab, ALT+Qt::Key_Tab, slotWalkThroughWindows() );
+	DEF( I18N_NOOP("Walk Through Windows (Reverse)"), ALT+SHIFT+Qt::Key_Tab, ALT+SHIFT+Qt::Key_Tab, slotWalkBackThroughWindows() );
+	DEF( I18N_NOOP("Walk Through Desktops"), 0, WIN+Qt::Key_Tab, slotWalkThroughDesktops() );
+	DEF( I18N_NOOP("Walk Through Desktops (Reverse)"), 0, WIN+SHIFT+Qt::Key_Tab, slotWalkBackThroughDesktops() );
+	DEF( I18N_NOOP("Walk Through Desktop List"), 0, 0, slotWalkThroughDesktopList() );
 	DEF( I18N_NOOP("Walk Through Desktop List (Reverse)"), 0, 0, slotWalkBackThroughDesktopList() );
 
 	keys->insert( "Group:Windows", i18n("Windows") );
-	DEF( I18N_NOOP("Window Operations Menu"),              ALT+Qt::Key_F3, ALT+Qt::Key_Menu, slotWindowOperations() );
-	DEF2( "Window Close", I18N_NOOP("Close Window"),
-            ALT+Qt::Key_F4, "Alt+Escape;Alt+F4", slotWindowClose() );
-	DEF2( "Window Maximize", I18N_NOOP("Maximize Window"),
-            0, WIN+Qt::Key_Plus, slotWindowMaximize() );
-	DEF2( "Window Maximize Vertical", I18N_NOOP("Maximize Window Vertically"),
-            0, WIN+Qt::Key_Bar, slotWindowMaximizeVertical() );
-	DEF2( "Window Maximize Horizontal", I18N_NOOP("Maximize Window Horizontally"),
-            0, WIN+Qt::Key_Equal, slotWindowMaximizeHorizontal() );
-	DEF2( "Window Minimize", I18N_NOOP("Minimize Window"),
-            0, WIN+Qt::Key_Minus, slotWindowMinimize() );
-	DEF2( "Window Shade", I18N_NOOP("Shade Window"),
-            0, WIN+Qt::Key_Underscore, slotWindowShade() );
-	DEF2( "Window Move", I18N_NOOP("Move Window"),
-            0, 0, slotWindowMove() );
-	DEF2( "Window Resize", I18N_NOOP("Resize Window"),
-            0, 0, slotWindowResize() );
-	DEF2( "Window Raise", I18N_NOOP("Raise Window"),
-            0, 0, slotWindowRaise() );
-	DEF2( "Window Lower", I18N_NOOP("Lower Window"),
-            0, 0, slotWindowLower() );
-	DEF( I18N_NOOP("Toggle Window Raise/Lower"),           0, 0, slotWindowRaiseOrLower() );
-        DEF2( "Window Fullscreen", I18N_NOOP("Make Window Fullscreen"),
-            0, 0, slotWindowFullScreen() );
-        DEF2( "Window No Border", I18N_NOOP("Hide Window Border"),
-            0, 0, slotWindowNoBorder() );
-        DEF2( "Window Above Other Windows", I18N_NOOP("Keep Window Above Others"),
-            0, 0, slotWindowAbove() );
-        DEF2( "Window Below Other Windows", I18N_NOOP("Keep Window Below Others"),
-            0, 0, slotWindowBelow() );
-        DEF( I18N_NOOP("Activate Window Demanding Attention"), CTRL+ALT+Qt::Key_A, 0, slotActivateAttentionWindow());
-        DEF( I18N_NOOP("Setup Window Shortcut"), 0, 0, slotSetupWindowShortcut());
-        DEF2( "Window Pack Right", I18N_NOOP("Pack Window to the Right"),
-            0, 0, slotWindowPackRight() );
-        DEF2( "Window Pack Left", I18N_NOOP("Pack Window to the Left"),
-            0, 0, slotWindowPackLeft() );
-        DEF2( "Window Pack Up", I18N_NOOP("Pack Window Up"),
-            0, 0, slotWindowPackUp() );
-        DEF2( "Window Pack Down", I18N_NOOP("Pack Window Down"),
-            0, 0, slotWindowPackDown() );
-        DEF2( "Window Grow Horizontal", I18N_NOOP("Pack Grow Window Horizontally"),
-            0, 0, slotWindowGrowHorizontal() );
-        DEF2( "Window Grow Vertical", I18N_NOOP("Pack Grow Window Vertically"),
-            0, 0, slotWindowGrowVertical() );
-        DEF2( "Window Shrink Horizontal", I18N_NOOP("Pack Shrink Window Horizontally"),
-            0, 0, slotWindowShrinkHorizontal() );
-        DEF2( "Window Shrink Vertical", I18N_NOOP("Pack Shrink Window Vertically"),
-            0, 0, slotWindowShrinkVertical() );
+	DEF2( "window_menu", I18N_NOOP("Window ops menu"), ALT+Qt::Key_F3, ALT+Qt::Key_Menu, slotWindowOperations() );
+	DEF2( "window_close", I18N_NOOP("Close active window"), ALT+Qt::Key_F4, "Alt+Escape;Alt+F4", slotWindowClose() );
+	DEF2( "window_max", I18N_NOOP("Maximize active window"), 0, WIN+Qt::Key_Plus, slotWindowMaximize() );
+	DEF2( "window_vmax", I18N_NOOP("Maximize active window vertically"), 0, WIN+Qt::Key_Bar, slotWindowMaximizeVertical() );
+	DEF2( "window_hmax", I18N_NOOP("Maximize active window horizontally"), 0, WIN+Qt::Key_Equal, slotWindowMaximizeHorizontal() );
+	DEF2( "window_min", I18N_NOOP("Minimize active window"), 0, WIN+Qt::Key_Minus, slotWindowMinimize() );
+	DEF2( "window_shade", I18N_NOOP("Shade active window"), 0, WIN+Qt::Key_Underscore, slotWindowShade() );
+	DEF2( "window_move", I18N_NOOP("Move active window"), 0, 0, slotWindowMove() );
+	DEF2( "window_size", I18N_NOOP("Resize active window"), 0, 0, slotWindowResize() );
+	DEF2( "window_raise", I18N_NOOP("Raise active window"), 0, 0, slotWindowRaise() );
+	DEF2( "window_lower", I18N_NOOP("Lower active window"), 0, 0, slotWindowLower() );
+    DEF2( "window_tile", I18N_NOOP("Tile active window"), SHIFT+ALT+Qt::Key_P, SHIFT+ALT+Qt::Key_P, toggleTileWindow() );
+	DEF( I18N_NOOP("Toggle Window Raise/Lower"), 0, 0, slotWindowRaiseOrLower() );
+    DEF2( "window_fullscreen", I18N_NOOP("Make Window Fullscreen"), 0, 0, slotWindowFullScreen() );
+    DEF2( "Window No Border", I18N_NOOP("Hide Window Border"), 0, 0, slotWindowNoBorder() );
+    DEF2( "Window Above Other Windows", I18N_NOOP("Keep Window Above Others"), 0, 0, slotWindowAbove() );
+    DEF2( "Window Below Other Windows", I18N_NOOP("Keep Window Below Others"), 0, 0, slotWindowBelow() );
+    DEF( I18N_NOOP("Activate Window Demanding Attention"), CTRL+ALT+Qt::Key_A, 0, slotActivateAttentionWindow());
+    DEF( I18N_NOOP("Setup Window Shortcut"), 0, 0, slotSetupWindowShortcut());
+    DEF2( "Window Pack Right", I18N_NOOP("Pack Window to the Right"), 0, 0, slotWindowPackRight() );
+    DEF2( "Window Pack Left", I18N_NOOP("Pack Window to the Left"), 0, 0, slotWindowPackLeft() );
+    DEF2( "Window Pack Up", I18N_NOOP("Pack Window Up"), 0, 0, slotWindowPackUp() );
+    DEF2( "Window Pack Down", I18N_NOOP("Pack Window Down"), 0, 0, slotWindowPackDown() );
+    DEF2( "Window Grow Horizontal", I18N_NOOP("Pack Grow Window Horizontally"), 0, 0, slotWindowGrowHorizontal() );
+    DEF2( "Window Grow Vertical", I18N_NOOP("Pack Grow Window Vertically"), 0, 0, slotWindowGrowVertical() );
+    DEF2( "Window Shrink Horizontal", I18N_NOOP("Pack Shrink Window Horizontally"), 0, 0, slotWindowShrinkHorizontal() );
+    DEF2( "Window Shrink Vertical", I18N_NOOP("Pack Shrink Window Vertically"), 0, 0, slotWindowShrinkVertical() );
 
 	keys->insert( "Group:Window Desktop", i18n("Window & Desktop") );
         DEF2( "Window On All Desktops", I18N_NOOP("Keep Window on All Desktops"),
