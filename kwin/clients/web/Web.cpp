@@ -241,90 +241,50 @@ WebClient::paintEvent(QPaintEvent * pe)
 
   p.fillRect(titleRect, options()->color(ColorTitleBar, isActive()));
 
-  if (shape_)
-  {
-    int r(width());
-    int b(height());
-
-    // Draw edge of top-left corner inside the area removed by the mask.
-
-    p.drawPoint(3, 1);
-    p.drawPoint(4, 1);
-    p.drawPoint(2, 2);
-    p.drawPoint(1, 3);
-    p.drawPoint(1, 4);
-
-    // Draw edge of top-right corner inside the area removed by the mask.
-
-    p.drawPoint(r - 5, 1);
-    p.drawPoint(r - 4, 1);
-    p.drawPoint(r - 3, 2);
-    p.drawPoint(r - 2, 3);
-    p.drawPoint(r - 2, 4);
-
-    // Draw edge of bottom-left corner inside the area removed by the mask.
-
-    p.drawPoint(1, b - 5);
-    p.drawPoint(1, b - 4);
-    p.drawPoint(2, b - 3);
-    p.drawPoint(3, b - 2);
-    p.drawPoint(4, b - 2);
-
-    // Draw edge of bottom-right corner inside the area removed by the mask.
-
-    p.drawPoint(r - 2, b - 5);
-    p.drawPoint(r - 2, b - 4);
-    p.drawPoint(r - 3, b - 3);
-    p.drawPoint(r - 4, b - 2);
-    p.drawPoint(r - 5, b - 2);
-  }
-
   p.setFont(options()->font(isActive(), isToolWindow()));
-
   p.setPen(options()->color(ColorFont, isActive()));
-
   p.drawText(titleRect, AlignCenter, caption());
 }
 
 void WebClient::updateWindowShape()
 {
-  if (!shape_)
-    return;
+  //if (!shape_)
+  //  return;
 
-  QRegion mask(0, 0, width(), height());
+  //QRegion mask(0, 0, width(), height());
 
-  int r(width());
-  int b(height());
+  //int r(width());
+  //int b(height());
 
   // Remove top-left corner.
 
-  mask -= QRegion(0, 0, 5, 1);
-  mask -= QRegion(0, 1, 3, 1);
-  mask -= QRegion(0, 2, 2, 1);
-  mask -= QRegion(0, 3, 1, 2);
+  //mask -= QRegion(0, 0, 5, 1);
+  //mask -= QRegion(0, 1, 3, 1);
+  //mask -= QRegion(0, 2, 2, 1);
+  //mask -= QRegion(0, 3, 1, 2);
 
   // Remove top-right corner.
 
-  mask -= QRegion(r - 5, 0, 5, 1);
-  mask -= QRegion(r - 3, 1, 3, 1);
-  mask -= QRegion(r - 2, 2, 2, 1);
-  mask -= QRegion(r - 1, 3, 1, 2);
+  //mask -= QRegion(r - 5, 0, 5, 1);
+  //mask -= QRegion(r - 3, 1, 3, 1);
+  //mask -= QRegion(r - 2, 2, 2, 1);
+  //mask -= QRegion(r - 1, 3, 1, 2);
 
   // Remove bottom-left corner.
 
-  mask -= QRegion(0, b - 5, 1, 3);
-  mask -= QRegion(0, b - 3, 2, 1);
-  mask -= QRegion(0, b - 2, 3, 1);
-  mask -= QRegion(0, b - 1, 5, 1);
+  //mask -= QRegion(0, b - 5, 1, 3);
+  //mask -= QRegion(0, b - 3, 2, 1);
+  //mask -= QRegion(0, b - 2, 3, 1);
+  //mask -= QRegion(0, b - 1, 5, 1);
 
   // Remove bottom-right corner.
 
-  mask -= QRegion(r - 5, b - 1, 5, 1);
-  mask -= QRegion(r - 3, b - 2, 3, 1);
-  mask -= QRegion(r - 2, b - 3, 2, 1);
-  mask -= QRegion(r - 1, b - 5, 1, 2);
+  //mask -= QRegion(r - 5, b - 1, 5, 1);
+  //mask -= QRegion(r - 3, b - 2, 3, 1);
+  //mask -= QRegion(r - 2, b - 3, 2, 1);
+  //mask -= QRegion(r - 1, b - 5, 1, 2);
 
-  setMask(mask);
+  //setMask(mask);
 }
 
 KDecoration* WebFactory::createDecoration( KDecorationBridge* b )
