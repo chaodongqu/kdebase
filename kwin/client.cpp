@@ -1102,7 +1102,7 @@ namespace KWinInternal
   }
 
   bool Client::isTiled() const {
-    return is_tiled == 1;
+    return ((bool)is_tiled == 1);
   }
 
   void Client::setTiled() {
