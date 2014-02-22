@@ -392,10 +392,13 @@ namespace KWinInternal {
       case Options::LowerOp:
         lowerClient(c);
         break;
-      case Options::ToggleTileOp:
+      case Options::ToggleTileOp: {
+        QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
         c->toggleTiled();
+        c->setUserNoBorder(c->isTiled());
+        initPositioning->placeCentered(c, area);
         updateStackingOrder(false);
-        break;
+      } break;
       case Options::NoOp:
         break;
     }
