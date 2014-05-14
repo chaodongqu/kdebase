@@ -129,7 +129,7 @@ KrProgress::KrProgress( KIO::Job* job )
   // change to modal & move to Krusader's center
     QPoint center((krApp->width()-width())/2,(krApp->height()-height())/2);
   center = center+(krApp->pos());
-  reparent(krApp,WType_Modal,center);
+  reparent(krApp,Qt::WType_Modal,center);
   //setWFlags(WType_Modal);
   //move((krApp->width()-width())/2,(krApp->height()-height())/2);
   show();
