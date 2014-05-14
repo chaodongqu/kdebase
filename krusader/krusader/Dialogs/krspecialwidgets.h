@@ -52,7 +52,7 @@ class KRPie : public QWidget {
     void paintEvent( QPaintEvent * );
 
   private:
-    QList<KRPieSlice> slices;
+    QPtrList<KRPieSlice> slices;
     KIO::filesize_t totalSize, sizeLeft;
     static QColor colors[ 12 ];
 };
