@@ -1,0 +1,1848 @@
+<chapter id="faq">
+  <!-- **********************************************************************
+                               faq.docbook
+                          ++++++++++++++++++++
+  copyright            : (C) 2000 - 2008
+                          Rafi Yanai, Shie Erlich, Frank Schoolmeesters
+                          & the Krusader Krew
+  e-mail               : krusader@users.sourceforge.net
+  web site             : http://www.krusader.org
+  description          : a Krusader Documentation File
+
+***************************************************************************
+* Permission is granted to copy, distribute and/or modify this            *
+* document under the terms of the GNU Free Documentation License,         *
+* Version 1.1 or any later version published by the Free Software         *
+* Foundation; with no Invariant Sections, no Front-Cover Texts and        *
+* no Back-Cover Texts.  A copy of the license is available on the         *
+* GNU site http://www.gnu.org/licenses/fdl.html or by writing to:         *
+* Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,    *
+* MA 02111-1307, USA.                                                     *
+*********************************************************************** -->
+  <title>Frequently Asked Questions (&FAQ;)</title>
+  <indexterm>
+    <primary>FAQ</primary>
+  </indexterm>
+  <!--  &reporting.bugs;
+  &updating.documentation; -->
+  <para>If you have problems with &krusader; please
+  check the &install-proc-lnk;, as your problem may be
+  caused by a bad installation.</para>
+  <para>The &FAQ; is divided into three sections: 
+  <itemizedlist>
+    <listitem>
+      <para>
+      <link linkend="faq_installation">Installation
+      &FAQ;</link> (this page)</para>
+    </listitem>
+    <listitem>
+      <para>
+      <link linkend="faq_usage">Usage
+      &FAQ;</link> (issues with running/using
+      &krusader;)</para>
+    </listitem>
+    <listitem>
+      <para>
+      <link linkend="faq_general">General
+      &FAQ;</link> (bug reports, forum, mailing list,
+      ...)</para>
+    </listitem>
+  </itemizedlist>If you feel that a &FAQ; is missing or
+  if something is not clear to you, please 
+  <link linkend="editors_note">let us know</link>.</para>
+  <sect1 id="faq_installation">
+    <title>Installation &FAQ;</title>
+    <qandaset>
+      <qandaentry>
+        <question id="faqi_kdelibs">
+          <para>Does &krusader; need &kde; to
+          run?</para>
+        </question>
+        <answer>
+          <para>
+          <emphasis>No, &krusader; does not need the
+          &kde; window manager</emphasis> to run on your
+          computer but &krusader;'s natural environment
+          is &kde;, because it relies on services
+          provided by the &kde; base libraries. Only
+          some shared libraries are needed &eg;
+          &kde; libraries, &Qt; libraries,
+          &etc; This means that &krusader;
+          runs on &gnome-url;,
+          &afterstep-url;, &xfce-url; and
+          other window managers provided the approriate libraries
+          are installed on your computer. All this is not a problem
+          since the apt-get world can resolve these dependencies
+          instantly.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+          <para>You do not need to switch to the &kde;
+          window manager to use &krusader;; you can
+          still use &gnome-url;,
+          &afterstep-url;, &xfce-url; or
+          another window manager. However, the configuration of the
+          &krusader; fonts and some behavior is done by
+          running 
+          <command>kcontrol</command>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+          <para>A lot depends on what you want to do with
+          &krusader;. You should know that
+          &krusader; uses the &kde;
+          &kioslaves1-url; to access remote file
+          systems, and support for only a limited number of file
+          system types are shipped with &kdelibs-url;,
+          most of the &kioslaves2-url; are bundled with
+          &kdebase-url; (including fish, sftp and tar).
+          However, if you want the property-dialog to show
+          EXIF-data for .jpeg's, you need &kde;graphics.
+          If you want ID3-infos, you need
+          &kde;multimedia, and so on.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+          <para>To summarize, if you want a working
+          &krusader; - install &kde;libs. If
+          you want a functional &krusader; then you need
+          &kde;libs + &kde;base. For maximum
+          functionality, &krusader; needs all of the
+          &kde; package libraries, but the
+          &kde; window manager is optional.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_libs">
+          <para>Which libraries does &krusader; need to
+          run?</para>
+        </question>
+        <answer>
+          <para>For running &krusader; (&eg;
+          when you have installed &krusader; with a
+          binary RPM) you need less libraries than if you compile
+          &krusader; from source. &eg; you
+          only need the C-compliler &gcc; when you
+          compile &krusader; from source (see the next
+          question).</para>
+          <para>Here is a list of the required shared libraries
+          when you run &krusader;:</para>
+          <para>
+          <itemizedlist>
+            <listitem>
+              <para>kdelibs (for the required &kde;
+              version see the &install-proc-lnk;)</para>
+            </listitem>
+            <listitem>
+              <para>libacl1 libart-2.0 libattr1 libaudio2 libc6
+              libfam0 libfontconfig1</para>
+            </listitem>
+            <listitem>
+              <para>libfreetype6 libgcc1 libgcc2 libice6 libidn11
+              libjpeg62 libkjsembed1</para>
+            </listitem>
+            <listitem>
+              <para>libkonq4 libpcre3 libpng12 libqt3-mt libsm6
+              libstdc++6 libunwind7 libx11-6</para>
+            </listitem>
+            <listitem>
+              <para>libxcursor1 libxext6 libxft2 libxi6
+              libxinerama1 libxrandr2 libxrender1 libxt6
+              zlib1g</para>
+            </listitem>
+          </itemizedlist>If you need more info please take a look
+          at the &deb-requirements-url; .</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_missing_libs">
+          <para>I have followed all the steps but 
+          <command>configure</command>complains about missing libs
+          or headers. What do I need to do?</para>
+        </question>
+        <answer>
+          <para>Install the missing packages.</para>
+          <para>Here is a list of the required packages to compile
+          &krusader; from source:</para>
+          <para>
+            <itemizedlist>
+              <listitem>
+                <para>gcc-cpp gcc-c++ glibc libgcc1 (other
+                compilers may work but haven't been tested)</para>
+              </listitem>
+              <listitem>
+                <para>autoconf automake XFree</para>
+              </listitem>
+              <listitem>
+                <para>libqt3 libqt-devel</para>
+              </listitem>
+              <listitem>
+                <para>kdelibs kdelibs-devel</para>
+              </listitem>
+              <listitem>
+                <para>libjpeg62 libjpeg-devel libpng3
+                libmng1</para>
+              </listitem>
+              <listitem>
+                <para>fam libfam-devel</para>
+              </listitem>
+              <listitem>
+                <para>zlib1 arts libart_lgpl2 libstdc++5
+                libpcre0</para>
+              </listitem>
+              <listitem>
+                <para>libkjsembed, if you use the
+                &javascript-console-lnk;, often found in
+                a package called KDEbindings(-devel) and
+                libkonq-dev for the &konqueror;
+                right-click menu entries.</para>
+              </listitem>
+            </itemizedlist>
+          </para>
+          <para>Most RPM-based distributions separate the headers
+          from the libs. The headers are needed to compile
+          &krusader;. Look for packages in the form
+          foo-devel-*.rpm (&eg; 
+          <filename>kdelibs-devel-foo.i586.rpm</filename>) or
+          foo-dev-*.deb for &debian; based
+          distributions. These are usually included with your
+          distribution. 
+          <tip>
+            <para>If you ca not find the needed package, use
+            &rpmfind-url; and click 'missing lib or
+            header' in the search line. Or use 
+            <command>apt-cache search 
+            <replaceable>foo</replaceable></command> to find the
+            corresponding package for &debian; based
+            distributions.</para>
+          </tip></para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_64bit">
+          <para>How do I compile &krusader; when I'm
+          using a 64 bit processor ?</para>
+        </question>
+        <answer>
+          <para>As far as we know, there are no issues.
+          &krusader; is also available on 
+          <ulink url="http://packages.debian.org/unstable/utils/krusader">
+          many other architectures</ulink>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_rpm-source">
+          <para>I have downloaded the Source RPM 
+          <filename>krusader-x.xx.dist.src.rpm</filename>, what to
+          do now?</para>
+        </question>
+        <answer>
+          <para>
+            <orderedlist>
+              <listitem>
+                <para>Check the ownership and the permissions on 
+                <filename class="directory">
+                /usr/src/RPM/</filename> and all recursive
+                directories that your normal user can
+                read-write-execute in these directories.</para>
+              </listitem>
+              <listitem>
+                <para>To produce the binary RPM for your computer,
+                do this: 
+                <screen><prompt>$</prompt> <userinput><command>rpm</command> <option>--rebuild</option> <replaceable>&lt;/path/to/rpmfile/&gt; krusader-x.xx.dist.src.rpm</replaceable></userinput></screen>
+                </para>
+              </listitem>
+              <listitem>
+                <para>If all 
+                <link linkend="faqi_missing_libs">
+                dependencies</link> are OK, a binary RPM 
+                <filename>krusader-x.xx.dist.rpm</filename> will be
+                created at 
+                <filename class="directory">
+                /usr/src/RPM/RPMS/i586</filename> (replace i586 with
+                your architecture).</para>
+              </listitem>
+              <listitem>
+                <para>Test the binary RPM for errors before
+                installing: 
+                <screen><prompt>$</prompt> <userinput><command>rpm</command> <option>-i --test</option> <replaceable>&lt;/path/to/rpmfile&gt; krusader-x.xx.dist.rpm</replaceable></userinput></screen>
+                If the prompt returns without any message,
+                then everything is OK.</para>
+              </listitem>
+              <listitem>
+                <para>Install the binary RPM as usual, for example:
+                <screen><prompt>$</prompt> <userinput><command>su -c 'rpm</command> <option>-Uvh</option> <replaceable>&lt;/path/to/rpmfile&gt; krusader-x.xx.dist.rpm</replaceable>'</userinput></screen> 
+                You will be asked to enter your root
+                password.</para>
+              </listitem>
+              <listitem>
+                <para>Now you can 
+                <link linkend="starting-krusader">
+                start</link> &krusader;.</para>
+              </listitem>
+            </orderedlist>
+          </para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+          <tip>
+            <para>For more information about RPM, visit
+            &rpm-org-url; and read the
+            &rpm-guide-url; by Eric
+            Foster-Johnson.</para>
+          </tip>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_rpm-fails">
+          <para>I'm trying to install binary foo (RPM or DEB
+          package), but it fails. What's wrong?</para>
+        </question>
+        <answer>
+          <para>Since we only prepare (and use) the source, we have
+          no way of knowing this. Did you test the binary RPM
+          before installing? 
+          <screen><prompt>$</prompt> <userinput><command>rpm</command> <option>-i --test</option> <replaceable>&lt;/path/to/rpmfile&gt; krusader-x.xx.dist.rpm</replaceable></userinput></screen> 
+          If the prompt returns without any message, then
+          everything is OK. RPM's downloaded from our website are
+          usually provided by &krusader; users. Visit
+          your distro website and search for an updated RPM.</para>
+          <para>If the RPM is not OK, try to find another package
+          at &Linux; software archives such as
+          &freshmeat-url; or &kde-apps-url;.
+          If you still can't find the appropriate package for your
+          &Linux; distribution, we recommend searching
+          for it with &rpmfind-url; or
+          &rpmpbone-url;.</para>
+          <para>In general, a package for an older version of your
+          distrubution or even for another distribution might work
+          on your computer (&eg; FC RPM's often work on
+          Mdk and RH, and vice versa), but it is always the best
+          that you install only RPM's that exactly match your
+          distribution. If you can't find a package that matches
+          your distribution version, architecture or distribution,
+          then use a source RPM. When you use a source RPM, the
+          Krusader sources will be built, on your computer,
+          guaranteeing a suitable binary RPM for your specific
+          distribution and architecture. In addition, this method
+          results in maximum system speed, since the resulting
+          binary is customized for your computer. Please read the
+          previous question, it explains how to install a source
+          RPM. The best solution is explained in the next
+          question.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_rpm-notfound">
+          <para>I can't find an RPM or DEB package for
+          &krusader;, what to do?</para>
+        </question>
+        <answer>
+          <para>Check if your distribution provides
+          &krusader;, if it doesn't then contact your
+          distribution creator and ask them to include
+          &krusader;!</para>
+          <para>Did you take a look at the &URL;'s on
+          the &install-proc-lnk; page? If you have and
+          found nothing, you can always compile
+          &krusader; from source. Even if you feel you
+          haven't got the necessary skills, you will probably
+          succeed in compiling &krusader;: we provide a
+          very detailed installation procedure. This HowTo enables
+          newcomers to compile &krusader; from source,
+          even if they have never done a compilation from source
+          before, just follow the instructions carefully. Feel free
+          to post a &help-request-lnk; if you encounter
+          problems.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_krusaderui_rc">
+          <para>I've installed &krusader;, but when I
+          start, only the 
+          <guimenu>"Help"</guimenu> menu appears. Why?</para>
+        </question>
+        <answer>
+          <para>In this case only the 
+          <guimenu>Help</guimenu> menu is visible and all other menu
+          items like &eg; 
+          <guimenu>File</guimenu> and 
+          <guimenu>Select</guimenu> are missing. This is because
+          some distributions put the 
+          <filename>krusaderui.rc</filename> file in the wrong
+          directory. To solve the problem, just copy the 
+          <filename>krusaderui.rc</filename> file from the package 
+          <filename>
+          krusader_kde3/krusader/krusaderui.rc</filename> to 
+          <filename>
+          $KDEDIR/share/apps/krusader/krusaderui.rc</filename> and 
+          <filename>
+          ~/.kde/share/apps/krusader/krusaderui.rc</filename> and
+          re-run &krusader;. If you have compiled
+          &krusader; from sources this is often caused
+          if the &kdeqtdir-lnk; environment variables
+          are not correctly set. The result is that the 
+          <filename>krusaderui.rc</filename> file is installed in
+          the wrong directory. Please read the following question,
+          as well.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_missing_menus">
+          <para>Some new menu items are missing after updating
+          &krusader;, what's wrong?</para>
+        </question>
+        <answer>
+          <para>The 
+          <filename>krusaderui.rc</filename> file is stored in 
+          <filename>
+          $KDEDIR/share/apps/krusader/krusaderui.rc</filename>.
+          When you change the 
+          <guilabel>"Toolbar"</guilabel>, &kde; makes a
+          copy of that file in the home directory at 
+          <filename>
+          ~/.kde/share/apps/krusader/krusaderui.rc</filename>. If
+          Krusader was previously installed on your computer, and
+          you install a newer &krusader; version the 
+          <filename>
+          ~/.kde/share/apps/krusader/krusaderui.rc</filename> file
+          must be replaced with the newer version. Note: this will
+          also reset all your changes on toolbars and
+          shortcuts!</para>
+          <para>The first line of 
+          <filename>krusaderui.rc</filename> contains the version
+          number. After installing a newer &krusader;
+          version, &kde; will automatically replace the
+          old 
+          <filename>
+          ~/.kde/share/apps/krusader/krusaderui.rc</filename> with
+          the newer version when starting the new
+          &krusader; for the first time
+          (&kde; will detect the newer version number in
+          the first line).</para>
+          <para>If you install a CVS or beta version and
+          &krusader; was already installed on your
+          computer then you should delete the 
+          <filename>krusaderui.rc</filename> file from your home
+          directory to activate the new menu entries 
+          <prompt>$</prompt>
+          <userinput>
+            <command>rm</command>
+            <option>
+            ~/.kde/share/apps/krusader/krusaderui.rc</option>
+          </userinput></para>
+          <para>If the 
+          <filename>
+          ~/.kde/share/apps/krusader/krusaderui.rc</filename> file
+          is older, then the new menu elements will not be shown.
+          Read the previous question for information on how to
+          update the 
+          <filename>krusaderui.rc</filename> file. If 
+          <filename>krusaderui.rc</filename> is missing or in a
+          wrong directory, only the 
+          <guimenu>"Help"</guimenu> menu appears, please read the
+          previous question.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_libfam_la">
+          <para>When I run 
+          <command>make</command>, it complains about 
+          <filename>libfam.la</filename>, what's wrong?</para>
+        </question>
+        <answer>
+          <para>The 
+          <command>./configure</command> script does not check for
+          the presence of 
+          <filename>libfam.la</filename>, and 
+          <command>make</command> needs 
+          <filename>libfam.la</filename> to compile
+          &krusader;. If you know how this can be
+          solved, please let us know. Install 
+          <filename>libfam0-devel-foo.rpm</filename>. Note: when
+          you install &Mandrake;-&Linux; 9.2
+          with the default settings, this package is not installed.
+          If you need more information take a look at
+          &missing-libs-lnk;.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_deb-qt">
+          <para>&debian; complains about &Qt;
+          when running 
+          <command>./configure</command>, what's wrong?</para>
+        </question>
+        <answer>
+          <para>This problem occurs when you use &gcc;
+          2.95, you need to install &gcc; 3.2 (or
+          higher). You also need to set the enviroment variables
+          "CC, CPP and CXX" before running the 
+          <command>./configure</command> script. 
+          <screen><prompt>$</prompt> <userinput><command>export</command> CC=<replaceable>/usr/bin/gcc-3.2</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>export</command> CXX=<replaceable>/usr/bin/g++-3.2</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>export</command> CPP=<replaceable>/usr/bin/cpp-3.2</replaceable></userinput>
+          </screen> 
+          For more information please take a look
+          &debian-qt-a-url; and at the
+          &debian-qt-b-url; on how to build a
+          &Qt;/&kde;3 application on
+          &debian;.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_nvidia">
+          <para>I have a 
+          <filename>libGLcore.so.1</filename> compile error after
+          using the &nvidia; installer, what to
+          do?</para>
+        </question>
+        <answer>
+          <para>This problem occurs when you use the
+          &nvidia; installer and not the official
+          &nvidia; packages of your distribution.
+          &krusader; is based on &Qt; which
+          can be linked against the X OpenGL libraries. As a result
+          &krusader; may look for OpenGL as well. The
+          problem is that the &nvidia; installer (prior
+          to version 7xxx) doesn't perform it's task properly: it
+          replaces the OpenGL header files (which get included into
+          &krusader;) but doesn't set the libGL links
+          correctly. The best solution is to use the
+          &nvidia; packages provided by your distributor
+          or a new &nvidia; installer, the current
+          version at the moment of writing is 7114. If, for some
+          reason, you must use an old &nvidia; driver,
+          one solution is the following hack, the exact commands
+          depend on the distribution used and the version of the
+          &nvidia; driver (6111 in this example), but it
+          should read something like this: 
+          <screen><prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>libGLcore.so.1.0.6111 libGLcore.so.0</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>libGLcore.so.1.0.6111 libGLcore.so</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>libGLcore.so.1.0.6111 libGLcore.so.1.0.0</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>libGLcore.so.1.0.6111 libGLcore.so.0.0.0</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>libGLcore.so.1.0.6111 libGL.so</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>libGLcore.so.1.0.6111 libGL.so.0</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>libGLcore.so.1.0.6111 libGL.so.0.0.0</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>libGLcore.so.1.0.6111 libGL.so.1</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>libGLcore.so.1.0.6111 libGL.so.1.0.0</replaceable></userinput>
+          <prompt>$</prompt> <userinput><command>ln</command> -s <replaceable>/usr/lib/libGLU.la /usr/X11R6/lib/libGLU.la</replaceable></userinput>
+          </screen></para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_gcc4">
+          <para>Why &krusader;-1.60.x does not compile
+          with gcc4?</para>
+        </question>
+        <answer>
+          <para>Because &krusader;-1.60.x was not gcc4
+          compatible, it first needs some patches: 
+          <itemizedlist>
+            <listitem>
+              <para>add 'class ListPanelFunc;' in
+              krusader/Panel/listpanel.h</para>
+            </listitem>
+            <listitem>
+              <para>add 'class KMountManGUI;' in
+              krusader/MountMan/kmountman.h</para>
+            </listitem>
+            <listitem>
+              <para>add 'class KrDetailedViewItem;' in
+              krusader/Panel/krdetailedview.h</para>
+            </listitem>
+          </itemizedlist>More information can be found in our 
+          <ulink url="http://www.krusader.org/phpBB/viewtopic.php?t=1328">
+          forum</ulink>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_help_request">
+          <para>I am having trouble compiling and installing
+          &krusader;, how do I send a help
+          request?</para>
+        </question>
+        <answer>
+          <para>Please read our detailed 
+          <link linkend="compilation">installation
+          procedure</link> and the &faq-lnk;. If you
+          can't find a solution to your problem then feel free to
+          post a 
+          <emphasis role="bold">help request</emphasis> at our
+          &krusader; forum or use the
+          &kruusers-url; mailing list. But before
+          posting a help request, please try the following: 
+          <orderedlist>
+            <listitem>
+              <para>Use the &kruforumsearch-url;
+              function on the &forum-lnk;, your problem
+              might be solved or discussed already.</para>
+            </listitem>
+            <listitem>
+              <para>If you can't find a solution, please make a
+              note of the following issues: 
+              <itemizedlist>
+                <listitem>
+                  <para>the &krusader; version
+                  used</para>
+                </listitem>
+                <listitem>
+                  <para>the &Linux; distribution +
+                  version used</para>
+                </listitem>
+                <listitem>
+                  <para>a good description of the problem</para>
+                </listitem>
+              </itemizedlist>Without this information, it is very
+              difficult for us to help you. 
+              <note>
+                <para>If you give us the error messages
+                (&eg; 
+                <command>make</command> error messages) please start
+                with the FIRST error message, all the error
+                messages which follow the first error message are
+                consequences and not the cause of your
+                problem.</para>
+              </note></para>
+            </listitem>
+            <listitem>
+              <para>Send out your help request.</para>
+            </listitem>
+          </orderedlist></para>
+          <para>Thank you for your co-operation!</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_rpm-build">
+          <para>How can I build an RPM package for
+          &krusader;?</para>
+        </question>
+        <answer>
+          <para>If you have experience with compiling from source,
+          you will probably be able to build a
+          &krusader; RPM too. Information about RPM can
+          be found at &rpm-org-url; and in the
+          &rpm-guide-url; by Eric Foster-Johnson. The
+          following is the short procedure howto on building an
+          RPM.</para>
+          <warning>
+            <para>NEVER build RPMs when logged in as root. Mistakes
+            in building packages (&eg; a bad 
+            <filename>krusader.spec</filename> file) can do serious
+            damage to your system when logged in as root.</para>
+          </warning>
+          <para>
+            <orderedlist>
+              <listitem>
+                <para>Compile &krusader; from source to
+                check that the compilation works fine.</para>
+              </listitem>
+              <listitem>
+                <para>Check the ownership and the permissions on 
+                <filename class="directory">
+                /usr/src/RPM/</filename> and all recursive
+                directories that your normal user can
+                read-write-execute in these directories.</para>
+              </listitem>
+              <listitem>
+                <para>Copy 
+                <filename>kusader-1.xx.tar.gz</filename> to 
+                <filename class="directory">
+                /usr/scr/RPM/SOURCE</filename></para>
+              </listitem>
+              <listitem>
+                <para>Copy 
+                <filename>kusader.spec</filename> to 
+                <filename class="directory">
+                /usr/scr/RPM/SPECS</filename> Tip: the latest 
+                <filename>kusader.spec</filename> can be found in
+                CVS.</para>
+              </listitem>
+              <listitem>
+                <para>Edit 
+                <filename>kusader.spec</filename> and add your name,
+                your e-mail address, the rpm name, ... Other
+                changes may be needed if 
+                <command>rpmbuild</command> fails.</para>
+              </listitem>
+              <listitem>
+                <para>Build the binary and the source RPM with: 
+                <screen><prompt>$</prompt> <userinput><command>rpmbuild</command> <option>-ba</option> <replaceable>/usr/scr/RPM/SPECS/krusader.spec</replaceable></userinput></screen> 
+                If everything went OK you will have a
+                binary RPM in 
+                <filename class="directory">
+                /usr/src/RPM/RPMS/i586</filename> (depending on your
+                architecture) and a source RPM in 
+                <filename class="directory">
+                /usr/src/RPM/SRPMS/</filename> &eg; 
+                <filename>
+                krusader-1.70-beta1.suse10.i586.rpm</filename> and 
+                <filename>
+                krusader-1.70-beta1.suse10.src.rpm</filename></para>
+              </listitem>
+              <listitem>
+                <para>If the build is not OK you will receive an
+                error message during the rpmbuild process, try to
+                fix it and run 
+                <command>rpmbuild</command> again.</para>
+              </listitem>
+              <listitem>
+                <para>And finally: 
+                <link linkend="faqi_rpm-source">test</link> the RPM
+                before sending it in.</para>
+              </listitem>
+            </orderedlist>
+          </para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqi_cvs_verion">
+          <para>Why does &krusader;-cvs show an old
+          version number in the about box?</para>
+        </question>
+        <answer>
+          <para>Because we only change the version number just
+          before we do a new release. &krusader;-cvs
+          will show an older version number, so ignore the version
+          number and check the download date. We simply haven't yet
+          decided what the next version number will be.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+    </qandaset>
+  </sect1>
+  <sect1 id="faq_usage">
+    <title>Usage &FAQ;</title>
+    <qandaset>
+      <qandaentry>
+        <question id="faqu_qt355">
+          <para>&krusader; keeps crashing, why?</para>
+        </question>
+        <answer>
+          <para>We've been receiving a lot of emails and bug
+          reports (December 2005) regarding random crashes,
+          especially during file operations such as copy, move,
+          etc. 
+          <emphasis role="bold">These crashes are related to
+          &Qt; 3.3.5 and NOT
+          &krusader;.</emphasis> It seems that
+          &Qt; 3.3.5 introduced a serious bug which is
+          currently (December 2005) causing random crashes in many
+          &kde; applications including
+          &konqueror;. You can use Google to find out
+          more. As far as we know, &debian;-Sid and
+          &SuSE; already posted new &Qt;
+          binaries that fix the problem, and &gentoo;
+          has masked &Qt; 3.3.5 completely. As for now,
+          you either need &Qt; 3.3.4 or a fixed
+          &Qt; 3.3.5 or a higer version, depending on
+          your distribution. More information is available on our 
+          <ulink url="http://krusader.sourceforge.net/phpBB/viewtopic.php?t=1407">
+          website</ulink>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqu_supermount">
+          <para>When I try to mount/unmount my cdrom/floppy,
+          &krusader; reports something about a
+          supermount, what's this about?</para>
+        </question>
+        <answer>
+          <para>Supermount is a daemon which handles the
+          mounting/unmounting of removable filesystems for you.
+          Just insert a floppy, and do 
+          <userinput>
+            <command>cd</command>
+            <option>
+              <replaceable>/mnt/floppy</replaceable>
+            </option>
+          </userinput>supermount will do the mount for you
+          automatically and transparently. Usually this works fine.
+          However, supermount misleads the system into thinking
+          that the 
+          <hardware>floppy/cdrom</hardware> is mounted at all times!
+          This creates some problems for &krusader;, as
+          it cannot really know when the floppy or CD has been
+          removed because the system information is not correctly
+          updated by supermount - is there really a 
+          <hardware>floppy</hardware> in the 
+          <hardware>drive</hardware>? Of course, this can be
+          solved, but as for now, we don't consider it a
+          priority.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqu_dead_mountpoint">
+          <para>Why does &krusader; freeze or hang on a
+          dead mountpoint?</para>
+        </question>
+        <answer>
+          <para>When &krusader; is &eg;
+          browsing an NFS share and the NFS server goes down,
+          &krusader; will freeze. This
+          &krusader; (and all other open internal
+          viewers/editors) freeze is fatal, and can only be
+          corrected with the 
+          <command>kill -9</command>. We have no solution for this.
+          This is an issue not confined to file managers, or even
+          the &Linux; OS! The problem is that you "hang"
+          on the first access to the dead share - so there is no
+          way around it, no check to avoid it, even 
+          <command>ls</command> will freeze. Just trying to read
+          something - anything - is enough to get you stuck. The
+          one and only way around this architectural problem is
+          using a multi-threaded design - this way if we get stuck,
+          we don't hang the entire application event loop, but we
+          don't think that the time is right for adding threads, we
+          are not sure that *all* the &kde; systems out
+          there are using &Qt;-mt (the multi threaded
+          version of the &Qt; library), and the Krusader
+          Krew may not be the right people to address this major
+          issue in any case; so currently this is just a bug we
+          have to learn to live with.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqu_resize">
+          <para>When I try to resize &krusader; to make
+          it smaller, I discover that I can't resize it below a
+          certain size. Why?</para>
+        </question>
+        <answer>
+          <para>See the 
+          <guibutton>F1, F2</guibutton> (&etc;) buttons?
+          They are not allowing &krusader; to downsize
+          as they have a minimum size. Just disable them 
+            <menuchoice>
+              <guimenu>View</guimenu>
+              <guimenuitem>Show FN Keys Bar</guimenuitem>
+            </menuchoice>
+          and you'll be able to resize
+          &krusader; to your liking. Since version 1.51
+          we have improved this greatly: when downsizing the
+          buttons will look like 'F5 ..py'. When the button faces
+          are too small to read a tooltip will give the complete
+          text. The minimum width is 45 pixels for each
+          button.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqu_refresh">
+          <para>When I perform some file operations,
+          &krusader;'s panel doesn't refresh / I'm using
+          &krusader; with fam installed, but updates to
+          the panel are not shown. Why?</para>
+        </question>
+        <answer>
+          <para>The bad news is that we're not sure why, but it
+          seems that 
+          <command>fam</command> (file alteration monitor) sometimes
+          refuses to work. We are looking into this problem to make
+          sure it is not 
+          <emphasis>our</emphasis> problem. We've tried the same
+          source code on two different Gentoo installations: one
+          worked, the other did not. The good news is that if you
+          disable 
+          <application>fam</application>, &krusader;
+          will automatically revert to its internal update
+          mechanism (which is less efficient, but works) without
+          needing to recompile. You can disable 
+          <application>fam</application> with: 
+          <screen><prompt>$</prompt> <userinput><command>su -c 'fam -l'</command></userinput></screen>
+          Look at the manpages for more information about 
+          <application>fam</application>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <!-- Thanks to Karai Csaba -->
+      <qandaentry>
+        <question id="faqu_samba_codepage">
+          <para>
+          <application>Samba</application> ISO 8859-x codepage /
+          What to do if &krusader; does not read shared
+          directories containing special international
+          characters?</para>
+        </question>
+        <answer>
+          <para>&krusader; does not handle (yet) 
+          <application>Samba</application> ISO 8859-x codepages, if
+          you use a codepage different than 8859-1 you will have to
+          do a manual configuration. Create or modify the file: 
+          <filename>~/.smb/smb.conf</filename>
+          <programlisting>[global] 
+          workgroup = MyWorkGroup (ex. WORKGROUP) 
+          client code page = MyCodePage (ex. 852)
+          character set = MyCharSet (ex. ISO8859-2)
+          </programlisting>
+          Unfortunately 
+          <application>kcontrol</application> (&kde;
+          3.1.1) fails to configure smb.conf properly, so this must
+          be done manually with a text editor.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <!-- Thanks to Karai Csaba -->
+      <qandaentry>
+        <question id="faqu_krarc_protocol">
+          <para>&krusader; reports "krarc:... protocol
+          not supported" error at opening an archive file, what to
+          do?</para>
+        </question>
+        <answer>
+          <para>Install the krarc slave properly:</para>
+          <para>Copy the 
+          <filename>kio_krarc.so</filename>, 
+          <filename>kio_krarc.la</filename> files into 
+          <filename class="directory">
+          $KDEDIR/lib/kde3</filename></para>
+          <para>Copy the 
+          <filename>krarc.protocol</filename> file into 
+          <filename class="directory">
+          $KDEDIR/share/services</filename></para>
+          <para>or the directory where the KIO slaves are placed in
+          your &Linux; distribution.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqu_krarc_support">
+          <para>I get the error message "Protocol not supported by
+          Krusader: "krarc:/path/to/foo-archive", when I try to
+          open foo-Archive, what to do?</para>
+        </question>
+        <answer>
+          <para>The icons, kio_slaves and documentation must be
+          installed in the correct places in the &kde;
+          directory tree. The 
+          <filename>kio_krarc.*</filename> files must be in the same
+          directory with the other KIO slaves. Try this: locate 
+          <filename>kio_tar.*</filename> and copy/link the 
+          <filename>kio_krarc.*</filename> files to the same
+          location. Don't forget to run 
+          <command># ldconfig</command> on this directory when
+          you're done. For more information click 
+          <ulink url="www.krusader.org/phpBB/viewtopic.php?t=991">
+          here</ulink>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      
+<qandaentry>
+  <question id="faqu_external_tool">
+  <para>What todo if an extenal tool doesn't seem to work?</para>
+  </question>
+  <answer>
+  <para>Krusader uses several programs as <link linkend="konfig-dependencies">external tools</link>, 
+        and sometimes they appear not to work.
+        
+       Open a terminal and check if tool foo is installed.
+       <screen><prompt>$</prompt> <userinput><command>foo</command></userinput></screen> 
+
+       Check if tool foo is properly configured in the &konfigdependencie-lnk;.
+
+       For Archiving tools: autodetect the archives again with the <guibutton>Auto Configure</guibutton> button
+       in the <link linkend="konfig-archives">Konfigurator archive page</link>. 
+       
+       Check the &konfigprotocol-lnk;
+   
+     If it doesn't work, backup your <filename>~/.kde/share/config/krusaderrc</filename> configuration file and remove it from this location,
+     Restart Krusader, Krusader will now start the first start configuration wizard, follow these guidelines.
+   
+    </para>
+  <para> </para> <!-- Empty line to make it more readable -->
+  </answer>
+</qandaentry>
+
+<qandaentry>
+  <question id="faqu_jar">
+  <para>Howto executing jar files (and not enter the jar archive)?</para>
+  </question>
+  <answer>
+  <para>Go to the &konfigprotocol-lnk; and remove <guilabel>application/x-jar</guilabel> 
+        from the krarc node, &krusader; should no longer enter the archive.
+        Global file associations are handled by &kde; and not by &krusader;.
+        To assosiate the jar extension:
+        <itemizedlist>
+            <listitem>
+              <para>Open &kde;s control center: <application>kcontrol</application>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+               <menuchoice>
+                 <guimenu>KDE Components</guimenu>
+                 <guimenuitem>File Associations</guimenuitem>
+              </menuchoice>
+              </para>
+            </listitem>
+            <listitem>
+              <para>Enter <filename>jar</filename> as filename pattern
+              </para>
+            </listitem>
+            <listitem>
+              <para>Add <filename>java</filename> as application
+              </para>
+            </listitem>
+           </itemizedlist>
+   </para>
+  <para> </para> <!-- Empty line to make it more readable -->
+  </answer>
+</qandaentry>
+
+      <!-- Thanks to Dirk Eschler -->
+      <qandaentry>
+        <question id="faqu_ftp_firewall">
+          <para>Why do I have trouble with my &FTP;
+          connection?</para>
+        </question>
+        <answer>
+          <para>This problem often occurs when you are behind a
+          firewall or proxy. Open 
+            <menuchoice>
+              <guimenu>KDE Control Center</guimenu>
+              <guimenuitem>Network</guimenuitem>
+              <guimenuitem>Preferences</guimenuitem>
+            </menuchoice>, 
+          <guilabel>"Enable Passive Mode (PASV)"</guilabel> has to
+          be turned on or off, depending on it's current setting.
+          Now try your &FTP; session again to see if it
+          works. Also, make sure you have no other &FTP;
+          sessions open (using web browsers, etc.), they can cause
+          complications. More information can be found in
+          &active-passive-ftp-url;.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <!-- Thanks to Karai Csaba -->
+      <qandaentry>
+        <question id="faqu_ftp_http_proxy">
+          <para>I get 
+          <errorcode>"FTP protocol not supported by
+          &krusader;"</errorcode> error when trying to
+          open a remote &FTP; directory, what to
+          do?</para>
+        </question>
+        <answer>
+          <para>The reason for this error is that '&FTP;
+          via &HTTP; proxy' feature is not yet supported
+          by &krusader;. This error may be caused by a
+          misconfiguration of the proxy settings in
+          &kcontrolcenter;. Modify the proxy settings to
+          not use &HTTP; proxy and &FTP; will
+          work.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+
+      <qandaentry>
+        <question id="faqu_no_part">
+          <para>How don't add ".part" suffix when copying files via ftp?</para>
+        </question>
+        <answer>
+          <para>When uploading files a <filename>.part</filename> suffix is added to the filename,
+                once the upload is complete the filename is renamed automagically 
+                to remove the <filename>.part</filename> suffix.
+                This works great but sometimes some ftp-servers don't allow a rename operation.
+                You can solve this by unchecking the checkbox 
+                <guilabel>Mark partially uploaded files</guilabel> in &kde;'s control center. 
+                The checkbox is located at 
+                <menuchoice>
+                 <guimenu>Internet and Network</guimenu>
+                 <guimenuitem>Connection Preferences</guimenuitem>
+                </menuchoice>.</para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+
+      <qandaentry>
+        <question id="faqu_close_connection">
+          <para>How can I close a remote connection
+          (&eg; a FTP connection)?</para>
+        </question>
+        <answer>
+          <para>It's explained in the 
+          <link linkend="remote-connections">remote connections
+          chapter</link>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqu_media_protocol">
+          <para>I am experiencing problems with the media://
+          protocol, why?</para>
+        </question>
+        <answer>
+          <para>At the moment of writing the media:// protocol is
+          instable, we need to wait until the &kde; team
+          corrects it, every other protocol works properly with
+          &krusader;, only media fails. More information
+          regarding this issue is available in 
+          <ulink url="http://www.krusader.org/phpBB/viewtopic.php?t=1357">
+          our forum</ulink>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <!-- Thanks to thepieman at the Krusader Forum -->
+      <qandaentry>
+        <question id="faqu_sound">
+          <para>How can I disable the default sounds,
+          &eg; when I do a delete action ?</para>
+        </question>
+        <answer>
+          <para>Those are the default &kde; System
+          sounds, and not related to &krusader;. If you
+          want to disable them globally open your &kde;
+          &kcontrolcenter; (
+          <application>kcontrol</application>): 
+            <menuchoice>
+              <guimenu>KDE Control Center</guimenu>
+              <guimenuitem>Sound &amp;
+              Multimedia</guimenuitem>
+              <guimenuitem>System Notifications</guimenuitem>
+            </menuchoice>, 
+          <guilabel>Event Source: "KDE System
+          Notifications"</guilabel> and uncheck sound items you
+          don't like.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqu_remoteMan">
+          <para>Where is RemoteMan, the remote connection manager
+          ?</para>
+        </question>
+        <answer>
+          <para>RemoteMan has been replaced by our Bookmark Manager
+          since Krusader 1.25-beta1. The Bookmark Manager handles
+          local files and 
+          <link linkend="remote-connections">remote
+          &URL;'s</link> the same way. RemoteMan was left
+          as a selection until &krusader;-1.51 to allow
+          an easier transition and give you a chance to move your
+          &bookmarks-lnk;. RemoteMan was disabled, as
+          announced, in &krusader;-1.60.</para>
+          <para>&URL; transition procedure: 
+          <orderedlist numeration="arabic">
+            <listitem>
+              <para>install &krusader;-1.51</para>
+            </listitem>
+            <listitem>
+              <para>open the RemoteMan and connect to an
+              &FTP;</para>
+            </listitem>
+            <listitem>
+              <para>once inside, bookmark the current location,
+              select a name and save.</para>
+            </listitem>
+            <listitem>
+              <para>do this for all your connections, all the
+              &bookmarks-lnk; are now stored in 
+              <filename>krbookmarks.xml</filename></para>
+            </listitem>
+            <listitem>
+              <para>install &krusader;-1.60, it will use
+              <filename>krbookmarks.xml</filename> or import it if
+              needed.</para>
+            </listitem>
+          </orderedlist></para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqu_mimetypemagic_archives">
+          <para>Why doesn't mimetype magic sometimes work inside
+          archives?</para>
+        </question>
+        <answer>
+          <para>When you enter an archive and press 
+          <keycap>F3</keycap> to view a file that has no known
+          extension, &eg; 
+          <filename>README, INSTALL</filename> &etc;. And
+          if the viewer opens in hex-mode instead of the usual
+          mode, than you need to configure:
+            <menuchoice>
+              <guimenu>KDE Control Center</guimenu>
+              <guimenuitem>KDE components</guimenuitem>
+              <guimenuitem>File Associations</guimenuitem>
+              <guimenuitem>Application</guimenuitem>
+              <guimenuitem>octet-stream</guimenuitem>
+            </menuchoice>, 
+          <guilabel>binary viewer</guilabel> needs to be
+          removed.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+
+      <qandaentry>
+        <question id="faqu_konfigurator">
+          <para>Where is Konfigurator, do i need to install the &kde; Desktop Enviroment to use it?</para>
+        </question>
+        <answer>
+          <para><link linkend="konfigurator">Konfigurator</link> is &krusader;s configuration module,
+                when you have installed &krusader; than you have also Konfigurator.
+                For some reason some people think it's an other &kde; application, but it is not, so
+                you don't need to install the &kde; Desktop Enviroment to use Konfigurator.
+                When runnig &krusader;, use 
+                <menuchoice>
+                 <guimenu>Settings</guimenu>
+                 <guimenuitem>Configure &krusader;</guimenuitem>
+                </menuchoice>, and it will start 
+                <link linkend="konfigurator">Konfigurator</link>. 
+                Please read the manual, &krusader; has many many configuration options, 
+                a lot of things can be customized to your needs with <link linkend="konfigurator">Konfigurator</link>. 
+          </para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+
+      <qandaentry>
+        <question id="faqu_equal_lookandfeel">
+          <para>How can I set the look &amp; feel of 2
+          different users to be the same?</para>
+        </question>
+        <answer>
+          <para>Presuming that the current setup is the good
+          configuration, you can copy the configuration to the
+          other user. 
+          <screen><prompt>#</prompt> <userinput><command>cp ~/.kde/share/config/krusaderrc /home/foo_user/.kde/share/config</command></userinput></screen>
+          And when the other user is Root use: 
+          <screen><prompt>#</prompt> <userinput><command>cp ~/.kde/share/config/krusaderrc /root/.kde/share/config</command></userinput></screen>
+          </para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+
+      <qandaentry>
+        <question id="faqu_save_last_location">
+          <para>Why doesn't "save last location" work?</para>
+        </question>
+        <answer>
+          <para>Unfortunately the 1.70.x version contains a bug.
+          The tabs are not saved if a "Panels Save Settings=Tabs"
+          item is present in the configuration files. The fix is
+          easy: 
+          <itemizedlist>
+            <listitem>
+              <para>open and edit 
+              <filename>
+              ~/.kde/share/config/krusaderrc</filename></para>
+            </listitem>
+            <listitem>
+              <para>remove the "Panels Save Settings" item</para>
+            </listitem>
+          </itemizedlist>and it'll work with the
+          &lt;Last Session&gt; feature in
+          Konfigurator. More info can be found in 
+          <ulink url="http://www.krusader.org/phpBB/viewtopic.php?t=1357">
+          our forum</ulink>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+
+      <qandaentry>
+        <question id="faqu_handbook">
+          <para>Why doesn't the handbook work?</para>
+        </question>
+        <answer>
+          <para>This error will happen on &debian; (or
+          &debian; based) distro with the
+          krusader_1.51-1_i386.deb package. You will see the next
+          error message if you try to open the handbook: "The
+          requested help file could not be found. Check that you
+          have installed the documentation." To fix it go to 
+          <filename>
+          /usr/share/doc/kde/HTML/en/krusader/</filename>, you will
+          see the 
+          <filename>foo.docbook.gz</filename> files. Now, you need
+          to extract all these files with root privileges
+          ("File-&gt;Unpack" with &krusader;)
+          to create 
+          <filename>foo.docbook</filename> files. Now the handbook
+          will work. This error is fixed in the
+          krusader_1.60.0-1_i386.deb package and higher
+          versions.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+
+    </qandaset>
+  </sect1>
+  <sect1 id="faq_general">
+    <title>General &FAQ;</title>
+    <qandaset>
+      <qandaentry>
+        <question id="faqg_wish">
+          <para>How can I report a wish, a suggestion, or a
+          comment?</para>
+        </question>
+        <answer>
+          <para>An open source project's greatest strength is
+          derived from getting user feedback. That is why we love
+          to hear what you have to say. Your "gripes" are our
+          instructions. After about 6 months, programmers can no
+          longer see their own mistakes. It's natural. We want the
+          ideas, qritiques, and feedback because we all want to
+          make &krusader; the best and most useful file
+          manager available anywhere.</para>
+          <para>The most convenient way to contact us is to use the
+          &forum-lnk;, or the krusader-users
+          &mailing-lists-url;. For information on what
+          remains to be done look at the
+          &todoforum-url;. Adding ToDo items into the
+          &todoforum-url; is for developers only, but
+          feel free to post to the &featureforum-url;
+          for things that aren't on the &todoforum-url;,
+          but should be. If you have a nice feature request, the
+          &krusader; Krew will add your request to the
+          &todoforum-url;. We review and discuss every
+          submission. For more information how the forum works
+          click 
+          <link linkend="faqg_kru-forum">here</link>.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_patch">
+          <para>How can I send a patch?</para>
+        </question>
+        <answer>
+          <para>It's not easy to write patch guidelines, but here
+          are some. 
+          <orderedlist numeration="arabic">
+            <listitem>
+              <para>Patches, new code or new features are always
+              welcome!</para>
+            </listitem>
+            <listitem>
+              <para>Focus only on one problem at a time, so the
+              developers can easily understand you, and commit your patch
+              it works.</para>              
+            </listitem>
+            <listitem>
+              <para>Preferrably, you can start a discussion
+              with the developers on the krusader-devel
+              &mailing-lists-url; or on the
+              &forum-lnk;. Unfortunatly, we can't apply
+              a patch if the patch is in conflict with the "general
+              design" of the &krusader; code (read for more
+              instructions in this FAQ).
+              Please send only one change request per mail, so
+              that the discussion is easier to follow. The
+              modifications should be committed step by step,
+              checking each line.
+              </para>
+            </listitem>
+            <listitem>
+             <para>Submit your patch files into our &patch-tracker-url;,
+              so that all patch proposals stay organised and don't get lost,
+              tar.gz archives or diffs are usually ok.
+              Do not copy changes into a mail. Most mailers will change the
+              white spaces, so that the diff will not apply or the
+              code snipped does not diff. In the past, patch mails went lost or disorganized in many many mails,
+              so please use the &patch-tracker-url;, thanks! 
+              </para> 
+            </listitem>
+            <listitem>
+              <para>Use portable solutions, &krusader;
+              should run on: 
+              <itemizedlist>
+                <listitem>
+                  <para>All POSIX
+                  (&Linux;/BSD/&UNIX;-like
+                  OSes), &Solaris;.</para>
+                </listitem>
+                <listitem>
+                  <para>All BSD Platforms
+                  (&freebsd;/&netbsd;/&openbsd;/&MacOS;).</para>
+                </listitem>
+                <listitem>
+                  <para>&kde; 3.3- &kde;
+                  3.5 and even on GNOME with
+                  &kde;libs (for krusader-2.x &kde; 4) .</para>
+                </listitem>
+                <listitem>
+                  <para>GCC 2.95 - GCC 4.1</para>
+                </listitem>
+              </itemizedlist>Architecture changes are made by the
+              team only.</para>
+            </listitem>
+            <listitem>
+              <para>A final note: always keep in mind a patch might
+              be rejected. Either it has side effects, which we
+              could not fix or it contradicts with the idea behind
+              the patched module. In this sense, a software project
+              differs from, let's say a wiki: a software project
+              has to have someone to make all the final decisions.
+              Otherwise the software will not work. Furthermore:
+              keep in mind that the examination of patches might
+              take time, as we all have private lives.</para>
+            </listitem>
+          </orderedlist></para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_bug_report">
+          <para>How can I report a bug?</para>
+        </question>
+        <answer>
+          <para>Bugs?!?!? Well, ok.... We have an online Bug
+          Tracking System.</para>
+          <para>Using the online bug-tracker helps us have a clear
+          and orderly way to know how many bugs are open, bug
+          priority and follow-ups. It saves us from browsing
+          through the entire &krusader; forum, searching
+          for yesterdays bug. Please use this system.</para>
+          <para>Before reporting a bug, please read the following: 
+          <orderedlist>
+            <listitem>
+              <para>Use the &forum-lnk;'s
+              &kruforumsearch-url; function , your bug
+              might be already solved . Please DO NOT post new bugs
+              to the &bugforum-url; (except if you are
+              not sure that you have found a bug). We use it for
+              bug discussions.</para>
+            </listitem>
+            <listitem>
+              <para>
+              <emphasis role="bold">Check</emphasis> if the bug is
+              already posted in the &online-buglist-url;
+              of the Bug Tracking System.</para>
+            </listitem>
+            <listitem>
+              <para>If you can't find this bug mentioned, please 
+              <emphasis role="bold">submit</emphasis> it into the
+              bug tracker by clicking the 
+              <guibutton>Submit New</guibutton> button in the
+              bug-tracker window. Please submit the following
+              issues: the &krusader; version used, the
+              &Linux; distribution + version used,
+              processor type, and as good a description of the
+              problem as you can manage.</para>
+            </listitem>
+          </orderedlist></para>
+          <para>Thank you for your co-operation!</para>
+          <note>
+            <para>If possible, try to do the same operation with
+            &konqueror; or another &kde;
+            application. If you encounter the same problem then it
+            is possibly a &kioslaves1-url; or
+            &kde; (kdelibs) bug, and not a
+            &krusader; bug. &krusader; uses
+            the &kde; libraries and the
+            &kioslaves2-url; for many operations. In
+            some cases you can encounter problems if your
+            distribution is incorrectly configured, please test it
+            first as explained above.</para>
+          </note>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+          <note>
+            <para>
+              <remark>If you've got bugs to report please do not
+              use &kde;'s bugzilla http://bugs.kde.org/,
+              &kde;'s Bug Tracking System. Report
+              &krusader; bugs directly to us.</remark>
+            </para>
+          </note>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      
+<qandaentry>
+  <question id="faqg_valgrint">
+  <para>How can i send good debug or crash reports?</para>
+  </question>
+  <answer>
+  <para>Usually binary packages that are been used by your distribution do not contain debug information.
+        Since we usually only develop and fix &krusader;-cvs, compile &krusader;-cvs in debugmode and install it, than check if the bug still exist.
+        <screen><prompt>$</prompt> <userinput><command>./configure</command> <option>--enable-debug=full</option></userinput></screen>  
+
+        Install <ulink url="http://valgrind.org">valgrind</ulink>, a suite of tools for debugging and profiling &Linux; programs.
+
+        Run Valgrind/&krusader;
+        <screen><prompt>$</prompt> <userinput><command>valgrind</command> <option>--tool=memcheck</option> <replaceable>{foo_path}/krusader</replaceable></userinput></screen>
+        
+        The valgrind tool will write to stdout, what really happens.
+        If you could send these informations before the crash, it's almost sure, that we may fix or tell you what to do.
+  </para>
+  <para> </para> <!-- Empty line to make it more readable -->
+  </answer>
+</qandaentry>
+
+<qandaentry>
+  <question id="faqg_crashhandler">
+  <para>What todo if the KDEcrashhandler sends no usefull backtrace information?</para>
+  </question>
+  <answer>
+  <para>Usually binary packages that are been used by your distribution do not contain debug information.
+        Since we usually only develop and fix &krusader;-cvs, compile &krusader;-cvs in debugmode and install it, than check if the bug still exist.
+        <screen><prompt>$</prompt> <userinput><command>./configure</command> <option>--enable-debug=full</option></userinput></screen> 
+ 
+       If the KDEKrashhandler still doesn't provide usefull backtrace information, than sometimes a coredump will give better information. 
+       Run Krusader, with disabled crashhandler.
+       <screen><prompt>$</prompt> <userinput><command>krusader</command> <option>--nocrashhandler</option></userinput></screen>
+
+       On a crash you will get a <filename>.core</filename> file, usually in your home directory.
+
+       Run <ulink url="http://sourceware.org/gdb/">gdb</ulink>, the GNU Project Debugger
+       
+       <screen><prompt>$</prompt> <userinput><command>gdb</command> <option>-c</option> <replaceable>corefile krusader</replaceable></userinput></screen>
+       
+       Now type <command>bt</command> to get the backtrace and type <command>q</command> to quit gdb.
+
+       Often the best debug results will be given when using the valgrint tool.
+  </para>
+  <para> </para> <!-- Empty line to make it more readable -->
+  </answer>
+</qandaentry>
+      
+<qandaentry>
+        <question id="faqg_mail_list">
+          <para>Does &krusader; have a mailing
+          list?</para>
+        </question>
+        <answer>
+          <para>Yes, currently we have 6
+          &mailing-lists-url;. No spam, no bother, just
+          &krusader;. Feel free to subscribe and
+          unsubscribe.</para>
+          <para>Tip. our mailing lists can be browsed online or
+          read with a newsreader, so that you don't even need to
+          subscribe to follow the action on the mailing lists. 
+          <itemizedlist>
+            <listitem>
+              <para>&krunews-url; is a very low volume
+              list, used for newsletters and announcements of new
+              versions or critical bugfixes. The news can also be
+              read online at &krulatestnews-url; and in
+              the &newsforum-url; which are basically
+              the same but displayed in another format.</para>
+            </listitem>
+            <listitem>
+              <para>&krudevel-url; is the developer
+              mailing list (read-only). If you want to follow the
+              development of &krusader; on the cutting
+              edge, this is the list to follow.</para>
+            </listitem>
+            <listitem>
+              <para>&kruusers-url; is the
+              &krusader; users mailing list. Here you
+              can ask for help and talk with the
+              &krusader; users and developers.</para>
+            </listitem>
+            <listitem>
+              <para>&krui18n-url; is the translations
+              mailing list.</para>
+            </listitem>
+            <listitem>
+              <para>&krudoc-url; is the documentation
+              mailing list.</para>
+            </listitem>
+            <listitem>
+              <para>&krucommits-url; (read-only): when
+              the &krusader; Krew commits code into CVS,
+              it will be reported in this mailing list. Want to
+              keep track? Waiting for a certain feature/bugfix?
+              Follow &krusader;'s development
+              here.</para>
+            </listitem>
+          </itemizedlist></para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_newsfeeds">
+          <para>Does &krusader; provide
+          newsfeeds?</para>
+        </question>
+        <answer>
+          <para>Yes, we do. Several newsfeeds in various formats
+          are available. &filereleasefeed-url;,
+          &forumfeed-url;, &krunewsfeed-url;,
+          &krudevelfeed-url; and even 
+          <ulink url="http://dir.gmane.org/gmane.comp.kde.krusader.devel">
+          additional feeds</ulink> by gmane.org.
+          &kruusersfeed-url;,
+          &krui18nfeed-url;,
+          &krudocfeed-url;.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_irc">
+          <para>Does &krusader; have an IRC
+          channel?</para>
+        </question>
+        <answer>
+          <para>Yes, we do. Feel free to talk to the
+          &krusader; Krew and fellow-users via
+          &freenode-url; servers. The server is 
+          <emphasis>irc.freenode.org</emphasis>, the channel is 
+          <emphasis>#krusader</emphasis>. Everyone is
+          welcome.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_kru-forum">
+          <para>How does the &krusader; forum
+          work?</para>
+        </question>
+        <answer>
+          <para>In the spirit of freedom of speech, everything that
+          is &krusader; related can be discussed in our
+          forum. It does not matter if you are a newcomer or an
+          advanced user, everyone is welcome. An open source
+          project's greatest strength is derived from getting user
+          feedback. That is why we love to hear what you have to
+          say. With your feedback we can make &krusader;
+          better and better; otherwise, we are not aware of issues
+          and ideas you may have. But please remember the
+          following, so that we can maintain some order in the
+          chaos.</para>
+          <para>If the 
+          <link linkend="index">Documentation</link>,
+          &faq-lnk;, &kruforum-url; and
+          &krudevel-url; (please use the search function
+          ) can't help you, do not hesitate to post on our forum.
+          The &krusader; Krew or the
+          &krusader; community is always available to
+          help you.</para>
+          <para>Please use the &kruforumsearch-url;
+          function of the &kruforum-url;, your issue may
+          have been previously discussed (this allows us to
+          minimize the double/triple/... postings). If your issue
+          has already been discussed in the past there is a great
+          chance that you will have an instant solution to your
+          problem. If the issue is currently being discussed, you
+          can join in the discussion. Some questions are asked over
+          and over again, that's why we have created this
+          &faq-lnk;. This allows us to spend more time
+          developing &krusader;.</para>
+          <para>The &kruforum-url; is split into seven
+          sections: 
+          <itemizedlist>
+            <listitem>
+              <para>&newsforum-url;: all the latest
+              news.</para>
+            </listitem>
+             <listitem>
+              <para>&newsletterforum-url;: all newsletters.</para>
+            </listitem>
+            <listitem>
+              <para>&bugforum-url;: discussions about
+              bugs, please DO NOT use the forum for
+              &faqbugreports-lnk; (except if you are
+              unsure if you have found a bug).</para>
+            </listitem>
+            <listitem>
+              <para>&featureforum-url;: discussions
+              about new features for future &krusader;
+              versions.</para>
+            </listitem>
+            <listitem>
+              <para>&todoforum-url; here you will find
+              the list of the planned features. Registered users
+              will be able to VOTE and COMMENT on the TODO items.
+              Here you get the chance to push your favourite
+              features (+3) and still prefer certain features over
+              others (+1), if you don't care about a feature just
+              simply don't vote on that feature. Unregistered users
+              may only browse the &todoforum-url;. The
+              &todoranking-url; contains the results
+              based on the votes. 
+              <link linkend="faqg_patch">Adding ToDo items</link> or
+              removing ToDo items which have been implemented will
+              be done by the &krusader; Krew.</para>
+            </listitem>
+            <listitem>
+              <para>&useractionsforum-url;: discussions
+              about &useractions-lnk;. Posting your own
+              User Actions is greatly appreciated. We plan to
+              include the best ones in the next
+              &krusader; releases.</para>
+            </listitem>
+            <listitem>
+              <para>&krugenforum-url;: everything that
+              is &krusader; related and doesn't belong
+              in the other forums.</para>
+            </listitem>
+          </itemizedlist></para>
+          <para>Thank you for your co-operation!</para>
+          <para>We provide RSS feeds for our forums. You don't have
+          to check for new posts all the time, instead the news
+          will come to you! To make use of them, simply point your
+          RSS aggregator to &rss-url;.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_i18n">
+          <para>How can I translate &krusader; into my
+          native language?</para>
+        </question>
+        <answer>
+          <para>Please read the &i18n-page-url;. It's
+          not difficult to translate! Most anyone can do it, it
+          just takes some time.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_support">
+          <para>How can I support &krusader;?</para>
+        </question>
+        <answer>
+          <para>You can 
+          <link linkend="help_krusader">
+          support</link> &krusader; in many different
+          ways. Please send us 
+          <link linkend="faqg_wish">feedback</link>,
+          &faqbugreports-lnk;, patches, 
+          <link linkend="help_krusader">donations</link>,
+          translations, ...</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_mac">
+          <para>Is there a &MacOS; X port?</para>
+        </question>
+        <answer>
+          <para>Yes, there is &MacOS; X port, but you
+          will not have the all the power you would have on
+          &Linux;. Please read the 
+          <link linkend="mac-port">&MacOS; X port
+          section</link> for more information. A recommended native
+          file manager for &MacOS; is
+          &disk-order-url; (shareware).</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_win">
+          <para>Is there a &Windows; port?</para>
+        </question>
+        <answer>
+          <para>No, but this might change in the future. Please 
+          <link linkend="help_krusader">help us</link> with this
+          project, contributions are greatly appreciated. A
+          recommended native file manager for &Windows;
+          is &tcmd-url; (shareware).</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_mcstyle">
+          <para>Why is &konqueror; in "midnight
+          commander style" not an 
+          <link linkend="gloss-ofm">OFM</link>?</para>
+        </question>
+        <answer>
+          <para>The two panels and a commandline are available, all
+          the other stuff like 
+          <link linkend="features">OFM features</link> and the 
+          <link linkend="gloss-ofm">OFM</link> interaction with the
+          user is missing from this profile.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+      <qandaentry>
+        <question id="faqg_why_ofm">
+          <para>Why should I use an 
+          <link linkend="gloss-ofm">OFM</link>?</para>
+        </question>
+        <answer>
+          <para>An &ofm-url; is much faster than a one
+          panel filemanager and faster than the command line. If
+          you would like to know 
+          <ulink url="http://www.softpedia.com/reviews/linux/Krusader-Review-18193.shtml">
+          how &krusader; feels</ulink>, there is only
+          one way to discover: install it on your computer and use
+          it for a while. If you prefer to waste time and lose
+          productivity, continue to use one panel filemanagers
+          which are based on &Windows; Explorer. Matej
+          Urban&ccaron;i&ccaron; has written
+          a 
+          <ulink url="http://murban.blogspot.com/2006/01/krusader-and-konqueror-twin-versus-one.html">
+          blog</ulink>on why 
+          <link linkend="gloss-ofm">OFM</link> is better than a one
+          panel filemanager.</para>
+          <para></para>
+          <!-- Empty line to make it more readable -->
+        </answer>
+      </qandaentry>
+    </qandaset>
+  </sect1>
+  <!--
+  <qandaentry>
+      <question><para> </para></question>
+      <answer>
+        <para> </para>
+        <para> </para> // Empty line to make it more readable
+      </answer>
+  </qandaentry>
+-->
+</chapter>

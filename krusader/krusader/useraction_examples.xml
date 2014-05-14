@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE KrusaderUserActions>
+<KrusaderUserActions>
+ <action name="sample_panesize" >
+  <title>Equal panel-size</title>
+  <tooltip>Sets the ratio between the two panels to 50/50.</tooltip>
+  <icon>view_left_right</icon>
+  <category>User Interface</category>
+  <command>%aPanelSize(&quot;50&quot;)%</command>
+  <defaultshortcut>Alt+Ctrl+Equal</defaultshortcut>
+ </action>
+ <action name="sort_by_name" >
+  <title>Sort by Name</title>
+  <tooltip>Sort by Name.</tooltip>
+  <icon>view_text</icon>
+  <category>User Interface</category>
+  <description>Sorts the active panel by Name</description>
+  <command>%aColSort(&quot;Name&quot;)%</command>
+  <defaultshortcut>Win+1</defaultshortcut>
+ </action>
+ <action name="sort_by_extension" >
+  <title>Sort by Extension</title>
+  <tooltip>Sort by Extension.</tooltip>
+  <icon>view_text</icon>
+  <category>User Interface</category>
+  <description>Sorts the active panel by Extension</description>
+  <command>%aColSort(&quot;Ext&quot;)%</command>
+  <defaultshortcut>Win+2</defaultshortcut>
+ </action>
+ <action name="sort_by_size" >
+  <title>Sort by Size</title>
+  <tooltip>Sort by Size.</tooltip>
+  <icon>view_text</icon>
+  <category>User Interface</category>
+  <description>Sorts the active panel by Size</description>
+  <command>%aColSort(&quot;Size&quot;)%</command>
+  <defaultshortcut>Win+3</defaultshortcut>
+ </action>
+ <action name="sort_by_modified" >
+  <title>Sort by Modified</title>
+  <tooltip>Sort by Modified.</tooltip>
+  <icon>view_text</icon>
+  <category>User Interface</category>
+  <description>Sorts the active panel by Modified</description>
+  <command>%aColSort(&quot;Modified&quot;)%</command>
+  <defaultshortcut>Win+4</defaultshortcut>
+ </action>
+ <action name="sample_edit_as_root" >
+  <title>Edit as root</title>
+  <tooltip>Edit a file as root.</tooltip>
+  <icon>kwrite</icon>
+  <category>File</category>
+  <description>Edit a file with root permissions</description>
+  <command run_as="root" >kwrite %aCurrent%</command>
+  <defaultshortcut>Ctrl+E</defaultshortcut>
+ </action>
+ <action name="file_root_copy" >
+  <title>Copy as root</title>
+  <tooltip>Copy as root.</tooltip>
+  <icon>editcopy</icon>
+  <category>File</category>
+  <description>Copy selected files &amp; directories with root privileges, also inside archives!</description>
+  <command run_as="root" accept="url" >kfmclient copy %aList(&quot;Selected&quot;, &quot; &quot;, &quot;No&quot;)% %oPath%</command>
+ </action>
+ <action name="backup_current" >
+  <title>Backup current file</title>
+  <tooltip>Backup current file in current directory.</tooltip>
+  <icon>filesaveas</icon>
+  <category>File</category>
+  <description>Backups current file in current directory and asks the user for a new filename. By default &quot;.old&quot; is appended to the original filename.</description>
+  <command>%_Copy(&quot;%aCurrent%&quot;, &quot;%_Ask(&quot;New filename&quot;, &quot;%aCurrent%.old&quot;)%&quot;)%</command>
+  <defaultshortcut>Shift+F5</defaultshortcut>
+ </action>
+ <action name="file_search_replace" >
+  <title>Search and Replace in file</title>
+  <tooltip>Search and replace a string/regex in textfiles with sed.</tooltip>
+  <icon>xclipboard</icon>
+  <category>File</category>
+  <description>This UA uses the UNIX standard-tool sed (the stream-editor) so perform search and replace operations in all selected files
+It is possible to give a regular expression for both strings.
+Please note: The sed-command is &quot;s/search/repleace/&quot;, so you have to escape the slash when you need it!</description>
+  <command>sed -i -e 's/%_Ask(&quot;Search for:&quot;)%/%_Ask(&quot;Replace with:&quot;)%/' %aList(&quot;Selected&quot;)%</command>
+ </action>
+ <action name="sample_newmount" >
+  <title>Mount</title>
+  <tooltip>Mount a new filesystem.</tooltip>
+  <icon>hdd_mount</icon>
+  <category>System</category>
+  <command run_as="root" executionmode="collect_output" >mount -t %_Ask(&quot;Filesystem Type?&quot;)% %_Ask(&quot;Device ?&quot;)% %_Ask(&quot;Mount Point ?&quot;)%</command>
+  <defaultshortcut>Alt+Ctrl+M</defaultshortcut>
+ </action>
+ <action name="system_umount" >
+  <title>Unmount</title>
+  <tooltip>Umount filesystem of current directory.</tooltip>
+  <icon>kcmpartitions</icon>
+  <category>System</category>
+  <command run_as="root" executionmode="collect_output" >result=`umount '%aCurrent%' 2>&amp;1`; case &quot;$?&quot; in 0) kdialog --title Krusader --msgbox &quot;Filesystem unmounted&quot;; ;; 1) apps=`lsof | grep '%aCurrent%' | head | cut -d ' ' -f 1`; kdialog --title Krusader --error &quot;Could not unmount filesystem.\n\nIt is still in use by the following applications:\n$apps&quot;; ;; *) kdialog --title Krusader --error &quot;Could not unmount filesystem.\n$result&quot;; ;; esac</command>
+ </action>
+ <action name="system_Eject" >
+  <title>Eject cd/dvd</title>
+  <tooltip>Unmounts and ejects current cdrom/dvd.</tooltip>
+  <icon>player_eject</icon>
+  <category>System</category>
+  <command>umount %aCurrent% ; /usr/bin/eject -r %aCurrent%</command>
+ </action>
+ <action name="archive_gzip_current" >
+  <title>gzip current file</title>
+  <tooltip>Make gzip archive containing current file to other panel.</tooltip>
+  <icon>ark</icon>
+  <category>Archive</category>
+  <description>Gzip current file with maximum (9) compression, preserving original file. In case of directory, it is first tarred.</description>
+  <command>if [ -d %aCurrent(&quot;Yes&quot;)% ]; then tar cf - %aCurrent(&quot;Yes&quot;)% | gzip -9 >%oPath%%aCurrent(&quot;Yes&quot;)%.tar.gz; else cat %aCurrent(&quot;Yes&quot;)% | gzip -9 >%oPath%%aCurrent(&quot;Yes&quot;)%.gz; fi</command>
+ </action>
+ <action name="archive_7z_current" >
+  <title>7zip current file</title>
+  <tooltip>Make 7zip archive containing current file to other panel.</tooltip>
+  <icon>ark</icon>
+  <category>Archive</category>
+  <command>rm -f %aCurrent(&quot;Yes&quot;)%.7z; 7z a -mx=9 -mfb=128 -md=8m %oPath%%aCurrent(&quot;Yes&quot;)%.7z %aCurrent(&quot;Yes&quot;)%
+ </command>
+ </action>
+ <action name="archive_pack_lzma" >
+  <title>Lzma current file</title>
+  <tooltip>Make lzma archive containing current file to other panel.</tooltip>
+  <icon>ark</icon>
+  <category>Archive</category>
+  <description>Lzma current file and keep input files to other panel.</description>
+  <command>lzma -zkc %aCurrent% > %oPath%%aCurrent(&quot;Yes&quot;)%.lzma</command>
+ </action>
+ <action name="archive_tgz_current" >
+  <title>tar.gz selected files</title>
+  <tooltip>Make tar.gz archive containing  selected files to other panel.</tooltip>
+  <icon>ark</icon>
+  <category>Archive</category>
+  <command>tar cf - %aList(&quot;Selected&quot;, &quot; &quot;, &quot;Yes&quot;)% | gzip -9 > %oPath%%aCurrent(&quot;Yes&quot;)%.tar.gz</command>
+ </action>
+ <action name="archive_tar_lzma" >
+  <title>tar.lzma selected files</title>
+  <tooltip>Make tar.lzma archive containing  selected files to other panel.</tooltip>
+  <icon>ark</icon>
+  <category>Archive</category>
+  <command>tar cf - %aList(&quot;Selected&quot;, &quot; &quot;, &quot;Yes&quot;)% | lzma -z > %oPath%%aCurrent(&quot;Yes&quot;)%.tar.lzma</command>
+ </action>
+ <action name="archive_ar_pack" >
+  <title>ar selected files</title>
+  <tooltip>Make ar  (.a, .deb, ...) archive of selected files to other panel.</tooltip>
+  <icon>ark</icon>
+  <category>Archive</category>
+  <description>Make an archive using the ar utility, which is used for static libraries (*.a) or debian packages. Like tar, ar does not use any compression.</description>
+  <command executionmode="terminal" >sh -c 'A=%_Ask(&quot;Enter file name of the archive:&quot;, &quot;%oPath%%aCurrent(\&quot;Yes\&quot;)%.a&quot;, &quot;ar pack&quot;)% ; rm -f &quot;$A&quot;; ar -rc &quot;$A&quot; %aList(&quot;Selected&quot;, &quot; &quot;, &quot;Yes&quot;)% '</command>
+ </action>
+ <action name="archive_tar_7z" >
+  <title>tar.7z selected files</title>
+  <tooltip>Make tar.7z archive containing  selected files to other panel.</tooltip>
+  <icon>ark</icon>
+  <category>Archive</category>
+  <command executionmode="collect_output" >tar cf - %aList(&quot;Selected&quot;, &quot; &quot;, &quot;Yes&quot;)% | 7z a -si %oPath%%aCurrent(&quot;Yes&quot;)%.tar.7z</command>
+ </action>
+ <action name="archive_archive2dir" >
+  <title>Unpack archive to dir</title>
+  <tooltip>Creates a directory with the archive name before unpacking.</tooltip>
+  <icon>package</icon>
+  <category>Archive</category>
+  <description>Creates a directory with the current archive name in the other panel before unpacking the files into it. It uses ark and tries to guess the directory name (archive name without file extension).</description>
+  <command>ark --guess-name --extract-to %oPath% %aCurrent%</command>
+ </action>
+ <action name="archive_unpack_tar_7z" >
+  <title>Unpack current tar.7z</title>
+  <tooltip>Unpack current tar.7z to other panel.</tooltip>
+  <icon>package</icon>
+  <category>Archive</category>
+  <command executionmode="collect_output" >sh -c 'cd %oPath%; 7z x -so &quot;%aCurrent%&quot; | tar xf -'</command>
+ </action>
+ <action name="archive_unpack_tar_lzma" >
+  <title>Unpack current tar.lzma</title>
+  <tooltip>Unpack current tar.lzma to other panel.</tooltip>
+  <icon>package</icon>
+  <category>Archive</category>
+  <description>Unpack current tar.lzma to other panel and keep original input file.</description>
+  <command>sh -c 'cd &quot;%oPath%&quot;; lzma -dkc &quot;%aCurrent%&quot; | tar xf -'</command>
+ </action>
+ <action name="archive_unpack_lzma" >
+  <title>Unpack current lzma</title>
+  <tooltip>Unpack current lzma to other panel.</tooltip>
+  <icon>package</icon>
+  <category>Archive</category>
+  <description>Unpack current lzma to other panel and keep original input file.</description>
+  <command>lzma -dkc %aCurrent% >%oPath%/`basename %aCurrent% .lzma`</command>
+ </action>
+ <action name="archive_ar_unpack" >
+  <title>Unpack ar archive (.a, .deb, ...)</title>
+  <icon>package</icon>
+  <category>Archive</category>
+  <description>Extract an ar archive using the ar utility, which is used for static libraries (*.a) or debian packages (you can extract debian packages this way without having dpkg installed). Like tar, ar does not use any compression.</description>
+  <command executionmode="terminal" >sh -c 'A=%_Ask(&quot;Enter the path, where the archive should be unpacked to:&quot;, &quot;%oPath%&quot;, &quot;ar unpack&quot;)% ; cd &quot;$A&quot;; for i in %aList(&quot;Selected&quot;)% ; do ar x &quot;$i&quot;; done '</command>
+ </action>
+ <action name="archive_multi_zip_unpack" >
+  <title>Unpack multiple zip arc&amp;hives</title>
+  <icon>package</icon>
+  <tooltip>Unpack multiple zip archives</tooltip>
+  <category>Archive</category>
+  <description>Unpack all selected zip archives into separate direcories. The new directory name has the same as the zip archive name.</description>
+  <command executionmode="collect_output" >for file in %aList("Selected")%; do dir=`basename $file|sed -e 's/.zip//g'`; unzip $file -d %oPath%/$dir; done</command>
+ </action>
+ <action name="filename_to_clipboard" >
+  <title>Copy current item to clipboard</title>
+  <icon>editpaste</icon>
+  <category>System</category>
+  <command>%_Clipboard(&quot;%aCurrent%&quot;)%</command>
+  <defaultshortcut>Alt+Ctrl+C</defaultshortcut>
+ </action>
+ <action name="sample_amarok_enqueue" >
+  <title>Enqueue in Amarok</title>
+  <tooltip>Append selected item(s) to Amarok playlist.</tooltip>
+  <icon>amarok</icon>
+  <category>Multimedia</category>
+  <command>amarok --append %aList(&quot;Selected&quot;)%</command>
+  <defaultshortcut>Win+A</defaultshortcut>
+ </action>
+ <action name="Multimedia_Split_mp3" >
+  <title>Split large mp3</title>
+  <tooltip>Splits large mp3's using mp3splt.</tooltip>
+  <icon>kcmsound</icon>
+  <category>Multimedia</category>
+  <command executionmode="terminal" >mp3splt %aCurrent(&quot;Yes&quot;)%  -c *.cue -a -f -o &quot;@n - @p - @t&quot;</command>
+ </action>
+ <action name="encryption_encrypt_with_kgpg" >
+  <title>Encrypt with kgpg</title>
+  <tooltip>Encrypts the current file with kpgp (which has to be in your $PATH).</tooltip>
+  <icon>kgpg_key1</icon>
+  <category>Encryption</category>
+  <command>kgpg -e %aCurrent%</command>
+ </action>
+ <action name="encryption_decrypt_with_kgpg" >
+  <title>Decrypt with kgpg</title>
+  <tooltip>Decrypts the current file with kpgp (which has to be in your $PATH).</tooltip>
+  <icon>kgpg_show</icon>
+  <category>Encryption</category>
+  <command>kgpg %aCurrent%</command>
+ </action>
+ <action name="encryption_sign_with_kgpg" >
+  <title>Sign with kgpg</title>
+  <tooltip>Signs the current file with kpgp (which has to be in your $PATH).</tooltip>
+  <icon>kgpg_sign</icon>
+  <category>Encryption</category>
+  <command>kgpg -S %aCurrent%</command>
+ </action>
+ <action name="encryption_verify_sig_with_kpgp" >
+  <title>Verify signature with kgpg</title>
+  <tooltip>Tries to verify the signature of the current file with kpgp (which has to be in your $PATH).</tooltip>
+  <icon>kgpg_identity</icon>
+  <category>Encryption</category>
+  <command>kgpg -V %aCurrent%</command>
+ </action>
+ <action name="file_uudecode" >
+  <title>Uudecode</title>
+  <tooltip>Decode current file created with uuencode.</tooltip>
+  <icon>binary</icon>
+  <category>File</category>
+  <description>Decode a file created with uuencode. Requirements: Sharutils</description>
+  <command>uudecode %aCurrent%</command>
+ </action>
+ <action name="file_uuencode" >
+  <title>Uuencode</title>
+  <tooltip>Uuencode current file.</tooltip>
+  <icon>ascii</icon>
+  <category>File</category>
+  <description>Uuencode creates an encoded ASCII copy of a file. Requirements: Sharutils</description>
+  <command>uuencode %aCurrent(&quot;Yes&quot;)% %aCurrent(&quot;Yes&quot;)% > %oPath%\/%_Ask(&quot;Name of output file (without extension):&quot;, &quot;%aCurrent(&quot;Yes&quot;)%&quot;, &quot;uuencode&quot;)%.uue</command>
+ </action>
+ <action name="Jscript_select_from_file" >
+  <title>Javascript, select from file</title>
+  <icon>kr_select</icon>
+  <category>File</category>
+  <description>TC-like &quot;load selection from file&quot;. Use this action on a text file which contains a list of filenames and these files will be selected.</description>
+  <command>%aSelect(&quot;%_Script(&quot;select_from_file.js&quot;, &quot;return=filelist;file=%aCurrent%&quot;)%&quot;)%</command>
+ </action>
+ <action name="Jscript_file_recode_gnu" >
+  <title>Javascript, recode files using GNU recode</title>
+  <icon>charset</icon>
+  <category>File</category>
+  <description>A javascript useraction, which converts either file names or their content or both from one to another character encoding. It processes all selected files and directories in the active panel (for the directories, recurse their content). You can select, whether a recoded copy is created or if the file is moved (there is no warranty, so don't test move on any important data)
+Requirements:
+You need krusader compiled with javascript support and GNU recode installed.</description>
+  <command executionmode="terminal" >%_Script(&quot;recode.js&quot;, &quot;return=cmd;toProcess=%aList(\&quot;Selected\&quot;, \&quot; \&quot;, \&quot;Yes\&quot;)%;dstDir=%oPath%;srcDir=%aPath%;useRecode=1&quot;)%</command>
+ </action>
+ <action name="Jscript_file_recode_iconv" >
+  <title>Javascript, recode files using iconv</title>
+  <icon>charset</icon>
+  <category>File</category>
+  <description>A javascript useraction, which converts either file names or their content or both from one to another character encoding. It processes all selected files and directories in the active panel (for the directories, recurse their content). You can select, whether a recoded copy is created or if the file is moved (there is no warranty, so don't test move on any important data)
+Requirements:
+You need krusader compiled with javascript support and iconv installed.</description>
+  <command executionmode="terminal" >%_Script(&quot;recode.js&quot;, &quot;return=cmd;toProcess=%aList(\&quot;Selected\&quot;, \&quot; \&quot;, \&quot;Yes\&quot;)%;dstDir=%oPath%;srcDir=%aPath%;useRecode=0&quot;)%</command>
+ </action>
+ <action name="Jscript_root-mount" >
+  <title>Javascript, mount as root</title>
+  <tooltip>Mounts a device with root-privileges</tooltip>
+  <icon>hdd_mount</icon>
+  <category>System</category>
+  <description>Requirements:
+You need krusader compiled with javascript support.</description>
+  <command run_as="root" executionmode="collect_output" >%_Script(&quot;mount.js&quot;, &quot;return=cmd&quot;)%</command>
+ </action>
+ <action name="js_calc" >
+  <title>JavaScript, calculator</title>
+  <icon>xcalc</icon>
+  <category>Misc</category>
+  <description>Requirements:
+You need krusader compiled with javascript support.</description>
+  <command>%_Script(&quot;calc.js&quot;)%</command>
+ </action>
+</KrusaderUserActions>
