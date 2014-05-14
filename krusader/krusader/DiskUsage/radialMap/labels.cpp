@@ -7,8 +7,8 @@
 #include <qpainter.h>
 #include <qptrlist.h>
 
-#include "Config.h"
-#include "fileTree.h"
+#include <Config.h>
+#include <fileTree.h>
 #include "radialMap.h"
 #include "sincos.h"
 #include "widget.h"

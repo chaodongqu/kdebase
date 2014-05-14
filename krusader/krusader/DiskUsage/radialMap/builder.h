@@ -5,7 +5,6 @@
 #define BUILDER_H
 
 #include "radialMap.h"   //Segment, defines
-#include "fileTree.h"
 
 template <class T> class Chain;
 
