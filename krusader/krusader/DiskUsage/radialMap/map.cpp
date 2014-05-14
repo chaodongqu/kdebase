@@ -11,8 +11,8 @@
 #include <qpainter.h>
 
 #include "builder.h"
-#include "Config.h"
-#include "fileTree.h"
+#include <Config.h>
+#include <fileTree.h>
 #include "sincos.h"
 #include "widget.h"
 
