@@ -1,4 +1,9 @@
 # the condition for this is found in configure.in.in
+if with_tar
+TARDIR = tar
+endif
+
+# the condition for this is found in configure.in.in
 if include_libkonq
 LIB_KONQ = -lkonq
 endif
@@ -10,7 +15,6 @@ LIB_KJSEMBED = -lkjsembed
 KRJSDIR = KrJS
 LIB_KRJS = KrJS/libKrJS.a
 endif
-
 
 # these subdirs are also visited during the build-process
 SUBDIRS = \
@@ -33,17 +37,20 @@ SUBDIRS = \
 	UserAction \
 	$(KRJSDIR) \
 	UserMenu \
-	VFS
-
+	VFS \
+	po \
+	pics \
+	krArc \
+	iso \
+	virt \
+	$(TARDIR)
 
 ###########################################################
 ######################## BUILDING #########################
 ##########################################################
 
-
 # the programm which is build and installed:
 bin_PROGRAMS = krusader
-
 
 krusader_SOURCES = \
 	paneltabbar.cpp \
@@ -53,7 +60,7 @@ krusader_SOURCES = \
 	krusaderview.cpp \
 	krusader.cpp \
 	krslots.cpp \
-	kicons.cpp 
+	kicons.cpp
 
 
 # this makes that .ui and .moc files are generated automaticly.
@@ -61,6 +68,8 @@ krusader_SOURCES = \
 # and add filename.ui to the *_SOURCES
 METASOURCES = AUTO
 
+#EXTRA_DIST = krusader.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO krusader.lsm krusader.spec
+MAINTAINERCLEANFILES = subdirs configure.in acinclude.m4 configure.files
 
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)
@@ -117,7 +126,7 @@ krusader_LDFLAGS = $(all_libraries) $(kde_RPATH)
 # see the comment in krusader_kde3/icons/Makefile.am for more info
 KDE_ICON = AUTO
 
-# How it works (by jonas): 
+# How it works (by jonas):
 # somenamedir = /path/what/ever		# a directory
 # somename_DATA = file1 file2 file3	# the data whichshold be installed there
 
