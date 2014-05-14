@@ -39,6 +39,7 @@
 #include <kio/jobclasses.h>
 // Qt Includes
 #include <qthread.h>
+#include <qmutex.h>
 // Krusader Includes
 #include "../VFS/vfs.h"
 #include "krdetailedviewitem.h"
