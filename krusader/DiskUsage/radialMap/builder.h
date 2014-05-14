@@ -4,6 +4,7 @@
 #ifndef BUILDER_H
 #define BUILDER_H
 
+#include <fileTree.h>
 #include "radialMap.h"   //Segment, defines
 
 template <class T> class Chain;
