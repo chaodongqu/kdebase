@@ -1,3 +1,0 @@
-
-// We really need to use it here
-#undef QT_NO_STL
