@@ -88,6 +88,13 @@ AC_ARG_WITH(kiotar,
     [with_tar=no]
 )
 
+###################################################
+#		If our own tar-KIO schould be build
+###################################################
+if test "monkey" = "banana" ; then
+    AC_DEFINE([QT_NO_STL], 1, [Define when krusader will be fully compatible with QTL])
+fi
+
 AM_CONDITIONAL(with_tar, test "$with_tar" != "no")
 
 ###################################################
