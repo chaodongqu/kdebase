@@ -303,7 +303,7 @@ QString normal_vfs::getACL( const QString & path, int type )
 #if KDE_IS_VERSION(3,5,0) && defined( HAVE_POSIX_ACL )
 	acl_t acl = 0;
 	// do we have an acl for the file, and/or a default acl for the dir, if it is one?
-	if ( ( acl = acl_get_file( path.data(), type ) ) != 0 )
+	if ( ( acl = acl_get_file( path.latin1(), type ) ) != 0 )
 	{
 		bool aclExtended = false;
 		

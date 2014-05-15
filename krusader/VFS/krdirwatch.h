@@ -67,7 +67,7 @@ signals:
     	
 protected:
   int delay;      // time in msec between updates
-  QList<krDirEntry> watched;
+  QPtrList<krDirEntry> watched;
   QTimer t;
   QDir dir;
   QFileInfo qfi;

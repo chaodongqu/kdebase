@@ -9,7 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-
+#undef QT_NO_STL
 #include <algorithm>
 
 #include "expander.h"
