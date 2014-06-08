@@ -39,7 +39,7 @@ View::View( QWidget *parentWidget, const char *widgetName,
              this, SLOT( setTitle( const QString & ) ) );
     connect( this, SIGNAL( popupMenu( const QString &, const QPoint& ) ),
              this, SLOT( showMenu( const QString &, const QPoint& ) ) );
-             
+
     QString css = langLookup("common/kde-default.css");
     if (!css.isEmpty())
     {
@@ -225,9 +225,9 @@ KURL View::internalUrl() const
 void View::lastSearch()
 {
   if ( mSearchResult.isEmpty() ) return;
- 
+
   mState = Search;
-  
+
   begin();
   write( mSearchResult );
   end();
@@ -269,7 +269,7 @@ void View::showMenu( const QString& url, const QPoint& pos)
     pop->insertItem(i18n("Copy Link Address"), this, SLOT(slotCopyLink()));
     mCopyURL = completeURL(url).url();
   }
-	
+
   pop->exec(pos);
   delete pop;
 }
