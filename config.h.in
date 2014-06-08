@@ -176,6 +176,9 @@
 /* Define to 1 if you have the <lastlog.h> header file. */
 #undef HAVE_LASTLOG_H
 
+/* Define to 1 if you have the `acl' library (-lacl). */
+#undef HAVE_LIBACL
+
 /* Defines if your system has the libart library */
 #undef HAVE_LIBART
 
@@ -262,6 +265,9 @@
 /* Define to 1 if you have the `nice' function. */
 #undef HAVE_NICE
 
+/* Define if system has non-POSIX extensions to the ACL support. */
+#undef HAVE_NON_POSIX_ACL_EXTENSIONS
+
 /* Define if your system needs _NSGetEnviron to set up the environment */
 #undef HAVE_NSGETENVIRON
 
@@ -279,6 +285,9 @@
 
 /* Define to 1 if you have the <paths.h> header file. */
 #undef HAVE_PATHS_H
+
+/* Define if system has POSIX ACL support. */
+#undef HAVE_POSIX_ACL
 
 /* Define to 1 if you have the `powl' function. */
 #undef HAVE_POWL
@@ -989,3 +998,5 @@ int snprintf(char *str, size_t n, char const *fmt, ...);
 
 /* Define to `int' if <sys/types.h> doesn't define. */
 #undef uid_t
+
+#define RELEASE_NAME "Power Stone"
