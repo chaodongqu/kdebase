@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="44" >
+ <DocsAndViews NumberOfDocuments="65" >
   <Doc0 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konqueror/iconview/konq_iconview.h" >
    <View0 Encoding="" Type="Source" />
   </Doc0>
@@ -33,7 +33,7 @@
    <View0 Encoding="" Type="Source" />
   </Doc9>
   <Doc10 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kwin/geometry.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="UTF-8" Type="Source" />
   </Doc10>
   <Doc11 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kcontrol/kicker/menutab_impl.cpp" >
    <View0 Encoding="" Type="Source" />
@@ -60,7 +60,7 @@
    <View0 Encoding="" Type="Source" />
   </Doc18>
   <Doc19 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdmlib/dmctl.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc19>
   <Doc20 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kicker/applets/launcher/quicklauncher.cpp" >
    <View0 Encoding="" Type="Source" />
@@ -78,7 +78,7 @@
    <View0 Encoding="" Type="Source" />
   </Doc24>
   <Doc25 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/kfrontend/kdm_config.c" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc25>
   <Doc26 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/kfrontend/kdmctl.c" >
    <View0 Encoding="" Type="Source" />
@@ -96,7 +96,7 @@
    <View0 Encoding="" Type="Source" />
   </Doc30>
   <Doc31 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/backend/dm.c" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc31>
   <Doc32 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/kfrontend/kgreeter.cpp" >
    <View0 Encoding="" Type="Source" />
@@ -117,23 +117,86 @@
    <View0 Encoding="" Type="Source" />
   </Doc37>
   <Doc38 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konsole/konsole/konsole.cpp" >
-   <View0 Encoding="" line="1143" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc38>
   <Doc39 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kwin/tabbox.h" >
-   <View0 Encoding="" line="5" Type="Source" />
+   <View0 Encoding="UTF-8" Type="Source" />
   </Doc39>
   <Doc40 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kwin/tabbox.cpp" >
-   <View0 Encoding="" line="76" Type="Source" />
+   <View0 Encoding="UTF-8" Type="Source" />
   </Doc40>
   <Doc41 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kwin/rules.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc41>
   <Doc42 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kwin/placement.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="UTF-8" Type="Source" />
   </Doc42>
   <Doc43 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kwin/placement.h" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Encoding="UTF-8" Type="Source" />
   </Doc43>
+  <Doc44 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/khelpcenter/view.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc44>
+  <Doc45 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/khelpcenter/view.h" >
+   <View0 Encoding="" Type="Source" />
+  </Doc45>
+  <Doc46 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kicker/menuext/konsole/konsole_mnu.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc46>
+  <Doc47 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/khelpcenter/mainwindow.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc47>
+  <Doc48 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/krusader/KViewer/krviewer.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc48>
+  <Doc49 NumberOfViews="1" URL="file:///usr/kde/git/include/kurl.h" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc49>
+  <Doc50 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/konsole/konsole/konsole.h" >
+   <View0 Encoding="" Type="Source" />
+  </Doc50>
+  <Doc51 NumberOfViews="1" URL="file:///usr/kde/git/include/khtml_part.h" >
+   <View0 Encoding="" Type="Source" />
+  </Doc51>
+  <Doc52 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdesktop/lock/Makefile.am" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc52>
+  <Doc53 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/kfrontend/Makefile.am" >
+   <View0 Encoding="" line="5" Type="Source" />
+  </Doc53>
+  <Doc54 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdmlib/dmctl.h" >
+   <View0 Encoding="" line="78" Type="Source" />
+  </Doc54>
+  <Doc55 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdmlib/kgreet_classic.h" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc55>
+  <Doc56 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdmlib/kgreeterplugin.h" >
+   <View0 Encoding="" line="175" Type="Source" />
+  </Doc56>
+  <Doc57 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/config.def" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc57>
+  <Doc58 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/Makefile.am" >
+   <View0 Encoding="" line="4" Type="Source" />
+  </Doc58>
+  <Doc59 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/Makefile.in" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc59>
+  <Doc60 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/README" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc60>
+  <Doc61 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/TODO" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc61>
+  <Doc62 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdm/configure.in.bot" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc62>
+  <Doc63 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdesktop/lock/lockdlg.cc" >
+   <View0 Encoding="" line="252" Type="Source" />
+  </Doc63>
+  <Doc64 NumberOfViews="1" URL="file:///home/rainman/projects/kde/kdebase/kdesktop/lock/lockprocess.cc" >
+   <View0 Encoding="" line="118" Type="Source" />
+  </Doc64>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -141,7 +204,7 @@
    <showInternalCommands value="0" />
   </kdevdebugger>
   <kdevastyle>
-   <AStyle FStyle="GLOBAL" />
+   <AStyle UseGlobal="1" />
   </kdevastyle>
   <kdevbookmarks>
    <bookmarks/>
