@@ -44,6 +44,7 @@ configure.in.in
 ./klipper/configure.in.in
 ./konqueror/preloader/configure.in.in
 ./konsole/configure.in.in
+./krusader/configure.in.in
 ./ksmserver/configure.in.in
 ./ksplashml/themeengine/simple/configure.in.in
 ./ksysguard/configure.in.in
