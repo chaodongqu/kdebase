@@ -1,7 +1,7 @@
 [Desktop Entry]
 Charset=utf8
 Hidden=false
-Keys=ex
+Keys=exua
 Name=Ex.ua
 Query[en_US]=http://www.ex.ua/search?s=\\{@}&ie=UTF-8&oe=UTF-8
 ServiceTypes=SearchProvider

@@ -1,5 +1,7 @@
 [Desktop Entry]
 Type=Service
+Charset=utf8
+Hidden=false
 Name=Internet Movie Database
 Name[af]=Internet Film Databasis
 Name[ar]=قاعدة بيانات الأفلام على الإنترنت
@@ -68,7 +70,8 @@ Name[zh_CN]=互联网电影数据库
 Name[zh_TW]=Internet 電影資料庫
 ServiceTypes=SearchProvider
 Keys=imdb
-Query=http://imdb.com/Find?\\{@}
-Query[en_GB]=http://imdb.co.uk/Find?\\{@}
-Query[it]=http://italian.imdb.com/Find?\\{@}
+Query=http://www.imdb.com/find?q=\\{@}
+Query[en_US]=http://www.imdb.com/find?q=\\{@}
+Query[en_GB]=http://imdb.co.uk/find?q=\\{@}
+Query[it]=http://italian.imdb.com/find?q=\\{@}
 
