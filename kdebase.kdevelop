@@ -14,9 +14,9 @@
     <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description></description>
-    <defaultencoding></defaultencoding>
-    <versioncontrol></versioncontrol>
+    <description/>
+    <defaultencoding/>
+    <versioncontrol/>
   </general>
   <kdevfileview>
     <groups>
@@ -74,10 +74,10 @@
   <kdevdebugger>
     <general>
       <dbgshell>libtool</dbgshell>
-      <gdbpath></gdbpath>
-      <configGdbScript></configGdbScript>
-      <runShellScript></runShellScript>
-      <runGdbScript></runGdbScript>
+      <gdbpath/>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
@@ -109,7 +109,7 @@
       <designerpluginpaths/>
     </qt>
     <codecompletion>
-      <automaticCodeCompletion>true</automaticCodeCompletion>
+      <automaticCodeCompletion>false</automaticCodeCompletion>
       <automaticArgumentsHint>true</automaticArgumentsHint>
       <automaticHeaderCompletion>true</automaticHeaderCompletion>
       <codeCompletionDelay>400</codeCompletionDelay>
@@ -124,15 +124,15 @@
       <processPrimaryTypes>true</processPrimaryTypes>
       <processFunctionArguments>true</processFunctionArguments>
       <preProcessAllHeaders>true</preProcessAllHeaders>
-      <parseMissingHeadersExperimental>true</parseMissingHeadersExperimental>
-      <resolveIncludePathsUsingMakeExperimental>false</resolveIncludePathsUsingMakeExperimental>
+      <parseMissingHeadersExperimental>false</parseMissingHeadersExperimental>
+      <resolveIncludePathsUsingMakeExperimental>true</resolveIncludePathsUsingMakeExperimental>
       <alwaysParseInBackground>false</alwaysParseInBackground>
       <usePermanentCaching>false</usePermanentCaching>
       <alwaysIncludeNamespaces>true</alwaysIncludeNamespaces>
       <includePaths>.;</includePaths>
     </codecompletion>
     <creategettersetter>
-      <prefixGet></prefixGet>
+      <prefixGet/>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
@@ -145,9 +145,10 @@
       <orientation>Vertical</orientation>
     </splitheadersource>
     <references>
-      <pcs>kde_includes</pcs>
-      <pcs>qt3trunk</pcs>
       <pcs>automatic_%2Fhome%2Frainman%2Fprojects%2Fkde%2Fkdebase</pcs>
+      <pcs>automatic_%2Fhome%2Frainman%2Fprojects%2Fkde%2Fkdelibs</pcs>
+      <pcs>boost</pcs>
+      <pcs>qt3trunk</pcs>
     </references>
     <designerintegration>
       <qtdesigner/>
@@ -167,11 +168,11 @@
       <prio>0</prio>
     </make>
     <run>
-      <mainprogram>/var/tmp/portage/dbg_kdebase_x86_64_linux</mainprogram>
+      <mainprogram>/usr/kde/git/bin/kdesktop</mainprogram>
       <programargs/>
       <globaldebugarguments/>
-      <globalcwd>/var/tmp/portage/dbg_kdebase_x86_64_linux</globalcwd>
-      <useglobalprogram>false</useglobalprogram>
+      <globalcwd>/usr/kde/git/bin/</globalcwd>
+      <useglobalprogram>true</useglobalprogram>
       <terminal>false</terminal>
       <autocompile>false</autocompile>
       <autoinstall>false</autoinstall>
@@ -192,6 +193,7 @@
     </run>
     <general>
       <useconfiguration>dbg_x86_64-pc-linux-gnu</useconfiguration>
+      <activetarget>kcontrol/background/kcm_background.la</activetarget>
     </general>
     <configurations>
       <dbg_i686-pc-linux-gnu>
@@ -215,18 +217,18 @@
         <envvars/>
         <configargs>--host=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/kde/git --mandir=/usr/kde/git/share/man --infodir=/usr/kde/git/share/info --datadir=/usr/kde/git/share --sysconfdir=/usr/kde/git/etc --localstatedir=/var/lib --with-qt-dir=/usr/qt/3 --with-qt-libraries=/usr/qt/3/lib --enable-mt --enable-debug=full --libdir=/usr/kde/git/lib --enable-libsuffix=64 --with-ssl --without-openexr --without-hal --disable-dnssd --without-arts</configargs>
         <builddir>/var/tmp/portage/dbg_kdebase_x86_64_linux</builddir>
-        <topsourcedir></topsourcedir>
-        <cppflags></cppflags>
-        <ldflags></ldflags>
+        <topsourcedir/>
+        <cppflags/>
+        <ldflags/>
         <ccompiler>kdevgccoptions</ccompiler>
         <cxxcompiler>kdevgppoptions</cxxcompiler>
         <f77compiler>kdevpgf77options</f77compiler>
-        <ccompilerbinary></ccompilerbinary>
-        <cxxcompilerbinary></cxxcompilerbinary>
-        <f77compilerbinary></f77compilerbinary>
+        <ccompilerbinary/>
+        <cxxcompilerbinary/>
+        <f77compilerbinary/>
         <cflags>-O0 -ggdb3 -fno-omit-frame-pointer -Wall -DDEBUG</cflags>
         <cxxflags>-O0 -ggdb3 -fno-omit-frame-pointer -Wall -DDEBUG</cxxflags>
-        <f77flags></f77flags>
+        <f77flags/>
       </dbg_x86_64-pc-linux-gnu>
     </configurations>
   </kdevautoproject>
@@ -238,9 +240,9 @@
   </cppsupportpart>
   <kdevdocumentation>
     <projectdoc>
-      <docsystem></docsystem>
-      <docurl></docurl>
-      <usermanualurl></usermanualurl>
+      <docsystem/>
+      <docurl/>
+      <usermanualurl/>
     </projectdoc>
   </kdevdocumentation>
   <ctagspart>
