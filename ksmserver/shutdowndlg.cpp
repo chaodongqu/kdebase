@@ -289,19 +289,8 @@ KSMShutdownDlg::KSMShutdownDlg(QWidget* parent, bool maysd, KApplication::Shutdo
     hbuttonbox->addWidget(btnLogout);
     connect(btnLogout, SIGNAL(clicked()), SLOT(slotLogout()));
   } else {
-    // konqy
-    //lfrm = new QFrame(frame);
-    //lfrm->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    //hbox->addWidget(lfrm, AlignCenter);
-
     buttonlay = new QVBoxLayout(hbox, factor * KDialog::spacingHint());
     buttonlay->setAlignment(Qt::AlignHCenter);
-
-    // QLabel* icon = new QLabel(lfrm);
-    // icon->setPixmap(UserIcon("shutdownkonq"));
-    // lfrm->setFixedSize(icon->sizeHint());
-    // icon->setFixedSize(icon->sizeHint());
-
     buttonlay->addStretch(1);
     // End session
     KPushButton* btnLogout = new KPushButton(KGuiItem(i18n("&End Current Session"), "undo"), frame);

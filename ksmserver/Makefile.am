@@ -34,9 +34,6 @@ ksmserver_la_LDFLAGS = -avoid-version -module $(all_libraries)
 ksmserver_la_LIBADD = $(top_builddir)/kdmlib/libdmctl.la $(DBUS_LIBS) \
 	$(HAL_LIBS) $(LIB_KDEUI)
 
-picsdir = $(kde_datadir)/ksmserver/pics
-pics_DATA = shutdownkonq.png
-
 update_DATA = ksmserver.upd
 update_SCRIPTS = move_session_config.sh
 updatedir = $(kde_datadir)/kconf_update
