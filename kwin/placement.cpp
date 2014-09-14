@@ -514,6 +514,17 @@ namespace KWinInternal
 // Workspace
 // ********************
 
+  void Workspace::slotPlaceWindowLeft() {
+    if(active_client && active_client->isMovable()) {
+      active_client->move(0, 0, ForceGeometrySet);
+      if(active_client->isResizable()) {
+        QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
+        area.setRight(area.left() + area.width()*0.5f);
+        active_client->setGeometry(area);
+      }
+    }
+  }
+
   /*!
     Moves active window left until in bumps into another window or workarea edge.
   */
