@@ -109,7 +109,7 @@
       <designerpluginpaths/>
     </qt>
     <codecompletion>
-      <automaticCodeCompletion>false</automaticCodeCompletion>
+      <automaticCodeCompletion>true</automaticCodeCompletion>
       <automaticArgumentsHint>true</automaticArgumentsHint>
       <automaticHeaderCompletion>true</automaticHeaderCompletion>
       <codeCompletionDelay>400</codeCompletionDelay>
@@ -124,8 +124,8 @@
       <processPrimaryTypes>true</processPrimaryTypes>
       <processFunctionArguments>true</processFunctionArguments>
       <preProcessAllHeaders>true</preProcessAllHeaders>
-      <parseMissingHeadersExperimental>false</parseMissingHeadersExperimental>
-      <resolveIncludePathsUsingMakeExperimental>true</resolveIncludePathsUsingMakeExperimental>
+      <parseMissingHeadersExperimental>true</parseMissingHeadersExperimental>
+      <resolveIncludePathsUsingMakeExperimental>false</resolveIncludePathsUsingMakeExperimental>
       <alwaysParseInBackground>false</alwaysParseInBackground>
       <usePermanentCaching>false</usePermanentCaching>
       <alwaysIncludeNamespaces>true</alwaysIncludeNamespaces>
@@ -146,8 +146,6 @@
     </splitheadersource>
     <references>
       <pcs>automatic_%2Fhome%2Frainman%2Fprojects%2Fkde%2Fkdebase</pcs>
-      <pcs>automatic_%2Fhome%2Frainman%2Fprojects%2Fkde%2Fkdelibs</pcs>
-      <pcs>boost</pcs>
       <pcs>qt3trunk</pcs>
     </references>
     <designerintegration>
@@ -161,18 +159,18 @@
         <envvar value="1.11" name="WANT_AUTOMAKE" />
       </envvars>
       <abortonerror>true</abortonerror>
-      <runmultiplejobs>true</runmultiplejobs>
-      <numberofjobs>5</numberofjobs>
+      <runmultiplejobs>false</runmultiplejobs>
+      <numberofjobs>4</numberofjobs>
       <dontact>false</dontact>
       <makebin>gmake</makebin>
       <prio>0</prio>
     </make>
     <run>
-      <mainprogram>/usr/kde/git/bin/kdesktop</mainprogram>
+      <mainprogram>/var/tmp/portage/dbg_kdebase_x86_64_linux</mainprogram>
       <programargs/>
       <globaldebugarguments/>
-      <globalcwd>/usr/kde/git/bin/</globalcwd>
-      <useglobalprogram>true</useglobalprogram>
+      <globalcwd>/var/tmp/portage/dbg_kdebase_x86_64_linux</globalcwd>
+      <useglobalprogram>false</useglobalprogram>
       <terminal>false</terminal>
       <autocompile>false</autocompile>
       <autoinstall>false</autoinstall>
@@ -193,7 +191,7 @@
     </run>
     <general>
       <useconfiguration>dbg_x86_64-pc-linux-gnu</useconfiguration>
-      <activetarget>kcontrol/background/kcm_background.la</activetarget>
+      <activetarget>kcontrol/keys/kcm_keys.la</activetarget>
     </general>
     <configurations>
       <dbg_i686-pc-linux-gnu>
