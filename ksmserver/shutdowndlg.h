@@ -45,30 +45,20 @@ class KSMShutdownFeedback : public QWidget
 
 public:
   static void start() { s_pSelf = new KSMShutdownFeedback(); }
-  static void stop() { if (s_pSelf != 0L) s_pSelf->fadeBack(); delete s_pSelf; s_pSelf = 0L; }
+  static void stop() {
+    if (s_pSelf != 0L) {
+      delete s_pSelf;
+      s_pSelf = 0L;
+    }
+  }
   static KSMShutdownFeedback * self() { return s_pSelf; }
 
 protected:
   ~KSMShutdownFeedback() {}
 
-private slots:
-  void slotPaintEffect();
-
 private:
   static KSMShutdownFeedback * s_pSelf;
   KSMShutdownFeedback();
-  int m_currentY;
-  QPixmap m_root;
-  void fadeBack(void);
-  float  m_grayOpacity;
-  float  m_compensation;
-  bool   m_fadeBackwards;
-  bool   m_readDelayComplete;
-  QImage m_unfadedImage;
-  QImage m_grayImage;
-  QTime  m_fadeTime;
-  int    m_rowsDone;
-  KPixmapIO m_pmio;
 };
 
 // The confirmation dialog

@@ -178,19 +178,14 @@ void KSMServer::autoStart0()
     DCOPRef( launcher ).send( "autoStart", (int) 0 );
 }
 
-void KSMServer::autoStart0Done()
-{
-    if( state != AutoStart0 )
-        return;
-    disconnectDCOPSignal( launcher, launcher, "autoStart0Done()",
-                          "autoStart0Done()");
-    if( !checkStartupSuspend())
-        return;
+void KSMServer::autoStart0Done() {
+    if( state != AutoStart0 ) { return; }
+    disconnectDCOPSignal( launcher, launcher, "autoStart0Done()", "autoStart0Done()");
+    if( !checkStartupSuspend()) { return; }
     kdDebug( 1218 ) << "Autostart 0 done" << endl;
     upAndRunning( "kdesktop" );
     upAndRunning( "kicker" );
-    connectDCOPSignal( "kcminit", "kcminit", "phase1Done()",
-                       "kcmPhase1Done()", true);
+    connectDCOPSignal( "kcminit", "kcminit", "phase1Done()", "kcmPhase1Done()", true);
     state = KcmInitPhase1;
     QTimer::singleShot( 10000, this, SLOT( kcmPhase1Timeout())); // protection
     DCOPRef( "kcminit", "kcminit" ).send( "runPhase1" );

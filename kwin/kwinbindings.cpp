@@ -37,6 +37,8 @@
 	DEF2( "window_size", I18N_NOOP("Resize active window"), 0, 0, slotWindowResize() );
 	DEF2( "window_raise", I18N_NOOP("Raise active window"), 0, 0, slotWindowRaise() );
 	DEF2( "window_lower", I18N_NOOP("Lower active window"), 0, 0, slotWindowLower() );
+  DEF2( "window_place_left", I18N_NOOP("Place left window to the left"), 0, 0, slotPlaceWindowLeft() );
+  DEF2( "window_place_right", I18N_NOOP("Place left window to the right"), 0, 0, slotPlaceWindowRight() );
     DEF2( "window_tile", I18N_NOOP("Tile active window"), SHIFT+ALT+Qt::Key_P, SHIFT+ALT+Qt::Key_P, toggleTileWindow() );
 	DEF( I18N_NOOP("Toggle Window Raise/Lower"), 0, 0, slotWindowRaiseOrLower() );
     DEF2( "window_fullscreen", I18N_NOOP("Make Window Fullscreen"), 0, 0, slotWindowFullScreen() );

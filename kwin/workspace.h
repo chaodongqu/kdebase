@@ -328,6 +328,8 @@ namespace KWinInternal {
     void slotWindowLower();
     void slotWindowRaiseOrLower();
     void slotActivateAttentionWindow();
+    void slotPlaceWindowLeft(); // Place window to the left half of screen
+    void slotPlaceWindowRight(); // Place window to the right half of screen
     void slotWindowPackLeft();
     void slotWindowPackRight();
     void slotWindowPackUp();
