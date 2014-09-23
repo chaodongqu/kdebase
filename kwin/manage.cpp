@@ -1,4 +1,3 @@
-//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*****************************************************************
  KWin - the KDE window manager
  This file is part of the KDE project.
@@ -176,7 +175,7 @@ namespace KWinInternal {
     if (desk != NET::OnAllDesktops) desk = KMAX(1, KMIN(workspace()->numberOfDesktops(), desk));
     info->setDesktop(desk);
     workspace()->updateOnAllDesktopsOfTransients(this);   // SELI
-//    onAllDesktopsChange(); decoration doesn't exist here yet
+    //    onAllDesktopsChange(); decoration doesn't exist here yet
 
     QRect geom(attr.x, attr.y, attr.width, attr.height);
     bool placementDone = FALSE;

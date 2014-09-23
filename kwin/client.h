@@ -1,4 +1,3 @@
-//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*****************************************************************
  KWin - the KDE window manager
  This file is part of the KDE project.
@@ -312,16 +311,16 @@ namespace KWinInternal
     void setShapable(bool b);
     bool hasStrut() const;
 
-private slots:
+  private slots:
     void autoRaise();
     void shadeHover();
     void shortcutActivated();
 
-private:
+  private:
     friend class Bridge; // FRAME
     virtual void processMousePressEvent(QMouseEvent* e);
 
-private: // TODO cleanup the order of things in the .h file
+  private: // TODO cleanup the order of things in the .h file
     // use Workspace::createClient()
     virtual ~Client(); // use destroyClient() or releaseWindow()
 
@@ -354,12 +353,12 @@ private: // TODO cleanup the order of things in the .h file
 
     void processDecorationButtonPress(int button, int state, int x, int y, int x_root, int y_root);
 
-private slots:
+  private slots:
     void pingTimeout();
     void processKillerExited();
     void demandAttentionKNotify();
 
-private:
+  private:
     // ICCCM 4.1.3.1, 4.1.4 , NETWM 2.5.1
     void setMappingState(int s);
     int mappingState() const;
@@ -409,8 +408,7 @@ private:
     void pingWindow();
     void killProcess(bool ask, Time timestamp = CurrentTime);
     void updateUrgency();
-    static void sendClientMessage(Window w, Atom a, Atom protocol,
-                                  long data1 = 0, long data2 = 0, long data3 = 0);
+    static void sendClientMessage(Window w, Atom a, Atom protocol, long data1 = 0, long data2 = 0, long data3 = 0);
 
     void embedClient(Window w, const XWindowAttributes &attr);
     void detectNoBorder();
@@ -421,8 +419,7 @@ private:
     void rawShow(); // just shows it
     void rawHide(); // just hides it
 
-    Time readUserTimeMapTimestamp(const KStartupInfoId* asn_id, const KStartupInfoData* asn_data,
-                                  bool session) const;
+    Time readUserTimeMapTimestamp(const KStartupInfoId* asn_id, const KStartupInfoData* asn_data, bool session) const;
     Time readUserCreationTime() const;
     static bool sameAppWindowRoleMatch(const Client* c1, const Client* c2, bool active_hack);
     void startupIdChanged();
@@ -439,14 +436,8 @@ private:
     bool move_faked_activity;
     Window move_resize_grab_window;
     bool unrestrictedMoveResize;
-    bool isMove() const
-    {
-        return moveResizeMode && mode == PositionCenter;
-    }
-    bool isResize() const
-    {
-        return moveResizeMode && mode != PositionCenter;
-    }
+    bool isMove() const { return moveResizeMode && mode == PositionCenter; }
+    bool isResize() const { return moveResizeMode && mode != PositionCenter; }
 
     Position mode;
     QPoint moveOffset;
@@ -557,398 +548,132 @@ private:
     friend bool performTransiencyCheck();
   };
 
-// helper for Client::postponeGeometryUpdates() being called in pairs (true/false)
-    class GeometryUpdatesPostponer
-    {
-    public:
-        GeometryUpdatesPostponer(Client* c)
-                : cl(c) { cl->postponeGeometryUpdates(true); }
-        ~GeometryUpdatesPostponer()
-        { cl->postponeGeometryUpdates(false); }
-    private:
-        Client* cl;
-    };
-
-
-// NET WM Protocol handler class
-    class WinInfo : public NETWinInfo
-    {
-    private:
-        typedef KWinInternal::Client Client; // because of NET::Client
-    public:
-        WinInfo(Client* c, Display * display, Window window,
-                Window rwin, const unsigned long pr[], int pr_size);
-        virtual void changeDesktop(int desktop);
-        virtual void changeState(unsigned long state, unsigned long mask);
-    private:
-        Client * m_client;
-    };
-
-    inline Window Client::window() const
-    {
-        return client;
-    }
-
-    inline Window Client::frameId() const
-    {
-        return frame;
-    }
-
-    inline Window Client::wrapperId() const
-    {
-        return wrapper;
-    }
-
-    inline Window Client::decorationId() const
-    {
-        return decoration != NULL ? decoration->widget()->winId() : None;
-    }
-
-    inline Workspace* Client::workspace() const
-    {
-        return wspace;
-    }
-
-    inline const Client* Client::transientFor() const
-    {
-        return transient_for;
-    }
-
-    inline Client* Client::transientFor()
-    {
-        return transient_for;
-    }
-
-    inline bool Client::groupTransient() const
-    {
-        return transient_for_id == workspace()->rootWin();
-    }
-
-// needed because verifyTransientFor() may set transient_for_id to root window,
-// if the original value has a problem (window doesn't exist, etc.)
-    inline bool Client::wasOriginallyGroupTransient() const
-    {
-        return original_transient_for_id == workspace()->rootWin();
-    }
-
-    inline bool Client::isTransient() const
-    {
-        return transient_for_id != None;
-    }
-
-    inline const ClientList& Client::transients() const
-    {
-        return transients_list;
-    }
-
-    inline const Group* Client::group() const
-    {
-        return in_group;
-    }
-
-    inline Group* Client::group()
-    {
-        return in_group;
-    }
-
-    inline int Client::mappingState() const
-    {
-        return mapping_state;
-    }
-
-    inline QCString Client::resourceName() const
-    {
-        return resource_name; // it is always lowercase
-    }
-
-    inline QCString Client::resourceClass() const
-    {
-        return resource_class; // it is always lowercase
-    }
-
-    inline
-    bool Client::isMinimized() const
-    {
-        return minimized;
-    }
-
-    inline bool Client::isActive() const
-    {
-        return active;
-    }
-
-    /*!
-      Returns the virtual desktop within the workspace() the client window
-      is located in, 0 if it isn't located on any special desktop (not mapped yet),
-      or NET::OnAllDesktops. Do not use desktop() directly, use
-      isOnDesktop() instead.
-     */
-    inline int Client::desktop() const
-    {
-        return desk;
-    }
-
-    inline bool Client::isOnAllDesktops() const
-    {
-        return desk == NET::OnAllDesktops;
-    }
-    /*!
-      Returns whether the client is on the virtual desktop \a d.
-      This is always TRUE for onAllDesktops clients.
-     */
-    inline bool Client::isOnDesktop(int d) const
-    {
-        return desk == d || /*desk == 0 ||*/ isOnAllDesktops();
-    }
-
-    inline
-    bool Client::isShown(bool shaded_is_shown) const
-    {
-        return !isMinimized() && (!isShade() || shaded_is_shown) && !hidden;
-    }
-
-    inline
-    bool Client::isShade() const
-    {
-        return shade_mode == ShadeNormal;
-    }
-
-    inline
-    ShadeMode Client::shadeMode() const
-    {
-        return shade_mode;
-    }
-
-    inline QPixmap Client::icon() const
-    {
-        return icon_pix;
-    }
-
-    inline QPixmap Client::miniIcon() const
-    {
-        return miniicon_pix;
-    }
-
-    inline QRect Client::geometryRestore() const
-    {
-        return geom_restore;
-    }
-
-    inline Client::MaximizeMode Client::maximizeModeRestore() const
-    {
-        return maxmode_restore;
-    }
-
-    inline Client::MaximizeMode Client::maximizeMode() const
-    {
-        return max_mode;
-    }
-
-    inline bool Client::skipTaskbar(bool from_outside) const
-    {
-        return from_outside ? original_skip_taskbar : skip_taskbar;
-    }
-
-    inline bool Client::skipPager() const
-    {
-        return skip_pager;
-    }
-
-    inline bool Client::keepAbove() const
-    {
-        return keep_above;
-    }
-
-    inline bool Client::keepBelow() const
-    {
-        return keep_below;
-    }
-
-    inline bool Client::shape() const
-    {
-        return is_shape;
-    }
-
-
-    inline bool Client::isFullScreen() const
-    {
-        return fullscreen_mode != FullScreenNone;
-    }
-
-    inline bool Client::isModal() const
-    {
-        return modal;
-    }
-
-    inline bool Client::hasNETSupport() const
-    {
-        return info->hasNETSupport();
-    }
-
-    inline Colormap Client::colormap() const
-    {
-        return cmap;
-    }
-
-    inline pid_t Client::pid() const
-    {
-        return info->pid();
-    }
-
-    inline void Client::invalidateLayer()
-    {
-        in_layer = UnknownLayer;
-    }
-
-    inline bool Client::isIconicState() const
-    {
-        return mapping_state == IconicState;
-    }
-
-    inline bool Client::isNormalState() const
-    {
-        return mapping_state == NormalState;
-    }
-
-    inline bool Client::isManaged() const
-    {
-        return mapping_state != WithdrawnState;
-    }
-
-    inline QCString Client::windowRole() const
-    {
-        return window_role;
-    }
-
-    inline QRect Client::geometry() const
-    {
-        return frame_geometry;
-    }
-
-    inline QSize Client::size() const
-    {
-        return frame_geometry.size();
-    }
-
-    inline QPoint Client::pos() const
-    {
-        return frame_geometry.topLeft();
-    }
-
-    inline int Client::x() const
-    {
-        return frame_geometry.x();
-    }
-
-    inline int Client::y() const
-    {
-        return frame_geometry.y();
-    }
-
-    inline int Client::width() const
-    {
-        return frame_geometry.width();
-    }
-
-    inline int Client::height() const
-    {
-        return frame_geometry.height();
-    }
-
-    inline QRect Client::rect() const
-    {
-        return QRect(0, 0, width(), height());
-    }
-
-    inline QPoint Client::clientPos() const
-    {
-        return QPoint(border_left, border_top);
-    }
-
-    inline QSize Client::clientSize() const
-    {
-        return client_size;
-    }
-
-    inline void Client::setGeometry(const QRect& r, ForceGeometry_t force)
-    {
-        setGeometry(r.x(), r.y(), r.width(), r.height(), force);
-    }
-
-    inline void Client::move(const QPoint & p, ForceGeometry_t force)
-    {
-        move(p.x(), p.y(), force);
-    }
-
-    inline void Client::plainResize(const QSize& s, ForceGeometry_t force)
-    {
-        plainResize(s.width(), s.height(), force);
-    }
-
-    inline void Client::resizeWithChecks(const QSize& s, ForceGeometry_t force)
-    {
-        resizeWithChecks(s.width(), s.height(), force);
-    }
-
-    inline bool Client::hasUserTimeSupport() const
-    {
-        return info->userTime() != -1U;
-    }
-
-    inline bool Client::ignoreFocusStealing() const
-    {
-        return ignore_focus_stealing;
-    }
-
-    inline const WindowRules* Client::rules() const
-    {
-        return &client_rules;
-    }
-
-    KWIN_PROCEDURE(CheckIgnoreFocusStealingProcedure, cl->ignore_focus_stealing = options->checkIgnoreFocusStealing(cl));
-
-    inline Window Client::moveResizeGrabWindow() const
-    {
-        return move_resize_grab_window;
-    }
-
-    inline KShortcut Client::shortcut() const
-    {
-        return _shortcut;
-    }
-
-    inline bool Client::isBMP()
-    {
-        return isBMP_;
-    }
-
-    inline void Client::setBMP(bool b)
-    {
-        isBMP_ = b;
-    }
-
-    inline void Client::removeRule(Rules* rule)
-    {
-        client_rules.remove(rule);
-    }
+  /** \class GeometryUpdatesPostponer
+   * \brief helper for Client::postponeGeometryUpdates() being called in pairs (true/false)
+   */
+  class GeometryUpdatesPostponer
+  {
+  public:
+    GeometryUpdatesPostponer(Client* c) : cl(c) { cl->postponeGeometryUpdates(true); }
+    ~GeometryUpdatesPostponer() { cl->postponeGeometryUpdates(false); }
+  private:
+    Client* cl;
+  };
+
+  /** \class WinInfo
+   * \brief NET WM Protocol handler class
+   */
+  class WinInfo : public NETWinInfo
+  {
+  private:
+    typedef KWinInternal::Client Client; // because of NET::Client
+  public:
+    WinInfo(Client* c, Display * display, Window window, Window rwin, const unsigned long pr[], int pr_size);
+    virtual void changeDesktop(int desktop);
+    virtual void changeState(unsigned long state, unsigned long mask);
+  private:
+    Client * m_client;
+  };
+
+  inline Window Client::window() const { return client; }
+  inline Window Client::frameId() const { return frame; }
+  inline Window Client::wrapperId() const { return wrapper; }
+  inline Window Client::decorationId() const { return decoration != NULL ? decoration->widget()->winId() : None; }
+  inline Workspace* Client::workspace() const { return wspace; }
+  inline const Client* Client::transientFor() const { return transient_for; }
+  inline Client* Client::transientFor() { return transient_for; }
+  inline bool Client::groupTransient() const { return transient_for_id == workspace()->rootWin(); }
+  // needed because verifyTransientFor() may set transient_for_id to root window,
+  // if the original value has a problem (window doesn't exist, etc.)
+  inline bool Client::wasOriginallyGroupTransient() const { return original_transient_for_id == workspace()->rootWin(); }
+  inline bool Client::isTransient() const { return transient_for_id != None; }
+  inline const ClientList& Client::transients() const { return transients_list; }
+  inline const Group* Client::group() const { return in_group; }
+  inline Group* Client::group() { return in_group; }
+  inline int Client::mappingState() const { return mapping_state; }
+  //NOTE: it is always lowercase
+  inline QCString Client::resourceName() const { return resource_name; }
+  //NOTE: it is always lowercase
+  inline QCString Client::resourceClass() const { return resource_class; }
+  inline bool Client::isMinimized() const { return minimized; }
+  inline bool Client::isActive() const { return active; }
+
+  /*!
+    Returns the virtual desktop within the workspace() the client window
+    is located in, 0 if it isn't located on any special desktop (not mapped yet),
+    or NET::OnAllDesktops. Do not use desktop() directly, use
+    isOnDesktop() instead.
+    */
+  inline int Client::desktop() const { return desk; }
+  inline bool Client::isOnAllDesktops() const { return desk == NET::OnAllDesktops; }
+  /*!
+    Returns whether the client is on the virtual desktop \a d.
+    This is always TRUE for onAllDesktops clients.
+    */
+  inline bool Client::isOnDesktop(int d) const { return desk == d || /*desk == 0 ||*/ isOnAllDesktops(); }
+  inline bool Client::isShown(bool shaded_is_shown) const { return !isMinimized() && (!isShade() || shaded_is_shown) && !hidden; }
+  inline bool Client::isShade() const { return shade_mode == ShadeNormal; }
+  inline ShadeMode Client::shadeMode() const { return shade_mode; }
+  inline QPixmap Client::icon() const { return icon_pix; }
+  inline QPixmap Client::miniIcon() const { return miniicon_pix; }
+  inline QRect Client::geometryRestore() const { return geom_restore; }
+  inline Client::MaximizeMode Client::maximizeModeRestore() const { return maxmode_restore; }
+  inline Client::MaximizeMode Client::maximizeMode() const { return max_mode; }
+  inline bool Client::skipTaskbar(bool from_outside) const { return from_outside ? original_skip_taskbar : skip_taskbar; }
+  inline bool Client::skipPager() const { return skip_pager; }
+  inline bool Client::keepAbove() const { return keep_above; }
+  inline bool Client::keepBelow() const { return keep_below; }
+  inline bool Client::shape() const { return is_shape; }
+  inline bool Client::isFullScreen() const { return fullscreen_mode != FullScreenNone; }
+  inline bool Client::isModal() const { return modal; }
+  inline bool Client::hasNETSupport() const { return info->hasNETSupport(); }
+  inline Colormap Client::colormap() const { return cmap; }
+  inline pid_t Client::pid() const { return info->pid(); }
+  inline void Client::invalidateLayer() { in_layer = UnknownLayer; }
+  inline bool Client::isIconicState() const { return mapping_state == IconicState; }
+  inline bool Client::isNormalState() const { return mapping_state == NormalState; }
+  inline bool Client::isManaged() const { return mapping_state != WithdrawnState; }
+  inline QCString Client::windowRole() const { return window_role; }
+  inline QRect Client::geometry() const { return frame_geometry; }
+  inline QSize Client::size() const { return frame_geometry.size(); }
+  inline QPoint Client::pos() const { return frame_geometry.topLeft(); }
+  inline int Client::x() const { return frame_geometry.x(); }
+  inline int Client::y() const { return frame_geometry.y(); }
+  inline int Client::width() const { return frame_geometry.width(); }
+  inline int Client::height() const { return frame_geometry.height(); }
+  inline QRect Client::rect() const { return QRect(0, 0, width(), height()); }
+  inline QPoint Client::clientPos() const { return QPoint(border_left, border_top); }
+  inline QSize Client::clientSize() const { return client_size; }
+  inline void Client::setGeometry(const QRect& r, ForceGeometry_t force) { setGeometry(r.x(), r.y(), r.width(), r.height(), force); }
+  inline void Client::move(const QPoint & p, ForceGeometry_t force) { move(p.x(), p.y(), force); }
+  inline void Client::plainResize(const QSize& s, ForceGeometry_t force) { plainResize(s.width(), s.height(), force); }
+  inline void Client::resizeWithChecks(const QSize& s, ForceGeometry_t force) { resizeWithChecks(s.width(), s.height(), force); }
+  inline bool Client::hasUserTimeSupport() const { return info->userTime() != -1U; }
+  inline bool Client::ignoreFocusStealing() const { return ignore_focus_stealing; }
+  inline const WindowRules* Client::rules() const { return &client_rules; }
+
+  KWIN_PROCEDURE(CheckIgnoreFocusStealingProcedure, cl->ignore_focus_stealing = options->checkIgnoreFocusStealing(cl));
+
+  inline Window Client::moveResizeGrabWindow() const { return move_resize_grab_window; }
+  inline KShortcut Client::shortcut() const { return _shortcut; }
+  inline bool Client::isBMP() { return isBMP_; }
+  inline void Client::setBMP(bool b) { isBMP_ = b; }
+  inline void Client::removeRule(Rules* rule) { client_rules.remove(rule); }
 
 #ifdef NDEBUG
-    inline
-    kndbgstream& operator<<(kndbgstream& stream, const Client*) { return stream; }
-    inline
-    kndbgstream& operator<<(kndbgstream& stream, const ClientList&) { return stream; }
-    inline
-    kndbgstream& operator<<(kndbgstream& stream, const ConstClientList&) { return stream; }
+  inline kndbgstream& operator<<(kndbgstream& stream, const Client*) { return stream; }
+  inline kndbgstream& operator<<(kndbgstream& stream, const ClientList&) { return stream; }
+  inline kndbgstream& operator<<(kndbgstream& stream, const ConstClientList&) { return stream; }
 #else
-    kdbgstream& operator<<(kdbgstream& stream, const Client*);
-    kdbgstream& operator<<(kdbgstream& stream, const ClientList&);
-    kdbgstream& operator<<(kdbgstream& stream, const ConstClientList&);
+  kdbgstream& operator<<(kdbgstream& stream, const Client*);
+  kdbgstream& operator<<(kdbgstream& stream, const ClientList&);
+  kdbgstream& operator<<(kdbgstream& stream, const ConstClientList&);
 #endif
 
-    KWIN_COMPARE_PREDICATE(WindowMatchPredicate, Window, cl->window() == value);
-    KWIN_COMPARE_PREDICATE(FrameIdMatchPredicate, Window, cl->frameId() == value);
-    KWIN_COMPARE_PREDICATE(WrapperIdMatchPredicate, Window, cl->wrapperId() == value);
+  KWIN_COMPARE_PREDICATE(WindowMatchPredicate, Window, cl->window() == value);
+  KWIN_COMPARE_PREDICATE(FrameIdMatchPredicate, Window, cl->frameId() == value);
+  KWIN_COMPARE_PREDICATE(WrapperIdMatchPredicate, Window, cl->wrapperId() == value);
 
-} // namespace
+}; /* KWinInternal */
 
 #endif

@@ -1054,14 +1054,14 @@ namespace KWinInternal
      */
     QSize Client::adjustedSize(const QSize& frame, Sizemode mode) const
     {
-        // first, get the window size for the given frame size s
+      // first, get the window size for the given frame size s
 
-        QSize wsize(frame.width() - (border_left + border_right),
-                    frame.height() - (border_top + border_bottom));
-        if (wsize.isEmpty())
-            wsize = QSize(1, 1);
+      QSize wsize(frame.width() - (border_left + border_right), frame.height() - (border_top + border_bottom));
+      if (wsize.isEmpty()) {
+          wsize = QSize(1, 1);
+      }
 
-        return sizeForClientSize(wsize, mode, false);
+      return sizeForClientSize(wsize, mode, false);
     }
 
 // this helper returns proper size even if the window is shaded
