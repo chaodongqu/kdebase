@@ -1064,8 +1064,10 @@ namespace KWinInternal
       return sizeForClientSize(wsize, mode, false);
     }
 
-// this helper returns proper size even if the window is shaded
-// see also the comment in Client::setGeometry()
+    /** Client::adjustedSize()
+     * \brief this helper returns proper size even if the window is shaded
+     * \sa the comment in Client::setGeometry()
+     */
     QSize Client::adjustedSize() const
     {
         return sizeForClientSize(clientSize());
