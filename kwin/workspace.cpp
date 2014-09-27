@@ -1,4 +1,3 @@
-//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*****************************************************************
  KWin - the KDE window manager
  This file is part of the KDE project.
@@ -1319,7 +1318,9 @@ namespace KWinInternal
   void Workspace::checkActiveScreen(const Client* c) {
     if(!options->xineramaEnabled) return;
     if(!c->isActive()) return;
-    if(!c->isOnScreen(active_screen)) active_screen = c->screen();
+    if(!c->isOnScreen(active_screen)) {
+      active_screen = c->screen();
+    }
   }
 
   // called e.g. when a user clicks on a window, set active screen to be the screen
@@ -1345,8 +1346,7 @@ namespace KWinInternal
     GeometryUpdatesPostponer blocker(c);
     QRect old_sarea = clientArea(MaximizeArea, c);
     QRect sarea = clientArea(MaximizeArea, screen, c->desktop());
-    c->setGeometry(sarea.x() - old_sarea.x() + c->x(), sarea.y() - old_sarea.y() + c->y(),
-                  c->size().width(), c->size().height());
+    c->setGeometry(sarea.x() - old_sarea.x() + c->x(), sarea.y() - old_sarea.y() + c->y(), c->size().width(), c->size().height());
     c->checkWorkspacePosition();
     ClientList transients_stacking_order = ensureStackingOrder(c->transients());
     for(cl_iter_c it = transients_stacking_order.begin(); it != transients_stacking_order.end(); ++it)

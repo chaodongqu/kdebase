@@ -195,7 +195,7 @@ void RootInfo::changeShowingDesktop( bool showing )
  */
 bool Workspace::workspaceEvent( XEvent * e )
     {
-    if ( mouse_emulation && (e->type == ButtonPress || e->type == ButtonRelease ) ) 
+    if ( mouse_emulation && (e->type == ButtonPress || e->type == ButtonRelease ) )
         {
         mouse_emulation = FALSE;
         XUngrabKeyboard( qt_xdisplay(), qt_x_time );
@@ -212,7 +212,7 @@ bool Workspace::workspaceEvent( XEvent * e )
         }
 
     // events that should be handled before Clients can get them
-    switch (e->type) 
+    switch (e->type)
         {
         case ButtonPress:
         case ButtonRelease:
@@ -285,7 +285,7 @@ bool Workspace::workspaceEvent( XEvent * e )
             return true;
         }
 
-    switch (e->type) 
+    switch (e->type)
         {
         case CreateNotify:
             if ( e->xcreatewindow.parent == root &&
@@ -302,7 +302,7 @@ bool Workspace::workspaceEvent( XEvent * e )
     case UnmapNotify:
             {
         // check for system tray windows
-            if ( removeSystemTrayWin( e->xunmap.window, true ) ) 
+            if ( removeSystemTrayWin( e->xunmap.window, true ) )
                 {
 	    // If the system tray gets destroyed, the system tray
 	    // icons automatically get unmapped, reparented and mapped
@@ -316,7 +316,7 @@ bool Workspace::workspaceEvent( XEvent * e )
                 if ( XCheckTypedWindowEvent (qt_xdisplay(), w,
                                              ReparentNotify, &ev) )
                     {
-                    if ( ev.xreparent.parent != root ) 
+                    if ( ev.xreparent.parent != root )
                         {
                         XReparentWindow( qt_xdisplay(), w, root, 0, 0 );
                         addSystemTrayWin( w );
@@ -350,7 +350,7 @@ bool Workspace::workspaceEvent( XEvent * e )
             // e->xmaprequest.window is different from e->xany.window
             // TODO this shouldn't be necessary now
             Client* c = findClient( WindowMatchPredicate( e->xmaprequest.window ));
-            if ( !c ) 
+            if ( !c )
                 {
 // don't check for the parent being the root window, this breaks when some app unmaps
 // a window, changes something and immediately maps it back, without giving KWin
@@ -363,7 +363,7 @@ bool Workspace::workspaceEvent( XEvent * e )
                 if ( addSystemTrayWin( e->xmaprequest.window ) )
                     return TRUE;
                 c = createClient( e->xmaprequest.window, false );
-                if ( c != NULL && root != qt_xrootwin() ) 
+                if ( c != NULL && root != qt_xrootwin() )
                     { // TODO what is this?
                     // TODO may use QWidget::create
                     XReparentWindow( qt_xdisplay(), c->frameId(), root, 0, 0 );
@@ -404,7 +404,7 @@ bool Workspace::workspaceEvent( XEvent * e )
             }
         case ConfigureRequest:
             {
-            if ( e->xconfigurerequest.parent == root ) 
+            if ( e->xconfigurerequest.parent == root )
                 {
                 XWindowChanges wc;
                 wc.border_width = e->xconfigurerequest.border_width;
@@ -541,7 +541,7 @@ bool Client::windowEvent( XEvent* e )
         }
 
 // TODO move all focus handling stuff to separate file?
-    switch (e->type) 
+    switch (e->type)
         {
         case UnmapNotify:
             unmapNotifyEvent( &e->xunmap );
@@ -730,8 +730,8 @@ void Client::destroyNotifyEvent( XDestroyWindowEvent* e )
         return;
     destroyClient();
     }
-    
-    
+
+
 bool         blockAnimation = FALSE;
 
 /*!
@@ -799,7 +799,7 @@ void Client::configureRequestEvent( XConfigureRequestEvent* e )
         return;
         }
 
-    if ( e->value_mask & CWBorderWidth ) 
+    if ( e->value_mask & CWBorderWidth )
         {
         // first, get rid of a window border
         XWindowChanges wc;
@@ -835,7 +835,7 @@ void Client::propertyNotifyEvent( XPropertyEvent* e )
     {
     if( e->window != window())
         return; // ignore frame/wrapper
-    switch ( e->atom ) 
+    switch ( e->atom )
         {
         case XA_WM_NORMAL_HINTS:
             getWmNormalHints();
@@ -873,10 +873,10 @@ void Client::enterNotifyEvent( XCrossingEvent* e )
         return; // care only about entering the whole frame
     if( e->mode == NotifyNormal ||
          ( !options->focusPolicyIsReasonable() &&
-             e->mode == NotifyUngrab ) ) 
+             e->mode == NotifyUngrab ) )
         {
 
-        if (options->shadeHover && isShade()) 
+        if (options->shadeHover && isShade())
             {
             delete shadeHoverTimer;
             shadeHoverTimer = new QTimer( this );
@@ -889,7 +889,7 @@ void Client::enterNotifyEvent( XCrossingEvent* e )
 
         if ( options->autoRaise && !isDesktop() &&
              !isDock() && !isTopMenu() && workspace()->focusChangeEnabled() &&
-             workspace()->topClientOnDesktop( workspace()->currentDesktop()) != this ) 
+             workspace()->topClientOnDesktop( workspace()->currentDesktop()) != this )
             {
             delete autoRaiseTimer;
             autoRaiseTimer = new QTimer( this );
@@ -918,9 +918,9 @@ void Client::leaveNotifyEvent( XCrossingEvent* e )
     {
     if( e->window != frameId())
         return; // care only about leaving the whole frame
-    if ( e->mode == NotifyNormal ) 
+    if ( e->mode == NotifyNormal )
         {
-        if ( !buttonDown ) 
+        if ( !buttonDown )
             {
             mode = PositionCenter;
             setCursor( arrowCursor );
@@ -933,7 +933,7 @@ void Client::leaveNotifyEvent( XCrossingEvent* e )
         // TODO this still sucks if a window appears above this one - it should lose the mouse
         // if this window is another client, but not if it's a popup ... maybe after KDE3.1 :(
         // (repeat after me 'AARGHL!')
-        if ( !lostMouse && e->detail != NotifyInferior ) 
+        if ( !lostMouse && e->detail != NotifyInferior )
             {
             int d1, d2, d3, d4;
             unsigned int d5;
@@ -942,7 +942,7 @@ void Client::leaveNotifyEvent( XCrossingEvent* e )
                 || child == None )
                 lostMouse = true; // really lost the mouse
             }
-        if ( lostMouse ) 
+        if ( lostMouse )
             {
             cancelAutoRaise();
             workspace()->cancelDelayFocus();
@@ -962,7 +962,7 @@ void Client::leaveNotifyEvent( XCrossingEvent* e )
 #define XScrL KKeyNative::modXScrollLock()
 void Client::grabButton( int modifier )
     {
-    unsigned int mods[ 8 ] = 
+    unsigned int mods[ 8 ] =
         {
         0, XCapL, XNumL, XNumL | XCapL,
         XScrL, XScrL | XCapL,
@@ -979,7 +979,7 @@ void Client::grabButton( int modifier )
 
 void Client::ungrabButton( int modifier )
     {
-    unsigned int mods[ 8 ] = 
+    unsigned int mods[ 8 ] =
         {
         0, XCapL, XNumL, XNumL | XCapL,
         XScrL, XScrL | XCapL,
@@ -1053,7 +1053,7 @@ int qtToX11Button( Qt::ButtonState button )
         return Button3;
     return AnyButton;
     }
-    
+
 int qtToX11State( Qt::ButtonState state )
     {
     int ret = 0;
@@ -1155,7 +1155,7 @@ bool Client::buttonPressEvent( Window w, int button, int state, int x, int y, in
         if ( bModKeyHeld )
             {
             was_action = true;
-            switch (button) 
+            switch (button)
                 {
                 case Button1:
                     com = options->commandAll1();
@@ -1178,7 +1178,7 @@ bool Client::buttonPressEvent( Window w, int button, int state, int x, int y, in
                 {
                 was_action = true;
                 perform_handled = true;
-                switch (button) 
+                switch (button)
                     {
                     case Button1:
                         com = options->commandWindow1();
@@ -1300,7 +1300,7 @@ bool Client::buttonReleaseEvent( Window w, int /*button*/, int state, int x, int
     if ( (state & ( Button1Mask & Button2Mask & Button3Mask )) == 0 )
         {
         buttonDown = FALSE;
-        if ( moveResizeMode ) 
+        if ( moveResizeMode )
             {
             finishMoveResize( false );
             // mouse position is still relative to old Client position, adjust it
@@ -1351,7 +1351,7 @@ bool Client::motionNotifyEvent( Window w, int /*state*/, int x, int y, int x_roo
     {
     if( w != frameId() && w != decorationId() && w != moveResizeGrabWindow())
         return true; // care only about the whole frame
-    if ( !buttonDown ) 
+    if ( !buttonDown )
         {
         Position newmode = mousePosition( QPoint( x, y ));
         if( newmode != mode )
@@ -1371,7 +1371,7 @@ bool Client::motionNotifyEvent( Window w, int /*state*/, int x, int y, int x_roo
         handleMoveResize( x, y, x_root, y_root );
     return true;
     }
-    
+
 void Client::focusInEvent( XFocusInEvent* e )
     {
     if( e->window != window())
@@ -1469,7 +1469,7 @@ void Client::NETMoveResize( int x_root, int y_root, NET::Direction direction )
         buttonDown = FALSE;
         setCursor( mode );
     }
-    else if( direction >= NET::TopLeft && direction <= NET::Left ) 
+    else if( direction >= NET::TopLeft && direction <= NET::Left )
         {
         static const Position convert[] =
             {
@@ -1520,7 +1520,7 @@ void Client::keyPressEvent( uint key_code )
     key_code = key_code & 0xffff;
     int delta = is_control?1:is_alt?32:8;
     QPoint pos = QCursor::pos();
-    switch ( key_code ) 
+    switch ( key_code )
         {
         case Key_Left:
             pos.rx() -= delta;

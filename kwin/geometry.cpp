@@ -1,4 +1,3 @@
-//kate: space-indent on; tab-width 2; indent-width 2; indent-mode cstyle; encoding UTF-8;
 /*****************************************************************
  KWin - the KDE window manager
  This file is part of the KDE project.
@@ -1058,7 +1057,7 @@ namespace KWinInternal
 
       QSize wsize(frame.width() - (border_left + border_right), frame.height() - (border_top + border_bottom));
       if (wsize.isEmpty()) {
-          wsize = QSize(1, 1);
+        wsize = QSize(1, 1);
       }
 
       return sizeForClientSize(wsize, mode, false);
@@ -1070,7 +1069,7 @@ namespace KWinInternal
      */
     QSize Client::adjustedSize() const
     {
-        return sizeForClientSize(clientSize());
+      return sizeForClientSize(clientSize());
     }
 
     /*!
@@ -1376,7 +1375,7 @@ namespace KWinInternal
         if (gravity == 0)  // default (nonsense) value for the argument
             gravity = xSizeHint.win_gravity;
 
-// dx, dy specify how the client window moves to make space for the frame
+        // dx, dy specify how the client window moves to make space for the frame
         switch (gravity)
         {
             case NorthWestGravity: // move down right
@@ -1689,122 +1688,105 @@ namespace KWinInternal
         return true;
     }
 
-
     /*!
       Reimplemented to inform the client about the new window position.
      */
     void Client::setGeometry(int x, int y, int w, int h, ForceGeometry_t force)
     {
-        // this code is also duplicated in Client::plainResize()
-        // Ok, the shading geometry stuff. Generally, code doesn't care about shaded geometry,
-        // simply because there are too many places dealing with geometry. Those places
-        // ignore shaded state and use normal geometry, which they usually should get
-        // from adjustedSize(). Such geometry comes here, and if the window is shaded,
-        // the geometry is used only for client_size, since that one is not used when
-        // shading. Then the frame geometry is adjusted for the shaded geometry.
-        // This gets more complicated in the case the code does only something like
-        // setGeometry( geometry()) - geometry() will return the shaded frame geometry.
-        // Such code is wrong and should be changed to handle the case when the window is shaded,
-        // for example using Client::clientSize().
-        if (shade_geometry_change)
-            ; // nothing
-        else if (isShade())
-        {
-            if (h == border_top + border_bottom)
-            {
-                kdDebug() << "Shaded geometry passed for size:" << endl;
-                kdDebug() << kdBacktrace() << endl;
-            }
-            else
-            {
-                client_size = QSize(w - border_left - border_right, h - border_top - border_bottom);
-                h = border_top + border_bottom;
-            }
+      // this code is also duplicated in Client::plainResize()
+      // Ok, the shading geometry stuff. Generally, code doesn't care about shaded geometry,
+      // simply because there are too many places dealing with geometry. Those places
+      // ignore shaded state and use normal geometry, which they usually should get
+      // from adjustedSize(). Such geometry comes here, and if the window is shaded,
+      // the geometry is used only for client_size, since that one is not used when
+      // shading. Then the frame geometry is adjusted for the shaded geometry.
+      // This gets more complicated in the case the code does only something like
+      // setGeometry( geometry()) - geometry() will return the shaded frame geometry.
+      // Such code is wrong and should be changed to handle the case when the window is shaded,
+      // for example using Client::clientSize().
+      if (shade_geometry_change) ; // nothing
+      else if (isShade()) {
+        if (h == border_top + border_bottom) {
+          kdDebug() << "Shaded geometry passed for size:" << endl;
+          kdDebug() << kdBacktrace() << endl;
         }
-        else
-        {
-            client_size = QSize(w - border_left - border_right, h - border_top - border_bottom);
+        else {
+          client_size = QSize(w - border_left - border_right, h - border_top - border_bottom);
+          h = border_top + border_bottom;
         }
-        if (force == NormalGeometrySet && frame_geometry == QRect(x, y, w, h))
-            return;
-        frame_geometry = QRect(x, y, w, h);
-        updateWorkareaDiffs();
-        if (postpone_geometry_updates != 0)
-        {
-            pending_geometry_update = true;
-            return;
-        }
-        resizeDecoration(QSize(w, h));
-        XMoveResizeWindow(qt_xdisplay(), frameId(), x, y, w, h);
-//     resizeDecoration( QSize( w, h ));
-        if (!isShade())
-        {
-            QSize cs = clientSize();
-            XMoveResizeWindow(qt_xdisplay(), wrapperId(), clientPos().x(), clientPos().y(),
-                              cs.width(), cs.height());
-            XMoveResizeWindow(qt_xdisplay(), window(), 0, 0, cs.width(), cs.height());
-        }
-        updateShape();
-        // SELI TODO won't this be too expensive?
-        updateWorkareaDiffs();
-        sendSyntheticConfigureNotify();
-        updateWindowRules();
-        checkMaximizeGeometry();
-        workspace()->checkActiveScreen(this);
+      }
+      else {
+        client_size = QSize(w - border_left - border_right, h - border_top - border_bottom);
+      }
+      if (force == NormalGeometrySet && frame_geometry == QRect(x, y, w, h)) {
+        return;
+      }
+      frame_geometry = QRect(x, y, w, h);
+      updateWorkareaDiffs();
+      if (postpone_geometry_updates != 0) {
+        pending_geometry_update = true;
+        return;
+      }
+      resizeDecoration(QSize(w, h));
+      XMoveResizeWindow(qt_xdisplay(), frameId(), x, y, w, h);
+      // resizeDecoration( QSize( w, h ));
+      if (!isShade()) {
+        QSize cs = clientSize();
+        XMoveResizeWindow(qt_xdisplay(), wrapperId(), clientPos().x(), clientPos().y(), cs.width(), cs.height());
+        XMoveResizeWindow(qt_xdisplay(), window(), 0, 0, cs.width(), cs.height());
+      }
+      updateShape();
+      //TODO: @SELI won't this be too expensive?
+      updateWorkareaDiffs();
+      sendSyntheticConfigureNotify();
+      updateWindowRules();
+      checkMaximizeGeometry();
+      workspace()->checkActiveScreen(this);
     }
 
-    void Client::plainResize(int w, int h, ForceGeometry_t force)
-    {
-        // this code is also duplicated in Client::setGeometry(), and it's also commented there
-        if (shade_geometry_change)
-            ; // nothing
-        else if (isShade())
-        {
-            if (h == border_top + border_bottom)
-            {
-                kdDebug() << "Shaded geometry passed for size:" << endl;
-                kdDebug() << kdBacktrace() << endl;
-            }
-            else
-            {
-                client_size = QSize(w - border_left - border_right, h - border_top - border_bottom);
-                h = border_top + border_bottom;
-            }
+    void Client::plainResize(int w, int h, ForceGeometry_t force) {
+      // this code is also duplicated in Client::setGeometry(), and it's also commented there
+      if (shade_geometry_change) ; // nothing
+      else if (isShade()) {
+        if (h == border_top + border_bottom) {
+          kdDebug() << "Shaded geometry passed for size:" << endl;
+          kdDebug() << kdBacktrace() << endl;
         }
-        else
-        {
-            client_size = QSize(w - border_left - border_right, h - border_top - border_bottom);
+        else {
+          client_size = QSize(w - border_left - border_right, h - border_top - border_bottom);
+          h = border_top + border_bottom;
         }
-        if (QSize(w, h) != rules()->checkSize(QSize(w, h)))
-        {
-            kdDebug() << "forced size fail:" << QSize(w,h) << ":" << rules()->checkSize(QSize(w, h)) << endl;
-            kdDebug() << kdBacktrace() << endl;
-        }
-        if (force == NormalGeometrySet && frame_geometry.size() == QSize(w, h))
-            return;
-        frame_geometry.setSize(QSize(w, h));
-        updateWorkareaDiffs();
-        if (postpone_geometry_updates != 0)
-        {
-            pending_geometry_update = true;
-            return;
-        }
-        resizeDecoration(QSize(w, h));
-        XResizeWindow(qt_xdisplay(), frameId(), w, h);
-//     resizeDecoration( QSize( w, h ));
-        if (!isShade())
-        {
-            QSize cs = clientSize();
-            XMoveResizeWindow(qt_xdisplay(), wrapperId(), clientPos().x(), clientPos().y(),
-                              cs.width(), cs.height());
-            XMoveResizeWindow(qt_xdisplay(), window(), 0, 0, cs.width(), cs.height());
-        }
-        updateShape();
-        updateWorkareaDiffs();
-        sendSyntheticConfigureNotify();
-        updateWindowRules();
-        checkMaximizeGeometry();
-        workspace()->checkActiveScreen(this);
+      }
+      else {
+        client_size = QSize(w - border_left - border_right, h - border_top - border_bottom);
+      }
+      if (QSize(w, h) != rules()->checkSize(QSize(w, h))) {
+        kdDebug() << "forced size fail:" << QSize(w,h) << ":" << rules()->checkSize(QSize(w, h)) << endl;
+        kdDebug() << kdBacktrace() << endl;
+      }
+      if (force == NormalGeometrySet && frame_geometry.size() == QSize(w, h)) {
+        return;
+      }
+      frame_geometry.setSize(QSize(w, h));
+      updateWorkareaDiffs();
+      if (postpone_geometry_updates != 0) {
+        pending_geometry_update = true;
+        return;
+      }
+      resizeDecoration(QSize(w, h));
+      XResizeWindow(qt_xdisplay(), frameId(), w, h);
+      // resizeDecoration( QSize( w, h ));
+      if (!isShade()) {
+        QSize cs = clientSize();
+        XMoveResizeWindow(qt_xdisplay(), wrapperId(), clientPos().x(), clientPos().y(), cs.width(), cs.height());
+        XMoveResizeWindow(qt_xdisplay(), window(), 0, 0, cs.width(), cs.height());
+      }
+      updateShape();
+      updateWorkareaDiffs();
+      sendSyntheticConfigureNotify();
+      updateWindowRules();
+      checkMaximizeGeometry();
+      workspace()->checkActiveScreen(this);
     }
 
     /*!
@@ -2268,8 +2250,7 @@ namespace KWinInternal
         }
     }
 
-    class EatAllPaintEvents
-                : public QObject
+    class EatAllPaintEvents : public QObject
     {
     protected:
         virtual bool eventFilter(QObject* o, QEvent* e)
@@ -2336,16 +2317,17 @@ namespace KWinInternal
         return true;
     }
 
-    void Client::finishMoveResize(bool cancel)
-    {
-        leaveMoveResize();
-        if (cancel)
-            setGeometry(initialMoveResizeGeom);
-        else
-            setGeometry(moveResizeGeom);
-        checkMaximizeGeometry();
-// FRAME    update();
-        Notify::raise(isResize() ? Notify::ResizeEnd : Notify::MoveEnd);
+    void Client::finishMoveResize(bool cancel) {
+      leaveMoveResize();
+      if (cancel) {
+        setGeometry(initialMoveResizeGeom);
+      }
+      else {
+        setGeometry(moveResizeGeom);
+      }
+      checkMaximizeGeometry();
+      // FRAME update();
+      Notify::raise(isResize() ? Notify::ResizeEnd : Notify::MoveEnd);
     }
 
     void Client::leaveMoveResize()

@@ -118,8 +118,10 @@ namespace KWinInternal
     bool isOnAllDesktops() const;
     void setOnAllDesktops(bool set);
 
-    bool isOnScreen(int screen) const;   // true if it's at least partially there
-    int screen() const; // the screen where the center is
+    // true if it's at least partially there
+    bool isOnScreen(int screen) const;
+    //NOTE: the screen where the center is
+    int screen() const;
 
     // !isMinimized() && not hidden, i.e. normally visible on some virtual desktop
     bool isShown(bool shaded_is_shown) const;
@@ -161,14 +163,16 @@ namespace KWinInternal
 
     bool keepAbove() const;
     void setKeepAbove(bool);
+
     bool keepBelow() const;
     void setKeepBelow(bool);
+
     Layer layer() const;
     Layer belongsToLayer() const;
     void invalidateLayer();
 
-    void setModal(bool modal);
     bool isModal() const;
+    void setModal(bool modal);
 
     // auxiliary functions, depend on the windowType
     bool wantsTabFocus() const;
