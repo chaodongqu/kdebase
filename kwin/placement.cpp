@@ -551,7 +551,7 @@ namespace KWinInternal
       int hh = area.height()/2;
       //area.setX(0);
       //area.setY(hh);
-      area.setTop(hh);
+      area.setTop(area.top() + hh);
       active_client->setGeometry(area);
     }
   }
