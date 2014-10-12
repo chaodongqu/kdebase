@@ -49,7 +49,6 @@ extern Time qt_x_time;
 
 namespace KWinInternal
 {
-
   extern int screen_number;
 
   Workspace *Workspace::_self = 0;
@@ -60,64 +59,65 @@ namespace KWinInternal
   bool allowKompmgrRestart = TRUE;
 
   Workspace::Workspace(bool restore)
-  : DCOPObject("KWinInterface"),
-  QObject(0, "workspace"),
-  current_desktop(0),
-  number_of_desktops(0),
-  active_screen(0),
-  active_popup(NULL),
-  active_popup_client(NULL),
-  desktop_widget(0),
-  temporaryRulesMessages("_KDE_NET_WM_TEMPORARY_RULES", NULL, false),
-  rules_updates_disabled(false),
-  active_client(0),
-  last_active_client(0),
-  most_recently_raised(0),
-  movingClient(0),
-  pending_take_activity(NULL),
-  delayfocus_client(0),
-  showing_desktop(false),
-  block_showing_desktop(0),
-  was_user_interaction(false),
-  session_saving(false),
-  control_grab(false),
-  tab_grab(false),
-  mouse_emulation(false),
-  block_focus(0),
-  tab_box(0),
-  popupinfo(0),
-  popup(0),
-  advanced_popup(0),
-  desk_popup(0),
-  desk_popup_index(0),
-  keys(0),
-  client_keys(NULL),
-  client_keys_dialog(NULL),
-  client_keys_client(NULL),
-  disable_shortcuts_keys(NULL),
-  global_shortcuts_disabled(false),
-  global_shortcuts_disabled_for_client(false),
-  root(0),
-  workspaceInit(true),
-  startup(0), electric_have_borders(false),
-  electric_current_border(0),
-  electric_top_border(None),
-  electric_bottom_border(None),
-  electric_left_border(None),
-  electric_right_border(None),
-  layoutOrientation(Qt::Vertical),
-  layoutX(-1),
-  layoutY(2),
-  workarea(NULL),
-  screenarea(NULL),
-  managing_topmenus(false),
-  topmenu_selection(NULL),
-  topmenu_watcher(NULL),
-  topmenu_height(0),
-  topmenu_space(NULL),
-  set_active_client_recursion(0),
-  block_stacking_updates(0),
-  forced_global_mouse_grab(false)
+  : DCOPObject("KWinInterface")
+  , QObject(0, "workspace")
+  , current_desktop(0)
+  , number_of_desktops(0)
+  , active_screen(0)
+  , active_popup(NULL)
+  , active_popup_client(NULL)
+  , desktop_widget(0)
+  , temporaryRulesMessages("_KDE_NET_WM_TEMPORARY_RULES", NULL, false)
+  , rules_updates_disabled(false)
+  , active_client(0)
+  , last_active_client(0)
+  , most_recently_raised(0)
+  , movingClient(0)
+  , pending_take_activity(NULL)
+  , delayfocus_client(0)
+  , showing_desktop(false)
+  , block_showing_desktop(0)
+  , was_user_interaction(false)
+  , session_saving(false)
+  , control_grab(false)
+  , tab_grab(false)
+  , mouse_emulation(false)
+  , block_focus(0)
+  , tab_box(0)
+  , popupinfo(0)
+  , popup(0)
+  , advanced_popup(0)
+  , desk_popup(0)
+  , desk_popup_index(0)
+  , keys(0)
+  , client_keys(NULL)
+  , client_keys_dialog(NULL)
+  , client_keys_client(NULL)
+  , disable_shortcuts_keys(NULL)
+  , global_shortcuts_disabled(false)
+  , global_shortcuts_disabled_for_client(false)
+  , root(0)
+  , workspaceInit(true)
+  , startup(0)
+  , electric_have_borders(false)
+  , electric_current_border(0)
+  , electric_top_border(None)
+  , electric_bottom_border(None)
+  , electric_left_border(None)
+  , electric_right_border(None)
+  , layoutOrientation(Qt::Vertical)
+  , layoutX(-1)
+  , layoutY(2)
+  , workarea(NULL)
+  , screenarea(NULL)
+  , managing_topmenus(false)
+  , topmenu_selection(NULL)
+  , topmenu_watcher(NULL)
+  , topmenu_height(0)
+  , topmenu_space(NULL)
+  , set_active_client_recursion(0)
+  , block_stacking_updates(0)
+  , forced_global_mouse_grab(false)
   {
     _self = this;
     mgr = new PluginMgr;
@@ -126,8 +126,7 @@ namespace KWinInternal
     installed_colormap = default_colormap;
     session.setAutoDelete(TRUE);
 
-    connect(&temporaryRulesMessages, SIGNAL(gotMessage(const QString&)),
-            this, SLOT(gotTemporaryRulesMessage(const QString&)));
+    connect(&temporaryRulesMessages, SIGNAL(gotMessage(const QString&)), this, SLOT(gotTemporaryRulesMessage(const QString&)));
     connect(&rulesUpdatedTimer, SIGNAL(timeout()), this, SLOT(writeWindowRules()));
 
     updateXTime(); // needed for proper initialization of user_time in Client ctor
@@ -151,14 +150,10 @@ namespace KWinInternal
         KStartupInfo::DisableKWinModule | KStartupInfo::AnnounceSilenceChanges, this);
 
     // select windowmanager privileges
+    //NOTE: FocusChangeMask is for NotifyDetailNone
     XSelectInput(qt_xdisplay(), root,
-                KeyPressMask|
-                PropertyChangeMask|
-                ColormapChangeMask|
-                SubstructureRedirectMask|
-                SubstructureNotifyMask |
-                FocusChangeMask // for NotifyDetailNone
-                );
+                 KeyPressMask|PropertyChangeMask|ColormapChangeMask|
+                 SubstructureRedirectMask|SubstructureNotifyMask|FocusChangeMask);
 
     Shape::init();
 
@@ -179,7 +174,7 @@ namespace KWinInternal
     connect(kapp->desktop(), SIGNAL(resized(int)), SLOT(desktopResized()));
 #endif
 
-      // start kompmgr - i wanted to put this into main.cpp, but that would prevent dcop support, as long as Application was no dcop_object
+    // start kompmgr - i wanted to put this into main.cpp, but that would prevent dcop support, as long as Application was no dcop_object
     if(options->useTranslucency) {
       kompmgr = new KProcess;
       connect(kompmgr, SIGNAL(receivedStderr(KProcess*, char*, int)), SLOT(handleKompmgrOutput(KProcess*, char*, int)));

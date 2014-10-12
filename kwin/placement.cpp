@@ -107,7 +107,7 @@ namespace KWinInternal
     c->move(tx, ty);
   }
 
-  /*!
+  /**
     - SmartPlacement by Cristian Tibirna (tibirna@kde.org)
     - adapted for kwm (16-19jan98) and for kwin (16Nov1999) using (with
     - permission) ideas from fvwm, authored by
@@ -270,7 +270,7 @@ namespace KWinInternal
     }
   }
 
-  /*!
+  /**
     - cascadePlacement by Cristian Tibirna (tibirna@kde.org) (30Jan98)
     Place windows in a cascading order, remembering positions for each desktop
   */
@@ -350,7 +350,7 @@ namespace KWinInternal
     cci[dn].pos = QPoint(xp + delta_x,  yp + delta_y);
   }
 
-  /*!
+  /**
     Place windows centered, on top of all others
   */
   void Placement::placeCentered(Client* c, const QRect& area, Policy /*next*/) {
@@ -365,7 +365,7 @@ namespace KWinInternal
     c->move(QPoint(xp, yp));
   }
 
-  /*!
+  /**
       Place windows in tiled manner
   */
   void Placement::placeTiled(Client* c, const QRect& /*area*/, Policy /*next*/) {
@@ -373,7 +373,7 @@ namespace KWinInternal
     // c->setUserNoBorder(true);
   }
 
-  /*!
+  /**
     Place windows in the (0,0) corner, on top of all others
   */
   void Placement::placeZeroCornered(Client* c, const QRect& area, Policy /*next*/) {

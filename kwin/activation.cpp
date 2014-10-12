@@ -654,7 +654,7 @@ void Workspace::unfakeActivity( Client* c )
 
 /*!
   Updates the user time (time of last action in the active window).
-  This is called inside  kwin for every action with the window
+  This is called inside kwin for every action with the window
   that qualifies for user interaction (clicking on it, activate it
   externally, etc.).
  */
