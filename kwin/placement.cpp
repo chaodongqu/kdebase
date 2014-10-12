@@ -515,25 +515,44 @@ namespace KWinInternal
 // ********************
 
   void Workspace::slotPlaceWindowLeft() {
-    if(active_client && active_client->isMovable()) {
-      active_client->move(0, 0, ForceGeometrySet);
-      if(active_client->isResizable()) {
-        QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
-        area.setRight(area.left() + area.width()*0.5f);
-        active_client->setGeometry(area);
-      }
+    if(active_client && active_client->isMovable() && active_client->isResizable()) {
+      QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
+      //area.setX(0);
+      //area.setY(0);
+      area.setRight(area.left() + area.width()/2);
+      active_client->setGeometry(area);
     }
   }
 
   void Workspace::slotPlaceWindowRight() {
-    if(active_client && active_client->isMovable()) {
+    if(active_client && active_client->isMovable() && active_client->isResizable()) {
       QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
       int hw = area.width()/2;
-      active_client->move(0, hw, ForceGeometrySet);
-      if(active_client->isResizable()) {
-        area.setLeft(hw);
-        active_client->setGeometry(area);
-      }
+      //area.setX(hw);
+      //area.setY(0);
+      area.setLeft(hw);
+      active_client->setGeometry(area);
+    }
+  }
+
+  void Workspace::slotPlaceWindowTop() {
+    if(active_client && active_client->isMovable() && active_client->isResizable()) {
+      QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
+      //area.setX(0);
+      //area.setY(0);
+      area.setBottom(area.top() + area.height()/2);
+      active_client->setGeometry(area);
+    }
+  }
+
+  void Workspace::slotPlaceWindowBottom() {
+    if(active_client && active_client->isMovable() && active_client->isResizable()) {
+      QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
+      int hh = area.height()/2;
+      //area.setX(0);
+      //area.setY(hh);
+      area.setTop(hh);
+      active_client->setGeometry(area);
     }
   }
 
