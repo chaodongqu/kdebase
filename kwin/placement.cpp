@@ -517,8 +517,6 @@ namespace KWinInternal
   void Workspace::slotPlaceWindowLeft() {
     if(active_client && active_client->isMovable() && active_client->isResizable()) {
       QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
-      //area.setX(0);
-      //area.setY(0);
       area.setRight(area.left() + area.width()/2);
       active_client->setGeometry(area);
     }
@@ -527,10 +525,7 @@ namespace KWinInternal
   void Workspace::slotPlaceWindowRight() {
     if(active_client && active_client->isMovable() && active_client->isResizable()) {
       QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
-      int hw = area.width()/2;
-      //area.setX(hw);
-      //area.setY(0);
-      area.setLeft(hw);
+      area.setLeft(area.left() + area.width()/2);
       active_client->setGeometry(area);
     }
   }
@@ -538,8 +533,6 @@ namespace KWinInternal
   void Workspace::slotPlaceWindowTop() {
     if(active_client && active_client->isMovable() && active_client->isResizable()) {
       QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
-      //area.setX(0);
-      //area.setY(0);
       area.setBottom(area.top() + area.height()/2);
       active_client->setGeometry(area);
     }
@@ -548,10 +541,7 @@ namespace KWinInternal
   void Workspace::slotPlaceWindowBottom() {
     if(active_client && active_client->isMovable() && active_client->isResizable()) {
       QRect area = clientArea(MaximizeArea, activeScreen(), currentDesktop());
-      int hh = area.height()/2;
-      //area.setX(0);
-      //area.setY(hh);
-      area.setTop(area.top() + hh);
+      area.setTop(area.top() + area.height()/2);
       active_client->setGeometry(area);
     }
   }
