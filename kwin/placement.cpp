@@ -556,35 +556,37 @@ namespace KWinInternal
     }
   }
 
-  /*!
+  /**
     Moves active window left until in bumps into another window or workarea edge.
   */
   void Workspace::slotWindowPackLeft() {
-    if (active_client && active_client->isMovable())
-      active_client->move(packPositionLeft(active_client, active_client->geometry().left(), true),
-                          active_client->y());
+    if(active_client && active_client->isMovable()) {
+      active_client->move(packPositionLeft(active_client, active_client->geometry().left(), true), active_client->y());
+    }
   }
 
   void Workspace::slotWindowPackRight() {
-    if (active_client && active_client->isMovable())
-      active_client->move(
-        packPositionRight(active_client, active_client->geometry().right(), true) - active_client->width() + 1, active_client->y());
+    if(active_client && active_client->isMovable()) {
+      active_client->move(packPositionRight(active_client, active_client->geometry().right(), true)-active_client->width()+1,
+                          active_client->y());
+    }
   }
 
   void Workspace::slotWindowPackUp() {
-    if (active_client && active_client->isMovable())
-        active_client->move(active_client->x(),
-                            packPositionUp(active_client, active_client->geometry().top(), true));
+    if(active_client && active_client->isMovable()) {
+      active_client->move(active_client->x(), packPositionUp(active_client, active_client->geometry().top(), true));
+    }
   }
 
   void Workspace::slotWindowPackDown() {
-    if (active_client && active_client->isMovable())
-        active_client->move(active_client->x(),
-                            packPositionDown(active_client, active_client->geometry().bottom(), true) - active_client->height() + 1);
+    if(active_client && active_client->isMovable()) {
+      active_client->move(active_client->x(), packPositionDown(active_client, active_client->geometry().bottom(), true)
+                                                               -active_client->height()+1);
+    }
   }
 
   void Workspace::slotWindowGrowHorizontal() {
-    if (active_client) active_client->growHorizontal();
+    if(active_client) { active_client->growHorizontal(); }
   }
 
   void Client::growHorizontal() {
