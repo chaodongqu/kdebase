@@ -1,3 +1,6 @@
+.gitignore
+.directory
+configure
 autom4te.cache/
 *.Plo
 *Makefile.in
