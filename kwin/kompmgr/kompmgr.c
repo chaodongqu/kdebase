@@ -23,14 +23,14 @@
  */
 
 
-/* Modified by Matthew Hawn. I don't know what to say here so follow what it 
+/* Modified by Matthew Hawn. I don't know what to say here so follow what it
    says above. Not that I can really do anything about it
 */
 
 /* Modified by Dan Doel*/
 
 /*
-Version 2.x of xcompmgr, kompmgr changes by Thomas Lübking and Heiko Przybyl
+Version 2.x of xcompmgr, kompmgr changes by Thomas Lï¿½bking and Heiko Przybyl
 check baghira.sf.net for more infos
 */
 #define _VERSION_ 2.02
@@ -206,7 +206,7 @@ typedef enum _compMode {
 
 static void
 determine_mode(Display *dpy, win *w);
-    
+
 static double
 get_opacity_percent(Display *dpy, win *w, double def);
 
@@ -258,7 +258,7 @@ fade *
 find_fade (win *w)
 {
     fade    *f;
-    
+
     for (f = fades; f; f = f->next)
     {
 	if (f->w == w)
@@ -481,18 +481,18 @@ make_gaussian_map (Display *dpy, double r)
 /*
  * A picture will help
  *
- *	-center   0                width  width+center
- *  -center +-----+-------------------+-----+
- *	    |     |                   |     |
- *	    |     |                   |     |
- *        0 +-----+-------------------+-----+
- *	    |     |                   |     |
- *	    |     |                   |     |
- *	    |     |                   |     |
- *   height +-----+-------------------+-----+
- *	    |     |                   |     |
- * height+  |     |                   |     |
- *  center  +-----+-------------------+-----+
+ * -center   0                width  width+center
+ * -center +-----+-------------------+-----+
+ *         |     |                   |     |
+ *         |     |                   |     |
+ *       0 +-----+-------------------+-----+
+ *         |     |                   |     |
+ *         |     |                   |     |
+ *         |     |                   |     |
+ *  height +-----+-------------------+-----+
+ *         |     |                   |     |
+ * height+ |     |                   |     |
+ * center  +-----+-------------------+-----+
  */
 
 	static unsigned char
@@ -699,7 +699,7 @@ shadow_picture (Display *dpy, double opacity, Picture alpha_pict, int width, int
 	shadowImage = make_shadow (dpy, opacity, width, height);
 	if (!shadowImage)
 		return None;
-	shadowPixmap = XCreatePixmap (dpy, root, 
+	shadowPixmap = XCreatePixmap (dpy, root,
 			shadowImage->width,
 			shadowImage->height,
 			8);
@@ -728,7 +728,7 @@ shadow_picture (Display *dpy, double opacity, Picture alpha_pict, int width, int
 		return None;
 	}
 
-	XPutImage (dpy, shadowPixmap, gc, shadowImage, 0, 0, 0, 0, 
+	XPutImage (dpy, shadowPixmap, gc, shadowImage, 0, 0, 0, 0,
 			shadowImage->width,
 			shadowImage->height);
 	*wp = shadowImage->width;
@@ -869,7 +869,7 @@ root_tile (Display *dpy)
 
 		c.red = c.green = c.blue = 0x8080;
 		c.alpha = 0xffff;
-		XRenderFillRectangle (dpy, PictOpSrc, picture, &c, 
+		XRenderFillRectangle (dpy, PictOpSrc, picture, &c,
 				0, 0, 1, 1);
 	}
 	return picture;
@@ -1210,7 +1210,7 @@ paint_all (Display *dpy, XserverRegion region)
 						w->shadowPict = solid_picture (dpy, True,
 								(double) w->opacity / OPAQUE * 0.3,
 								0, 0, 0);
-					XRenderComposite (dpy, PictOpOver, 
+					XRenderComposite (dpy, PictOpOver,
 							w->shadowPict ? w->shadowPict : transBlackPicture,
 							w->picture, rootBuffer,
 							0, 0, 0, 0,
@@ -1232,7 +1232,7 @@ paint_all (Display *dpy, XserverRegion region)
 			}
 		}
 		if (w->opacity != OPAQUE && !w->alphaPict)
-			w->alphaPict = solid_picture (dpy, False, 
+			w->alphaPict = solid_picture (dpy, False,
 					(double) w->opacity / OPAQUE, shadowColor.red, shadowColor.green, shadowColor.blue);
 		if (w->mode == WINDOW_TRANS)
 		{
@@ -1310,7 +1310,7 @@ paint_all (Display *dpy, XserverRegion region)
 #endif
 			set_ignore (dpy, NextRequest (dpy));
 			XRenderComposite (dpy, PictOpOver, w->picture, w->alphaPict, rootBuffer,
-					0, 0, 0, 0, 
+					0, 0, 0, 0,
 					x, y, wid, hei);
 		}
 		XFixesDestroyRegion (dpy, w->borderClip);
@@ -1450,21 +1450,21 @@ finish_unmap_win (Display *dpy, win *w)
 		XFixesDestroyRegion (dpy, w->borderSize);
 		w->borderSize = None;
 	}
-        
+
         if (w->decoRegion)
         {
             set_ignore (dpy, NextRequest (dpy));
             XFixesDestroyRegion (dpy, w->decoRegion);
             w->decoRegion = None;
         }
-        
+
         if (w->contentRegion)
         {
             set_ignore (dpy, NextRequest (dpy));
             XFixesDestroyRegion (dpy, w->contentRegion);
             w->contentRegion = None;
         }
-	
+
         if (w->shadow)
 	{
 		XRenderFreePicture (dpy, w->shadow);
@@ -1514,8 +1514,8 @@ get_opacity_prop(Display *dpy, win *w, unsigned int def)
 	unsigned long n, left;
 
 	unsigned char *data;
-	int result = XGetWindowProperty(dpy, w->id, opacityAtom, 0L, 1L, False, 
-			XA_CARDINAL, &actual, &format, 
+	int result = XGetWindowProperty(dpy, w->id, opacityAtom, 0L, 1L, False,
+			XA_CARDINAL, &actual, &format,
 			&n, &left, &data);
 	if (result == Success && data != NULL && format == 32 )
 	{
@@ -1535,8 +1535,8 @@ get_shadow_prop(Display *dpy, win *w)
 	unsigned long n, left;
 
 	unsigned char *data = NULL;
-	int result = XGetWindowProperty(dpy, w->id, shadowAtom, 0L, 1L, False, 
-			XA_CARDINAL, &actual, &format, 
+	int result = XGetWindowProperty(dpy, w->id, shadowAtom, 0L, 1L, False,
+			XA_CARDINAL, &actual, &format,
 			&n, &left, &data);
 	if (result == Success && data != NULL && format == 32 )
 	{
@@ -1560,8 +1560,8 @@ get_shade_prop(Display *dpy, win *w)
 	unsigned long n, left;
 
 	unsigned char *data = NULL;
-	int result = XGetWindowProperty(dpy, w->id, shadeAtom, 0L, 1L, False, 
-			XA_CARDINAL, &actual, &format, 
+	int result = XGetWindowProperty(dpy, w->id, shadeAtom, 0L, 1L, False,
+			XA_CARDINAL, &actual, &format,
 			&n, &left, &data);
 	if (result == Success && data != NULL && format == 32 )
 	{
@@ -1581,8 +1581,8 @@ get_shapable_prop(Display *dpy, win *w)
 	unsigned long n, left;
 
 	unsigned char *data = NULL;
-	int result = XGetWindowProperty(dpy, w->id, shapableAtom, 0L, 1L, False, 
-			XA_CARDINAL, &actual, &format, 
+	int result = XGetWindowProperty(dpy, w->id, shapableAtom, 0L, 1L, False,
+			XA_CARDINAL, &actual, &format,
 			&n, &left, &data);
 	if (result == Success && data != NULL && format == 32 )
 	{
@@ -1602,8 +1602,8 @@ get_decoHash_prop(Display *dpy, win *w)
 	unsigned long n, left;
 
 	unsigned char *data = NULL;
-	int result = XGetWindowProperty(dpy, w->id, decoHashAtom, 0L, 1L, False, 
-			XA_CARDINAL, &actual, &format, 
+	int result = XGetWindowProperty(dpy, w->id, decoHashAtom, 0L, 1L, False,
+			XA_CARDINAL, &actual, &format,
 			&n, &left, &data);
 	if (result == Success && data != NULL && format == 32 )
 	{
@@ -1621,10 +1621,10 @@ get_dim_prop(Display *dpy, win *w)
     Atom actual;
     int format;
     unsigned long n, left;
-    
+
     unsigned char *data = NULL;
-    int result = XGetWindowProperty(dpy, w->id, dimAtom, 0L, 1L, False, 
-                                    XA_CARDINAL, &actual, &format, 
+    int result = XGetWindowProperty(dpy, w->id, dimAtom, 0L, 1L, False,
+                                    XA_CARDINAL, &actual, &format,
                                     &n, &left, &data);
     if (result == Success && data != NULL)
     {
@@ -1643,7 +1643,7 @@ get_deskchange_prop(Display *dpy, Window id)
     Atom actual;
     int format;
     unsigned long n, left;
-    
+
     unsigned char *data = NULL;
     int result = XGetWindowProperty(dpy, id, deskChangeAtom, 0L, 1L, False,
     XA_CARDINAL, &actual, &format,
@@ -2139,7 +2139,7 @@ damage_win (Display *dpy, XDamageNotifyEvent *de)
 				w->damage_bounds.width,
 				w->damage_bounds.height);
 #endif
-		if (w->damage_bounds.x <= 0 && 
+		if (w->damage_bounds.x <= 0 &&
 				w->damage_bounds.y <= 0 &&
 				w->a.width <= w->damage_bounds.x + w->damage_bounds.width &&
 				w->a.height <= w->damage_bounds.y + w->damage_bounds.height)
@@ -2265,7 +2265,7 @@ ev_window (XEvent *ev)
 }
 
 void
-setShadowColor(char *value){  /*format nach #xxxxxx (html) ändern?*/
+setShadowColor(char *value){  /*format nach #xxxxxx (html) ï¿½ndern?*/
 	unsigned int tmp;
 	char **res = NULL;
 	tmp = strtoul(value, res, 16);
@@ -2321,7 +2321,7 @@ options[NUMBEROFOPTIONS] = {
 	"FadeInStep",           /*13*/
 	"FadeDelta",            /*14*/
 	"DisableARGB",          /*15*/
-	/*put your thingy in here...*/    
+	/*put your thingy in here...*/
 };
 
 void
@@ -2354,7 +2354,7 @@ setValue(Option option, char *value ){
 			break;
 		case ShadowRadius:
 			shadowRadius = atoi(value);
-			break;                    
+			break;
 		case ShadowColor:
 			setShadowColor(value);
 			break;
@@ -2423,7 +2423,7 @@ loadConfig(char *filename){
 
 	if( filename == NULL ){
 		const char *home = getenv("HOME");
-		const char *configfile = "/.xcompmgrrc"; 
+		const char *configfile = "/.xcompmgrrc";
 		int n = strlen(home)+strlen(configfile)+1;
 		filename = (char*)malloc(n*sizeof(char));
 		memset(filename,0,n);
@@ -2504,7 +2504,7 @@ give_me_a_name(void)
 		  None);
   Xutf8SetWMProperties(dpy, w, "kcompmgr", "kcompmgr", NULL, 0, NULL, NULL,
 		  NULL);
-}	
+}
 
 	int
 main (int argc, char **argv)
@@ -2682,7 +2682,7 @@ main (int argc, char **argv)
 	root_width = DisplayWidth (dpy, scr);
 	root_height = DisplayHeight (dpy, scr);
 
-	rootPicture = XRenderCreatePicture (dpy, root, 
+	rootPicture = XRenderCreatePicture (dpy, root,
 			sXRenderFindVisualFormat (dpy,
 				DefaultVisual (dpy, scr)),
 			CPSubwindowMode,
@@ -2699,7 +2699,7 @@ main (int argc, char **argv)
 	{
         int dummy;
 		XCompositeRedirectSubwindows (dpy, root, CompositeRedirectManual);
-		XSelectInput (dpy, root, 
+		XSelectInput (dpy, root,
 				SubstructureNotifyMask|
 				ExposureMask|
 				StructureNotifyMask|
@@ -2774,8 +2774,8 @@ main (int argc, char **argv)
 						{
 							if (expose_rects)
 							{
-								expose_rects = realloc (expose_rects, 
-										(size_expose + more) * 
+								expose_rects = realloc (expose_rects,
+										(size_expose + more) *
 										sizeof (XRectangle));
 								size_expose += more;
 							}
@@ -2872,7 +2872,7 @@ main (int argc, char **argv)
                                                 else
                                                 printf("arrrg, window not found\n");
                                         }
-					/* check if Trans or Shadow property was changed */    
+					/* check if Trans or Shadow property was changed */
 					else if (ev.xproperty.atom == opacityAtom || ev.xproperty.atom == shadowAtom)
 					{
 						/* reset mode and redraw window */
@@ -2892,12 +2892,12 @@ main (int argc, char **argv)
 									static double start, finish, step;
 									start = w->opacity*1.0/OPAQUE;
 									finish = (tmp*1.0)/OPAQUE;
-									
+
 									if ( start > finish )
 										step = fade_out_step;
 									else
 										step = fade_in_step;
-									
+
 								    set_fade (dpy, w, start, finish, step, 0, False, True, True, False);
                                     break;
                                     }
@@ -2976,8 +2976,8 @@ main (int argc, char **argv)
                                 XFixesDestroyRegion( dpy, w->extents );
                             w->extents = win_extents (dpy, w);
 			}
-#endif		
-                        /*this is hardly efficient, but a current workaraound 
+#endif
+                        /*this is hardly efficient, but a current workaraound
                         shaping support isn't that good so far (e.g. we lack shaped shadows)
                         IDEA: use XRender to scale/shift a copy of the window and then blurr it*/
 #if 1
