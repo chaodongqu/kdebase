@@ -23,7 +23,7 @@ License. See the file "COPYING" for the exact licensing terms.
  That list shouldn't be used at all, except for building
  Workspace::stacking_order. The building is done
  in Workspace::constrainedStackingOrder(). Only Workspace::stackingOrder() should
- be used to get the stacking order, because it also checks the stacking order
+ be used to get the stacking order, because it also checks if the stacking order
  is up to date.
  All clients are also stored in Workspace::clients (except for isDesktop() clients,
  as those are very special, and are stored in Workspace::desktops), in the order
