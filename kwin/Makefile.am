@@ -1,4 +1,4 @@
-INCLUDES = -I$(srcdir)/lib $(all_includes)
+INCLUDES = $(all_includes) -I$(srcdir)/include -I$(srcdir)/lib
 
 if include_kompmgr
 KOMPMGR=kompmgr
