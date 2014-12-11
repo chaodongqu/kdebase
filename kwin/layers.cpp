@@ -63,18 +63,17 @@ License. See the file "COPYING" for the exact licensing terms.
 
 */
 
-#include <assert.h>
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 
-#include <kdebug.h>
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 
-#include "utils.h"
-#include "client.h"
-#include "workspace.h"
-#include "tabbox.h"
-#include "group.h"
-#include "rules.h"
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
-extern Time qt_x_time;
+/* KWin */
+#include <core/common.hpp>
 
 namespace KWinInternal
 {

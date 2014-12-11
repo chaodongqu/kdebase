@@ -3,38 +3,32 @@
  KWin - the KDE window manager
  This file is part of the KDE project.
 
-Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
-Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
+ Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
+ Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
 
-You can Freely distribute this program under the GNU General Public
-License. See the file "COPYING" for the exact licensing terms.
-******************************************************************/
-
-/*
+ You can Freely distribute this program under the GNU General Public
+ License. See the file "COPYING" for the exact licensing terms.
 
  This file contains things relevant to window grouping.
+******************************************************************/
 
-*/
-
+/* Qt */
 //#define QT_CLEAN_NAMESPACE
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 
-#include "group.h"
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 
-#include "workspace.h"
-#include "client.h"
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
-#include <assert.h>
-#include <kstartupinfo.h>
+/* KWin */
+#include <core/common.hpp>
 
+/* TODO: Rename as many uses of 'transient' as possible (hasTransient->hasSubwindow,etc.),
+ or I'll get it backwards in half of the cases again. */
 
-/*
- TODO
- Rename as many uses of 'transient' as possible (hasTransient->hasSubwindow,etc.),
- or I'll get it backwards in half of the cases again.
-*/
-
-namespace KWinInternal
-{
+namespace KWinInternal {
 
 /*
  Consistency checks for window relations. Since transients are determinated
@@ -515,12 +509,10 @@ bool Client::sameAppWindowRoleMatch( const Client* c1, const Client* c2, bool ac
         }
     int pos1 = c1->windowRole().find( '#' );
     int pos2 = c2->windowRole().find( '#' );
-    if(( pos1 >= 0 && pos2 >= 0 )
-        ||
-    // hacks here
-        // Mozilla has resourceName() and resourceClass() swapped
-        c1->resourceName() == "mozilla" && c2->resourceName() == "mozilla" )
-        {
+    if(( pos1 >= 0 && pos2 >= 0 ) ||
+      // hacks here
+      // Mozilla has resourceName() and resourceClass() swapped
+        ( c1->resourceName() == "mozilla" && c2->resourceName() == "mozilla" )) {
         if( !active_hack )   // without the active hack for focus stealing prevention,
             return c1 == c2; // different mainwindows are always different apps
         if( !c1->isActive() && !c2->isActive())
@@ -765,13 +757,14 @@ Window Client::verifyTransientFor( Window new_transient_for, bool defined )
     Window new_property_value = new_transient_for;
     // make sure splashscreens are shown above all their app's windows, even though
     // they're in Normal layer
-    if( isSplash() && new_transient_for == None )
-        new_transient_for = workspace()->rootWin();
-    if( new_transient_for == None )
-        if( defined ) // sometimes WM_TRANSIENT_FOR is set to None, instead of root window
-            new_property_value = new_transient_for = workspace()->rootWin();
-        else
-            return None;
+    if( isSplash() && new_transient_for == None ) { new_transient_for = workspace()->rootWin(); }
+
+    if( new_transient_for == None ) {
+      // sometimes WM_TRANSIENT_FOR is set to None, instead of root window
+      if( defined ) { new_property_value = new_transient_for = workspace()->rootWin(); }
+      else { return None; }
+    }
+
     if( new_transient_for == window()) // pointing to self
         { // also fix the property itself
         kdWarning( 1216 ) << "Client " << this << " has WM_TRANSIENT_FOR poiting to itself." << endl;

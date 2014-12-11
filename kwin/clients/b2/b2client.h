@@ -49,7 +49,7 @@ protected:
 private:
     void enterEvent(QEvent *e);
     void leaveEvent(QEvent *e);
-    
+
     bool useMiniIcon;
     KPixmap *icon[6];
     QColor bg; //only use one color (the rest is pixmap) so forget QPalette ;)
@@ -128,19 +128,17 @@ private slots:
     void shadeButtonClicked();
     void resizeButtonPressed();
 private:
-    void addButtons(const QString& s, const QString tips[],
-                    B2Titlebar* tb, QBoxLayout* titleLayout);
+    void addButtons(const QString& s, const QString tips[], B2Titlebar* tb, QBoxLayout* titleLayout);
     void positionButtons();
     void calcHiddenButtons();
     bool mustDrawHandle() const;
-    
-    enum ButtonType{BtnMenu=0, BtnSticky, BtnIconify, BtnMax, BtnClose,
-        BtnHelp, BtnShade, BtnResize, BtnCount};
+
+    enum ButtonType{BtnMenu=0, BtnSticky, BtnIconify, BtnMax, BtnClose, BtnHelp, BtnShade, BtnResize, BtnCount};
     B2Button* button[BtnCount];
     QGridLayout *g;
     // Border spacers
-    QSpacerItem *topSpacer; 
-    QSpacerItem *bottomSpacer; 
+    QSpacerItem *topSpacer;
+    QSpacerItem *bottomSpacer;
     QSpacerItem *leftSpacer;
     QSpacerItem *rightSpacer;
     B2Titlebar *titlebar;

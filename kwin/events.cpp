@@ -2,36 +2,28 @@
  KWin - the KDE window manager
  This file is part of the KDE project.
 
-Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
-Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
+ Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
+ Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
 
-You can Freely distribute this program under the GNU General Public
-License. See the file "COPYING" for the exact licensing terms.
-******************************************************************/
-
-/*
+ You can Freely distribute this program under the GNU General Public
+ License. See the file "COPYING" for the exact licensing terms.
 
  This file contains things relevant to handling incoming events.
+******************************************************************/
 
-*/
-
-#include "client.h"
-#include "workspace.h"
-#include "atoms.h"
-#include "tabbox.h"
-#include "group.h"
-#include "rules.h"
-
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 #include <qwhatsthis.h>
+
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <kkeynative.h>
-#include <qapplication.h>
 
-#include <X11/extensions/shape.h>
-#include <X11/Xatom.h>
-#include <stdlib.h>
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
-extern Time qt_x_time;
-extern Atom qt_window_role;
+/* KWin */
+#include <core/common.hpp>
 
 namespace KWinInternal
 {

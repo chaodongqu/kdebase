@@ -2,38 +2,29 @@
  KWin - the KDE window manager
  This file is part of the KDE project.
 
-Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
-Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
+ Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
+ Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
 
-You can Freely distribute this program under the GNU General Public
-License. See the file "COPYING" for the exact licensing terms.
-******************************************************************/
-
-/*
+ You can Freely distribute this program under the GNU General Public
+ License. See the file "COPYING" for the exact licensing terms.
 
  This file contains things relevant to geometry, i.e. workspace size,
  window positions and window sizes.
+******************************************************************/
 
-*/
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 
-#include "client.h"
-#include "workspace.h"
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 
-#include <kapplication.h>
-#include <kglobal.h>
-#include <qpainter.h>
-#include <kwin.h>
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
-#include "placement.h"
-#include "notifications.h"
-#include "geometrytip.h"
-#include "rules.h"
+/* KWin */
+#include <core/common.hpp>
 
-extern Time qt_x_time;
-
-namespace KWinInternal
-{
-
+namespace KWinInternal {
 //********************************************
 // Workspace
 //********************************************

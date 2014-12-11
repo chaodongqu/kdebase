@@ -10,33 +10,25 @@ You can Freely distribute this program under the GNU General Public
 License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
+/* Qt */
 //#define QT_CLEAN_NAMESPACE
-#include "tabbox.h"
-#include "workspace.h"
-#include "client.h"
-#include <qpainter.h>
-#include <qlabel.h>
-#include <qdrawutil.h>
-#include <qstyle.h>
-#include <kglobal.h>
-#include <fixx11h.h>
-#include <kconfig.h>
-#include <klocale.h>
-#include <qapplication.h>
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 #include <qdesktopwidget.h>
+#include <qframe.h>
+
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <kstringhandler.h>
-#include <stdarg.h>
-#include <kdebug.h>
-#include <kglobalaccel.h>
 #include <kkeynative.h>
-#include <kglobalsettings.h>
 #include <kiconeffect.h>
-#include <X11/keysym.h>
-#include <X11/keysymdef.h>
 
-// specify externals before namespace
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
-extern Time qt_x_time;
+/* KWin */
+#include <core/common.hpp>
+
+//TODO: specify externals before namespace
 
 namespace KWinInternal {
   extern QPixmap* kwin_get_menu_pix_hack();

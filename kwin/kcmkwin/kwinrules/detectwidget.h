@@ -22,10 +22,8 @@
 
 #include "detectwidgetbase.h"
 
+/* KDE */
 #include <kdialogbase.h>
-#include <kwin.h>
-
-#include "../../rules.h"
 
 namespace KWinInternal
 {

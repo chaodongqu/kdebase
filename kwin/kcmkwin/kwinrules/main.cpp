@@ -16,18 +16,22 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
+
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <kcmdlineargs.h>
-#include <kapplication.h>
 #include <dcopclient.h>
-#include <kconfig.h>
-#include <klocale.h>
-#include <kwin.h>
 
-#include <X11/Xlib.h>
-#include <fixx11h.h>
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
+/* KWin */
+#include <core/common.hpp>
+
+/* kwinrules */
 #include "ruleswidget.h"
-#include "../../rules.h"
 
 namespace KWinInternal
 {
@@ -154,7 +158,7 @@ static Rules* findRule( const QValueList< Rules* >& rules, Window wid, bool whol
         ret->description = i18n( "Application settings for %1" ).arg( wmclass_class );
         // TODO maybe exclude some types? If yes, then also exclude them above
         // when searching.
-        ret->types = NET::AllTypesMask; 
+        ret->types = NET::AllTypesMask;
         ret->titlematch = Rules::UnimportantMatch;
         ret->clientmachine = machine; // set, but make unimportant
         ret->clientmachinematch = Rules::UnimportantMatch;
@@ -261,7 +265,7 @@ static int edit( Window wid, bool whole_app )
     kapp->dcopClient()->send("kwin*", "", "reconfigure()", "");
     return 0;
     }
-    
+
 } // namespace
 
 static const KCmdLineOptions options[] =

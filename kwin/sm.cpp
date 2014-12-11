@@ -9,24 +9,23 @@ You can Freely distribute this program under the GNU General Public
 License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
-#include "sm.h"
+#include <pwd.h>
 
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 #include <qsocketnotifier.h>
 #include <qsessionmanager.h>
-#include <kdebug.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <pwd.h>
-#include <fixx11h.h>
-#include <kconfig.h>
-#include <kglobal.h>
 
-#include "workspace.h"
-#include "client.h"
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 
-namespace KWinInternal
-{
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
+/* KWin */
+#include <core/common.hpp>
+
+namespace KWinInternal {
 bool SessionManaged::saveState( QSessionManager& sm )
     {
     // If the session manager is ksmserver, save stacking
@@ -72,7 +71,7 @@ void Workspace::storeSession( KConfig* config, SMSavePhase phase )
     config->setGroup("Session" );
     int count =  0;
     int active_client = -1;
-    for (ClientList::Iterator it = clients.begin(); it != clients.end(); ++it) 
+    for (ClientList::Iterator it = clients.begin(); it != clients.end(); ++it)
         {
         Client* c = (*it);
         QCString sessionId = c->sessionId();
@@ -152,7 +151,7 @@ void Workspace::loadSessionInfo()
     config->setGroup("Session" );
     int count =  config->readNumEntry( "count" );
     int active_client = config->readNumEntry( "active" );
-    for ( int i = 1; i <= count; i++ ) 
+    for ( int i = 1; i <= count; i++ )
         {
         QString n = QString::number(i);
         SessionInfo* info = new SessionInfo;
@@ -203,18 +202,18 @@ SessionInfo* Workspace::takeSessionInfo( Client* c )
     QCString resourceClass = c->resourceClass();
 
     // First search ``session''
-    if (! sessionId.isEmpty() ) 
+    if (! sessionId.isEmpty() )
         {
         // look for a real session managed client (algorithm suggested by ICCCM)
         for (SessionInfo* info = session.first(); info && !realInfo; info = session.next() )
-            if ( info->sessionId == sessionId && sessionInfoWindowTypeMatch( c, info )) 
+            if ( info->sessionId == sessionId && sessionInfoWindowTypeMatch( c, info ))
             {
-            if ( ! windowRole.isEmpty() ) 
+            if ( ! windowRole.isEmpty() )
                 {
                 if ( info->windowRole == windowRole )
                     realInfo = session.take();
                 }
-            else 
+            else
                 {
                 if ( info->windowRole.isEmpty() &&
                      info->resourceName == resourceName &&
@@ -223,7 +222,7 @@ SessionInfo* Workspace::takeSessionInfo( Client* c )
                 }
             }
         }
-    else 
+    else
         {
         // look for a sessioninfo with matching features.
         for (SessionInfo* info = session.first(); info && !realInfo; info = session.next() )
@@ -240,7 +239,7 @@ SessionInfo* Workspace::takeSessionInfo( Client* c )
 
 bool Workspace::sessionInfoWindowTypeMatch( Client* c, SessionInfo* info )
     {
-    if( info->windowType == -2 ) 
+    if( info->windowType == -2 )
         { // undefined (not really part of NET::WindowType)
         return !c->isSpecialWindow();
         }
@@ -269,7 +268,7 @@ bool Workspace::windowRoleMatch( const QCString& role1, const QCString& role2 )
     }
 #endif
 
-static const char* const window_type_names[] = 
+static const char* const window_type_names[] =
     {
     "Unknown", "Normal" , "Desktop", "Dock", "Toolbar", "Menu", "Dialog",
     "Override", "TopMenu", "Utility", "Splash"

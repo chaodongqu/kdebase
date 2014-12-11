@@ -9,17 +9,20 @@ You can Freely distribute this program under the GNU General Public
 License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 
-#include <qapplication.h>
-#include "atoms.h"
-#include <assert.h>
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 
-namespace KWinInternal
-{
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
-Atoms::Atoms()
-    {
+/* Kwin */
+#include <core/common.hpp>
 
+namespace KWinInternal {
+  Atoms::Atoms() {
     const int max = 50;
     Atom* atoms[max];
     char* names[max];
@@ -63,10 +66,10 @@ Atoms::Atoms()
 
     atoms[n] = &kde_system_tray_embedding;
     names[n++] = (char*) "_KDE_SYSTEM_TRAY_EMBEDDING";
-    
+
     atoms[n] = &net_wm_take_activity;
     names[n++] = (char*) "_NET_WM_TAKE_ACTIVITY";
-    
+
     atoms[n] = &net_wm_window_opacity;
     names[n++] = (char*) "_KDE_WM_WINDOW_OPACITY";
 
@@ -75,34 +78,33 @@ Atoms::Atoms()
 
     atoms[n] = &net_wm_window_shade;
     names[n++] = (char*) "_KDE_WM_WINDOW_SHADE";
-    
+
     atoms[n] = &net_wm_window_shapable;
     names[n++] = (char*) "_KDE_WM_WINDOW_SHAPABLE";
-    
+
     atoms[n] = &net_wm_window_decohash;
     names[n++] = (char*) "_KDE_WM_WINDOW_DECOHASH";
-        
+
     Atom fake;
     atoms[n] = &fake;
     names[n++] = (char *) "_DT_SM_WINDOW_INFO";
     atoms[n] = &fake;
     names[n++] = (char *) "_MOTIF_WM_INFO"; // #172028
-    
+
     atoms[n] = &xdnd_aware;
     names[n++] = (char*) "XdndAware";
     atoms[n] = &xdnd_position;
     names[n++] = (char*) "XdndPosition";
-    
+
     atoms[n] = &net_frame_extents;
     names[n++] = (char*) "_NET_FRAME_EXTENTS";
     atoms[n] = &kde_net_wm_frame_strut;
     names[n++] = (char*) "_KDE_NET_WM_FRAME_STRUT";
-    
+
     assert( n <= max );
 
     XInternAtoms( qt_xdisplay(), names, n, FALSE, atoms_return );
     for (int i = 0; i < n; i++ )
         *atoms[i] = atoms_return[i];
     }
-
-} // namespace
+}; /* namespace KWinInternal */

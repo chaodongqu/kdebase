@@ -1,6 +1,7 @@
 METASOURCES = AUTO
 AM_CPPFLAGS = $(all_includes) -DKCMRULES
-INCLUDES = -I$(top_srcdir)/kwin/lib
+INCLUDES = -I$(top_srcdir)/kwin/lib -I$(srcdir)/../../ \
+	-I$(srcdir)/../../include
 
 bin_PROGRAMS =
 lib_LTLIBRARIES =
@@ -8,8 +9,10 @@ kdeinit_LTLIBRARIES = kwin_rules_dialog.la
 kde_module_LTLIBRARIES = kcm_kwinrules.la 
 noinst_LTLIBRARIES = libkwinrules.la
 
-libkwinrules_la_SOURCES = ruleswidget.cpp ruleslist.cpp kwinsrc.cpp detectwidget.cpp \
-        ruleswidgetbase.ui ruleslistbase.ui detectwidgetbase.ui editshortcutbase.ui
+libkwinrules_la_SOURCES = $(top_srcdir)/kwin/options.cpp \
+	$(top_srcdir)/kwin/placement.cpp $(top_srcdir)/kwin/rules.cpp $(top_srcdir)/kwin/utils.cpp \
+	detectwidget.cpp detectwidgetbase.ui editshortcutbase.ui ruleslist.cpp ruleslistbase.ui \
+	ruleswidget.cpp ruleswidgetbase.ui
 libkwinrules_la_LDFLAGS = $(all_libraries) -no-undefined
 libkwinrules_la_LIBADD = $(LIB_KDEUI)
 

@@ -16,25 +16,18 @@
 * from the window operations menu.
 ******************************************************************/
 
-#include "client.h"
-#include "workspace.h"
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 
-#include <fixx11h.h>
-#include <qhbox.h>
-#include <qpushbutton.h>
-#include <qslider.h>
-#include <qtooltip.h>
-#include <qpopupmenu.h>
-#include <kglobalsettings.h>
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <kiconloader.h>
-#include <klocale.h>
-#include <kconfig.h>
-#include <kglobalaccel.h>
-#include <kapplication.h>
-#include <qregexp.h>
 
-#include "killwindow.h"
-#include "tabbox.h"
+/* Xorg */
+#include <X11/SM/SMlib.h>
+
+/* KWin */
+#include <core/common.hpp>
 
 namespace KWinInternal {
   //****************************************
@@ -968,4 +961,4 @@ namespace KWinInternal {
     }
     return true;
   }
-} // namespace
+}; /* namespace KWinInternal */

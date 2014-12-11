@@ -30,39 +30,17 @@ Sources:
   filter to call all the functions that used to be called directly. Usually, it's something
   like:
 =====
-bool MyClient::eventFilter( QObject* o, QEvent* e )
-{
-	if ( o != widget() )
-		return false;
+bool MyClient::eventFilter( QObject* o, QEvent* e ) {
+	if ( o != widget() ) return false;
 
-	switch ( e->type() )
-	{
-		case QEvent::Resize:
-			resizeEvent( static_cast< QResizeEvent* >( e ) );
-			return true;
-
-		case QEvent::Paint:
-			paintEvent( static_cast< QPaintEvent* >( e ) );
-			return true;
-
-		case QEvent::MouseButtonDblClick:
-			mouseDoubleClickEvent( static_cast< QMouseEvent* >( e ) );
-			return true;
-
-                case QEvent::Wheel:
-                        wheelEvent( static_cast< QWheelEvent* >( e ));
-                        return true;
-
-		case QEvent::MouseButtonPress:
-			processMousePressEvent( static_cast< QMouseEvent* >( e ) );
-			return true;
-
-		case QEvent::Show:
-			showEvent( static_cast< QShowEvent* >( e ) );
-			return true;
-
-		default:
-	    		return false;
+	switch ( e->type() ) {
+		case QEvent::Resize: resizeEvent( static_cast< QResizeEvent* >( e ) ); return true;
+		case QEvent::Paint: paintEvent( static_cast< QPaintEvent* >( e ) ); return true;
+		case QEvent::MouseButtonDblClick: mouseDoubleClickEvent( static_cast< QMouseEvent* >( e ) ); return true;
+		case QEvent::Wheel: wheelEvent( static_cast< QWheelEvent* >( e )); return true;
+		case QEvent::MouseButtonPress: processMousePressEvent( static_cast< QMouseEvent* >( e ) ); return true;
+		case QEvent::Show: showEvent( static_cast< QShowEvent* >( e ) ); return true;
+		default: return false;
 	}
 }
 =====
@@ -75,11 +53,10 @@ bool MyClient::eventFilter( QObject* o, QEvent* e )
 - Replace 'options' with 'options()' in MyClient (which is KDecoration::options()), if often used
   outside of MyClient, you may want to create (this assumes your code is in its namespace):
 =====
-inline const KDecorationOptions* options() { return KDecoration::options(); }
+	inline const KDecorationOptions* options() { return KDecoration::options(); }
 =====
 - Options for colors need 'Color' prepended (e.g. 'ColorButtonBg').
-- Replace miniIcon() with getting the right pixmap from icon() (usually
-    'icon().pixmap( QIconSet::Small, QIconSet::Normal )' ).
+- Replace miniIcon() with getting the right pixmap from icon() (usually 'icon().pixmap( QIconSet::Small, QIconSet::Normal )' ).
 - Replace stickyChange() with desktopChange(), and test isOnAllDesktops().
 - Replace Sticky with OnAllDestops.
 - Replace iconify with minimize.
@@ -93,14 +70,12 @@ inline const KDecorationOptions* options() { return KDecoration::options(); }
   I.e. usually call setCursor( ArrowCursor ) in your MyButton.
 - In the part where you insert windowWrapper() into the layout, i.e. something like
 =====
-    layout->addWidget( windowWrapper());
+		layout->addWidget( windowWrapper());
 =====
-  replace it with something like
+	replace it with something like
 =====
-    if( isPreview())
-        layout->addWidget( new QLabel( i18n( "<center><b>MyDecoration</b></center>" ), widget()));
-    else
-        layout->addItem( new QSpacerItem( 0, 0 ));
+		if(isPreview()) { layout->addWidget( new QLabel( i18n( "<center><b>MyDecoration</b></center>" ), widget())); }
+		else { layout->addItem( new QSpacerItem( 0, 0 )); }
 =====
 - Implement MyClient::minimumSize().
 - Handling maximization - to change vertical or horizontal maximalization, use e.g.
@@ -147,8 +122,7 @@ extern "C"
   MyFactory::reset( unsigned long ). Try to minimize the effects of the changed things,
   e.g. if only the color setting has changed, doing a repaint is often enough, and there's no need
   to recreate the decorations. If you need to recreate the decorations, return true
-  from MyFactory::reset(), otherwise, you may call resetDecorations() to call reset() in all
-  MyClient instances.
+  from MyFactory::reset(), otherwise, you may call resetDecorations() to call reset() in all MyClient instances.
 - Implement resize() to resize the decoration to the given size
   (usually 'widget()->resize( s );' is enough).
 - Review mousePosition() if it's implemented. Position constants need 'Position' prepended,

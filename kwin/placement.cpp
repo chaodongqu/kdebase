@@ -11,27 +11,24 @@ You can Freely distribute this program under the GNU General Public
 License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
-#include "placement.h"
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 
-#include <qrect.h>
-#include <assert.h>
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 
-#ifndef KCMRULES
-#include "workspace.h"
-#include "client.h"
-#include "options.h"
-#include "rules.h"
-#endif
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
-namespace KWinInternal
-{
+/* KWin */
+#include <core/common.hpp>
 
+namespace KWinInternal {
 #ifndef KCMRULES
 
   Placement::Placement(Workspace* w)
   : nmaster (1)
-  , mfactor(0.55f)
-  {
+  , mfactor(0.55f) {
     wkspc = w;
     reinitCascading(0);
   }
@@ -501,9 +498,19 @@ namespace KWinInternal
 
   const char* Placement::policyToString(Policy policy) {
     const char* const policies[] = {
-      "NoPlacement", "Default", "XXX should never see",
-      "Random", "Smart", "Cascade", "Centered", "ZeroCornered",
-      "UnderMouse", "OnMainWindow", "Maximizing", "Tiled"};
+      "NoPlacement",
+      "Default",
+      "XXX should never see",
+      "Random",
+      "Smart",
+      "Cascade",
+      "Centered",
+      "ZeroCornered",
+      "UnderMouse",
+      "OnMainWindow",
+      "Maximizing",
+      "Tiled"
+    };
     assert(policy < int(sizeof(policies) / sizeof(policies[0])));
     return policies[policy];
   }
@@ -782,4 +789,4 @@ namespace KWinInternal
 
 #endif
 
-} // namespace
+}; /* namespace KWinInternal */

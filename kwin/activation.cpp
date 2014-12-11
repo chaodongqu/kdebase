@@ -2,40 +2,31 @@
  KWin - the KDE window manager
  This file is part of the KDE project.
 
-Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
-Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
+ Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
+ Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
 
-You can Freely distribute this program under the GNU General Public
-License. See the file "COPYING" for the exact licensing terms.
-******************************************************************/
-
-/*
+ You can Freely distribute this program under the GNU General Public
+ License. See the file "COPYING" for the exact licensing terms.
 
  This file contains things relevant to window activation and focus
  stealing prevention.
+******************************************************************/
 
-*/
-
-#include "client.h"
-#include "workspace.h"
-
-#include <fixx11h.h>
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 #include <qpopupmenu.h>
-#include <kxerrorhandler.h>
-#include <kstartupinfo.h>
+
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <kstringhandler.h>
-#include <klocale.h>
 
-#include "notifications.h"
-#include "atoms.h"
-#include "group.h"
-#include "rules.h"
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
-extern Time qt_x_time;
+/* Kwin */
+#include <core/common.hpp>
 
-namespace KWinInternal
-{
-
+namespace KWinInternal {
 /*
  Prevention of focus stealing:
 

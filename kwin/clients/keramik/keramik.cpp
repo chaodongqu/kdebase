@@ -1136,7 +1136,7 @@ void KeramikClient::updateMask()
 
 	QRegion r;
 	register int w, y = 0;
-	int nrects;
+	int nrects=0;
 
 	if ( QApplication::reverseLayout() ) {
 
@@ -1465,7 +1465,7 @@ void KeramikClient::menuButtonPressed()
 	menuTop += QPoint(-6, -3);
 	menuBottom += QPoint(6, 3);
 	KDecorationFactory* f = factory();
-	showWindowMenu( QRect( button[MenuButton]->mapToGlobal( menuTop ), 
+	showWindowMenu( QRect( button[MenuButton]->mapToGlobal( menuTop ),
 				button[MenuButton]->mapToGlobal( menuBottom )) );
 	if( !f->exists( this )) // 'this' was destroyed
 		return;
@@ -1663,7 +1663,7 @@ void KeramikClient::mouseDoubleClickEvent( QMouseEvent *e )
 
 void KeramikClient::wheelEvent( QWheelEvent *e )
 {
-	if (isSetShade() 
+	if (isSetShade()
             || QRect( 0, 0, width(), clientHandler->titleBarHeight( largeTitlebar ) ).contains( e->pos() ) )
 		titlebarMouseWheelOperation( e->delta());
 }

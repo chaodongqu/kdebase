@@ -14,8 +14,8 @@
     <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
-    <defaultencoding/>
+    <description></description>
+    <defaultencoding></defaultencoding>
     <versioncontrol/>
   </general>
   <kdevfileview>
@@ -74,10 +74,10 @@
   <kdevdebugger>
     <general>
       <dbgshell>libtool</dbgshell>
-      <gdbpath/>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <gdbpath></gdbpath>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
@@ -132,7 +132,7 @@
       <includePaths>.;</includePaths>
     </codecompletion>
     <creategettersetter>
-      <prefixGet/>
+      <prefixGet></prefixGet>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
@@ -145,8 +145,9 @@
       <orientation>Vertical</orientation>
     </splitheadersource>
     <references>
+      <pcs>xorg</pcs>
       <pcs>automatic_%2Fhome%2Frainman%2Fprojects%2Fkde%2Fkdebase</pcs>
-      <pcs>automatic_%2Fhome%2Frainman%2Fprojects%2Fkde%2Fkdelibs</pcs>
+      <pcs>kdelibs</pcs>
       <pcs>boost</pcs>
       <pcs>qt3trunk</pcs>
     </references>
@@ -161,7 +162,7 @@
         <envvar value="1.11" name="WANT_AUTOMAKE" />
       </envvars>
       <abortonerror>true</abortonerror>
-      <runmultiplejobs>true</runmultiplejobs>
+      <runmultiplejobs>false</runmultiplejobs>
       <numberofjobs>5</numberofjobs>
       <dontact>false</dontact>
       <makebin>gmake</makebin>
@@ -193,7 +194,7 @@
     </run>
     <general>
       <useconfiguration>dbg_x86_64-pc-linux-gnu</useconfiguration>
-      <activetarget>kcontrol/background/kcm_background.la</activetarget>
+      <activetarget>kwin/kwin.la</activetarget>
     </general>
     <configurations>
       <dbg_i686-pc-linux-gnu>
@@ -216,7 +217,7 @@
       <dbg_x86_64-pc-linux-gnu>
         <envvars/>
         <configargs>--host=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/kde/git --mandir=/usr/kde/git/share/man --infodir=/usr/kde/git/share/info --datadir=/usr/kde/git/share --sysconfdir=/usr/kde/git/etc --localstatedir=/var/lib --with-qt-dir=/usr/qt/3 --with-qt-libraries=/usr/qt/3/lib --enable-mt --enable-debug=full --libdir=/usr/kde/git/lib --enable-libsuffix=64 --with-ssl --without-openexr --without-hal --disable-dnssd --without-arts</configargs>
-        <builddir>/var/tmp/portage/dbg_kdebase_x86_64_linux</builddir>
+        <builddir>/home/rainman/build/dbg_kdebase_x86_64_linux</builddir>
         <topsourcedir/>
         <cppflags/>
         <ldflags/>

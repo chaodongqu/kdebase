@@ -9,34 +9,27 @@ You can Freely distribute this program under the GNU General Public
 License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
+/* Qt */
 //#define QT_CLEAN_NAMESPACE
-#include <kconfig.h>
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 
-#include "main.h"
-
-#include <klocale.h>
-#include <kglobal.h>
-#include <kdebug.h>
-#include <stdlib.h>
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <dcopclient.h>
 #include <dcopref.h>
-#include <unistd.h>
-#include <signal.h>
-#include <fcntl.h>
 
-#include "atoms.h"
-#include "options.h"
-#include "sm.h"
-
+/* Xorg */
 #define INT8 _X11INT8
 #define INT32 _X11INT32
 #include <X11/Xproto.h>
 #undef INT8
 #undef INT32
+#include <X11/SM/SMlib.h>
 
-extern Time qt_x_time;
+/* KWin */
+#include <core/common.hpp>
 
 namespace KWinInternal {
   Options* options;

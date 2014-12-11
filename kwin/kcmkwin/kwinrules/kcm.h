@@ -21,7 +21,6 @@
 #define __KCM_H__
 
 #include <kcmodule.h>
-#include <kconfig.h>
 
 class KConfig;
 class KAboutData;

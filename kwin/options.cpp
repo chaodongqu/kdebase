@@ -9,21 +9,23 @@ You can Freely distribute this program under the GNU General Public
 License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
-#include "options.h"
-
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 #ifndef KCMRULES
-
+#include <qstringlist.h>
+#include <qfont.h>
 #include <qpalette.h>
 #include <qpixmap.h>
-#include <kapplication.h>
-#include <kconfig.h>
-#include <kglobal.h>
-#include <kglobalsettings.h>
-#include <qtooltip.h>
+#endif /* KCMRULES */
 
-#include "client.h"
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 
-#endif
+/* Xorg */
+#include <X11/SM/SMlib.h>
+
+/* KWin */
+#include <core/common.hpp>
 
 namespace KWinInternal
 {
@@ -320,16 +322,14 @@ Options::MouseCommand Options::wheelToMouseCommand( MouseWheelCommand com, int d
             return MouseNothing;
         }
     }
-#endif
 
-Options::MoveResizeMode Options::stringToMoveResizeMode( const QString& s )
-    {
+#endif /* KCMRULES */
+
+  Options::MoveResizeMode Options::stringToMoveResizeMode(const QString &s) {
     return s == "Opaque" ? Opaque : Transparent;
-    }
+  }
 
-const char* Options::moveResizeModeToString( MoveResizeMode mode )
-    {
+  const char* Options::moveResizeModeToString(MoveResizeMode mode) {
     return mode == Opaque ? "Opaque" : "Transparent";
-    }
-
-} // namespace
+  }
+}; // namespace

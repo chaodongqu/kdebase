@@ -9,15 +9,21 @@ You can Freely distribute this program under the GNU General Public
 License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
+/* Qt */
 //#ifndef QT_CLEAN_NAMESPACE
 //#define QT_CLEAN_NAMESPACE
 //#endif
-#include "killwindow.h"
-#include <qcursor.h>
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include <X11/keysymdef.h>
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
+
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
+
+/* Xorg */
 #include <X11/cursorfont.h>
+#include <X11/SM/SMlib.h>
+
+/* KWin */
+#include <core/common.hpp>
 
 namespace KWinInternal
 {
@@ -31,7 +37,7 @@ KillWindow::~KillWindow()
     {
     }
 
-void KillWindow::start() 
+void KillWindow::start()
     {
     static Cursor kill_cursor = 0;
     if (!kill_cursor)
@@ -42,7 +48,7 @@ void KillWindow::start()
                      PointerMotionMask |
                      EnterWindowMask | LeaveWindowMask,
                      GrabModeAsync, GrabModeAsync, None,
-                     kill_cursor, CurrentTime) == GrabSuccess) 
+                     kill_cursor, CurrentTime) == GrabSuccess)
         {
         XGrabKeyboard(qt_xdisplay(), qt_xrootwin(), False,
                       GrabModeAsync, GrabModeAsync, CurrentTime);
@@ -54,12 +60,12 @@ void KillWindow::start()
 
         grabXServer();
 
-        while (!return_pressed && !escape_pressed && !button_released) 
+        while (!return_pressed && !escape_pressed && !button_released)
             {
             XMaskEvent(qt_xdisplay(), KeyPressMask | ButtonPressMask |
                        ButtonReleaseMask | PointerMotionMask, &ev);
 
-            if (ev.type == KeyPress)    
+            if (ev.type == KeyPress)
                 {
                 int kc = XKeycodeToKeysym(qt_xdisplay(), ev.xkey.keycode, 0);
                 int mx = 0;
@@ -70,7 +76,7 @@ void KillWindow::start()
                 if (kc == XK_Right) mx = 10;
                 if (kc == XK_Up)    my = -10;
                 if (kc == XK_Down)  my = 10;
-                if (ev.xkey.state & ControlMask) 
+                if (ev.xkey.state & ControlMask)
                     {
                     mx /= 10;
                     my /= 10;
@@ -78,10 +84,10 @@ void KillWindow::start()
                 QCursor::setPos(QCursor::pos()+QPoint(mx, my));
                 }
 
-            if (ev.type == ButtonRelease) 
+            if (ev.type == ButtonRelease)
                 {
                 button_released = (ev.xbutton.button == Button1);
-                if ( ev.xbutton.button == Button3 ) 
+                if ( ev.xbutton.button == Button3 )
                     {
                     escape_pressed = TRUE;
                     break;
@@ -91,7 +97,7 @@ void KillWindow::start()
                 }
             continue;
             }
-        if (return_pressed) 
+        if (return_pressed)
             {
             Window root, child;
             int dummy1, dummy2, dummy3, dummy4;

@@ -9,35 +9,26 @@ You can Freely distribute this program under the GNU General Public
 License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
-#include "client.h"
-
-#include <qapplication.h>
-#include <qpainter.h>
-#include <qdatetime.h>
-#include <kprocess.h>
-#include <unistd.h>
-#include <kstandarddirs.h>
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 #include <qwhatsthis.h>
-#include <kwin.h>
+#include <qframe.h>
+#include <qvbox.h>
+#include <qpixmap.h>
+
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <kiconloader.h>
-#include <stdlib.h>
+#include <kshortcut.h>
 
-#include "bridge.h"
-#include "group.h"
-#include "workspace.h"
-#include "atoms.h"
-#include "notifications.h"
-#include "rules.h"
-
+/* Xorg */
 #include <X11/extensions/shape.h>
+#include <X11/SM/SMlib.h>
 
-// put all externs before the namespace statement to allow the linker
-// to resolve them properly
+/* KWin */
+#include <core/common.hpp>
 
-extern Atom qt_wm_state;
-extern Time qt_x_time;
-extern Atom qt_window_role;
-extern Atom qt_sm_client_id;
+//TODO: put all externs before the namespace statement to allow the linker to resolve them properly
 
 namespace KWinInternal
 {
@@ -484,7 +475,7 @@ namespace KWinInternal
     if (reg.isNull())
       XShapeCombineMask(qt_xdisplay(), frameId(), ShapeBounding, 0, 0,
                         None, ShapeSet);
-    else if (mode == X::Unsorted)
+    else if (mode == Unsorted)
       XShapeCombineRegion(qt_xdisplay(), frameId(), ShapeBounding, 0, 0,
                           reg.handle(), ShapeSet);
     else {
@@ -1506,9 +1497,7 @@ namespace KWinInternal
     return windowType() == NET::Menu && !isTopMenu(); // because of backwards comp.
   }
 
-  bool Client::isToolbar() const {
-    return windowType() == NET::Toolbar;
-  }
+  bool Client::isToolbar() const { return windowType() == NET::Toolbar; }
 
   bool Client::isSplash() const {
     return windowType() == NET::Splash;

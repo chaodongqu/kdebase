@@ -1,5 +1,4 @@
-/*
- * Copyright (c) 2004 Lubos Lunak <l.lunak@kde.org>
+/* Copyright (c) 2004 Lubos Lunak <l.lunak@kde.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,44 +15,34 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-
 #ifndef __RULESLIST_H__
 #define __RULESLIST_H__
 
 #include "ruleslistbase.h"
 
-#include <qvaluevector.h>
-
-#include "../../rules.h"
-
 class QListBoxItem;
 
-namespace KWinInternal
-{
-
-class KCMRulesList
-    : public KCMRulesListBase
-    {
+namespace KWinInternal {
+  class KCMRulesList : public KCMRulesListBase {
     Q_OBJECT
     public:
-        KCMRulesList( QWidget* parent = NULL, const char* name = NULL );
-        virtual ~KCMRulesList();
-        void load();
-        void save();
-        void defaults();
+      KCMRulesList(QWidget* parent=NULL, const char* name=NULL);
+      virtual ~KCMRulesList();
+      void load();
+      void save();
+      void defaults();
     signals:
-        void changed( bool );
+      void changed( bool );
     private slots:
-        void newClicked();
-        void modifyClicked();
-        void deleteClicked();
-        void moveupClicked();
-        void movedownClicked();
-        void activeChanged( QListBoxItem* );
+      void newClicked();
+      void modifyClicked();
+      void deleteClicked();
+      void moveupClicked();
+      void movedownClicked();
+      void activeChanged(QListBoxItem*);
     private:
-        QValueVector< Rules* > rules;
+      QValueVector<Rules*> rules;
     };
+} /* namespace KWinInternal */
 
-} // namespace
-
-#endif
+#endif /* __RULESLIST_H__ */

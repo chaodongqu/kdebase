@@ -1,0 +1,6 @@
+1. unpack the source
+2. ./configure
+3. make
+4. make install
+5. pick kbox-Blackbox from the window decorations settings in kde
+6. pick the blackbox style in configure

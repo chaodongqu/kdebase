@@ -16,49 +16,51 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#include "kcm.h"
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 
-#include <kglobal.h>
-#include <qlayout.h>
-#include <klocale.h>
-#include <kapplication.h>
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <dcopclient.h>
 #include <kaboutdata.h>
 
+/* Xorg */
+#include <X11/SM/SMlib.h>
+
+/* KWin */
+#include <core/common.hpp>
+
+/* kwinrules */
+#include "kcm.h"
 #include "ruleslist.h"
 
-extern "C"
-    KDE_EXPORT KCModule *create_kwinrules( QWidget *parent, const char *name )
-    {
-    //CT there's need for decision: kwm or kwin?
-    KGlobal::locale()->insertCatalogue( "kcmkwinrules" );
-    return new KWinInternal::KCMRules( parent, name );
-    }
+extern "C" KDE_EXPORT KCModule *create_kwinrules(QWidget *parent, const char *name) {
+  //CT there's need for decision: kwm or kwin?
+  KGlobal::locale()->insertCatalogue("kcmkwinrules");
+  return new KWinInternal::KCMRules(parent, name);
+}
 
-namespace KWinInternal
-{
-
-KCMRules::KCMRules( QWidget *parent, const char *name )
-: KCModule( parent, name )
-, config( "kwinrulesrc" )
-    {
-    QVBoxLayout *layout = new QVBoxLayout( this );
-    widget = new KCMRulesList( this );
-    layout->addWidget( widget );
-    connect( widget, SIGNAL( changed( bool )), SLOT( moduleChanged( bool )));
+namespace KWinInternal {
+  KCMRules::KCMRules(QWidget *parent, const char *name)
+  : KCModule(parent, name)
+  , config("kwinrulesrc")
+  {
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    widget = new KCMRulesList(this);
+    layout->addWidget(widget);
+    connect(widget, SIGNAL(changed(bool)), SLOT(moduleChanged(bool)));
     KAboutData *about = new KAboutData(I18N_NOOP( "kcmkwinrules" ),
-        I18N_NOOP( "Window-Specific Settings Configuration Module" ),
-        0, 0, KAboutData::License_GPL, I18N_NOOP( "(c) 2004 KWin and KControl Authors" ));
+                                       I18N_NOOP( "Window-Specific Settings Configuration Module" ),
+                                       0, 0, KAboutData::License_GPL, I18N_NOOP( "(c) 2004 KWin and KControl Authors" ));
     about->addAuthor("Lubos Lunak",0,"l.lunak@kde.org");
     setAboutData(about);
-    }
+  }
 
-void KCMRules::load()
-    {
+  void KCMRules::load() {
     config.reparseConfiguration();
     widget->load();
     emit KCModule::changed( false );
-    }
+  }
 
 void KCMRules::save()
     {
@@ -90,7 +92,7 @@ void KCMRules::moduleChanged( bool state )
     emit KCModule::changed( state );
     }
 
-}
+};
 
 // i18n freeze :-/
 #if 0
@@ -98,6 +100,5 @@ I18N_NOOP("Remember settings separately for every window")
 I18N_NOOP("Show internal settings for remembering")
 I18N_NOOP("Internal setting for remembering")
 #endif
-
 
 #include "kcm.moc"

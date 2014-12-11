@@ -17,25 +17,30 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#include "ruleswidget.h"
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
+#include <qcheckbox.h>
+#include <qlabel.h>
+#include <qwhatsthis.h>
+#include <qtabwidget.h>
 
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <klineedit.h>
 #include <krestrictedline.h>
 #include <kcombobox.h>
-#include <qcheckbox.h>
 #include <kpushbutton.h>
-#include <qlabel.h>
 #include <kwinmodule.h>
-#include <klocale.h>
-#include <qregexp.h>
-#include <qwhatsthis.h>
-#include <assert.h>
 #include <kmessagebox.h>
-#include <qtabwidget.h>
-#include <qtimer.h>
 
-#include "../../rules.h"
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
+/* KWin */
+#include <core/common.hpp>
+
+/* kwinrules */
+#include "ruleswidget.h"
 #include "detectwidget.h"
 
 namespace KWinInternal

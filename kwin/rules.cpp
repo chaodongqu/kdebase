@@ -8,23 +8,22 @@ You can Freely distribute this program under the GNU General Public
 License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
-#include "rules.h"
-
-#include <fixx11h.h>
-#include <kconfig.h>
-#include <qregexp.h>
-#include <ktempfile.h>
-#include <ksimpleconfig.h>
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 #include <qfile.h>
 
-#ifndef KCMRULES
-#include "client.h"
-#include "workspace.h"
-#endif
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
+#include <ktempfile.h>
+#include <ksimpleconfig.h>
 
-namespace KWinInternal
-{
+/* Xorg */
+#include <X11/SM/SMlib.h>
 
+/* KWin */
+#include <core/common.hpp>
+
+namespace KWinInternal {
 Rules::Rules()
     : temporary_state( 0 )
     , wmclassmatch( UnimportantMatch )
@@ -85,15 +84,15 @@ Rules::Rules( const QString& str, bool temporary )
 #define READ_MATCH_STRING( var, func ) \
     var = cfg.readEntry( #var ) func; \
     var##match = (StringMatch) QMAX( FirstStringMatch, QMIN( LastStringMatch, cfg.readNumEntry( #var "match" )));
-    
+
 #define READ_SET_RULE( var, type, func ) \
     var = func ( cfg.read##type##Entry( #var )); \
     var##rule = readSetRule( cfg, #var "rule" );
-    
+
 #define READ_SET_RULE_DEF( var, type, func, def ) \
     var = func ( cfg.read##type##Entry( #var, def )); \
     var##rule = readSetRule( cfg, #var "rule" );
-    
+
 #define READ_SET_RULE_2( var, type, func, funcarg ) \
     var = func ( cfg.read##type##Entry( #var ), funcarg ); \
     var##rule = readSetRule( cfg, #var "rule" );
@@ -255,7 +254,7 @@ void Rules::write( KConfig& cfg ) const
     WRITE_SET_RULE( shortcut, );
     WRITE_FORCE_RULE( disableglobalshortcuts, );
     }
-    
+
 #undef WRITE_MATCH_STRING
 #undef WRITE_SET_RULE
 #undef WRITE_FORCE_RULE
@@ -328,7 +327,7 @@ bool Rules::matchType( NET::WindowType match_type ) const
         }
     return true;
     }
-    
+
 bool Rules::matchWMClass( const QCString& match_class, const QCString& match_name ) const
     {
     if( wmclassmatch != UnimportantMatch )
@@ -344,7 +343,7 @@ bool Rules::matchWMClass( const QCString& match_class, const QCString& match_nam
         }
     return true;
     }
-    
+
 bool Rules::matchRole( const QCString& match_role ) const
     {
     if( windowrolematch != UnimportantMatch )
@@ -358,7 +357,7 @@ bool Rules::matchRole( const QCString& match_role ) const
         }
     return true;
     }
-    
+
 bool Rules::matchTitle( const QString& match_title ) const
     {
     if( titlematch != UnimportantMatch )
@@ -638,7 +637,7 @@ bool Rules::discardTemporary( bool force )
         }
     return false;
     }
-    
+
 #define DISCARD_USED_SET_RULE( var ) \
     do { \
     if( var##rule == ( SetRule ) ApplyNow || ( withdrawn && var##rule == ( SetRule ) ForceTemporarily )) \
@@ -686,10 +685,9 @@ void Rules::discardUsed( bool withdrawn )
 #endif
 
 #ifndef NDEBUG
-kdbgstream& operator<<( kdbgstream& stream, const Rules* r )
-    {
-    return stream << "[" << r->description << ":" << r->wmclass << "]" ;
-    }
+kdbgstream& operator<<(kdbgstream& stream, const Rules* r) {
+  return stream << "[" << r->description << ":" << r->wmclass << "]" ;
+}
 #endif
 
 #ifndef KCMRULES
@@ -816,10 +814,10 @@ void Client::setupWindowRules( bool ignore_temporary )
     }
 
 // Applies Force, ForceTemporarily and ApplyNow rules
-// Used e.g. after the rules have been modified using the kcm.    
+// Used e.g. after the rules have been modified using the kcm.
 void Client::applyWindowRules()
     {
-    checkAndSetInitialRuledOpacity();        
+    checkAndSetInitialRuledOpacity();
     // apply force rules
     // Placement - does need explicit update, just like some others below
     // Geometry : setGeometry() doesn't check rules
@@ -875,12 +873,12 @@ void Client::finishWindowRules()
     updateWindowRules();
     client_rules = WindowRules();
     }
-    
+
 void Client::checkAndSetInitialRuledOpacity()
 //apply kwin-rules for window-translucency upon hitting apply or starting to manage client
     {
     int tmp;
-    
+
     //active translucency
     tmp = -1;
     tmp = rules()->checkOpacityActive(tmp);
@@ -902,7 +900,7 @@ void Client::checkAndSetInitialRuledOpacity()
         rule_opacity_inactive = 0;
 
     return;
-        
+
     if( isDock() )
      //workaround for docks, as they don't have active/inactive settings and don't aut, therefore we take only the active one...
         {

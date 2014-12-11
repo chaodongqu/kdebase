@@ -1,0 +1,2 @@
+1. no interlacing in some gradient types. 
+2. port of invert() from blackbox's image.cc doesn't work properly, so it is hackishly done. 

@@ -10,42 +10,26 @@ License. See the file "COPYING" for the exact licensing terms.
 ******************************************************************/
 
 //#define QT_CLEAN_NAMESPACE
-
-#include "workspace.h"
-
-#include <kapplication.h>
-#include <kstartupinfo.h>
-#include <fixx11h.h>
-#include <kconfig.h>
-#include <kglobal.h>
+/* Qt */
+#include <qtcommon.hpp> /* include/qtcommon.hpp */
 #include <qpopupmenu.h>
-#include <klocale.h>
-#include <qregexp.h>
-#include <qpainter.h>
 #include <qbitmap.h>
 #include <qclipboard.h>
+
+/* KDE */
+#include <kdecommon.hpp> /* include/kdecommon.hpp */
 #include <kmenubar.h>
-#include <kprocess.h>
-#include <kglobalaccel.h>
 #include <dcopclient.h>
 #include <kipc.h>
+#include <kshortcut.h>
 
-#include "plugins.h"
-#include "client.h"
-#include "popupinfo.h"
-#include "tabbox.h"
-#include "atoms.h"
-#include "placement.h"
-#include "notifications.h"
-#include "group.h"
-#include "rules.h"
-
-#include <X11/extensions/shape.h>
-#include <X11/keysym.h>
-#include <X11/keysymdef.h>
+/* Xorg */
 #include <X11/cursorfont.h>
+#include <X11/extensions/shape.h>
+#include <X11/SM/SMlib.h>
 
-extern Time qt_x_time;
+/* KWin */
+#include <core/common.hpp>
 
 namespace KWinInternal
 {
