@@ -27,17 +27,24 @@
 /* Blackbox config */
 #include "config.h"
 
-extern "C" {
-  QObject *allocate_config(KConfig *conf, QWidget *parent) { return (new BlackboxConfig(conf, parent)); }
+extern "C" KDE_EXPORT QObject *allocate_config(KConfig *conf, QWidget *parent) {
+  return (new BlackboxConfig(conf, parent));
 }
 
 BlackboxConfig::BlackboxConfig(KConfig *conf, QWidget *parent)
 : QObject(parent)
 {
-  BlackboxConfiga = new KConfig("kwinblackboxrc");
+#ifdef DEBUG
+  kdDebug() << "Blackbox: config ctr\n";
+  puts("test\n");
+#endif
   KGlobal::locale()->insertCatalogue("libkwinblackbox_config");
+  m_bbcfg = new KConfig("kwinblackboxrc");
 
   gb1 = new QGroupBox(1, Qt::Horizontal, i18n("Blackbox Style Selector"), parent);
+
+  QPushButton *bt = new QPushButton(gb1, "btest");
+  bt->setText(QString("test"));
 
   styleListBox = new QListBox(gb1);
   QWhatsThis::add(styleListBox, i18n("Make your style selection by clicking on a style here. "));

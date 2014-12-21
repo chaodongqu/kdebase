@@ -71,7 +71,7 @@ KWinDecorationModule::KWinDecorationModule(QWidget* parent, const char* name, co
 	kwinConfig.setGroup("Style");
         plugins = new KDecorationPreviewPlugins( &kwinConfig );
 
-	QVBoxLayout* layout = new QVBoxLayout(this, 0, KDialog::spacingHint()); 
+	QVBoxLayout* layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
 // Save this for later...
 //	cbUseMiniWindows = new QCheckBox( i18n( "Render mini &titlebars for all windows"), checkGroup );
@@ -177,7 +177,7 @@ KWinDecorationModule::KWinDecorationModule(QWidget* parent, const char* name, co
 
 	// Allow kwin dcop signal to update our selection list
 	connectDCOPSignal("kwin", 0, "dcopResetAllClients()", "dcopUpdateClientList()", false);
-	
+
 	KAboutData *about =
 		new KAboutData(I18N_NOOP("kcmkwindecoration"),
 				I18N_NOOP("Window Decoration Control Module"),
@@ -608,6 +608,3 @@ void KWinDecorationModule::resetKWin()
 }
 
 #include "kwindecoration.moc"
-// vim: ts=4
-// kate: space-indent off; tab-width 4;
-

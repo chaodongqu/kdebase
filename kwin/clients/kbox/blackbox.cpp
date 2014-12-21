@@ -1391,7 +1391,6 @@ void Blackbox::BlackboxClient::mousePressEvent(QMouseEvent *e) {
     }
   }
   lastButton = BtnNone;
-  mousePressEvent(e);
 }
 
 void Blackbox::BlackboxClient::mouseReleaseEvent(QMouseEvent *e) {
@@ -1412,7 +1411,6 @@ void Blackbox::BlackboxClient::mouseReleaseEvent(QMouseEvent *e) {
       }
     }
   }
-  mouseReleaseEvent(e);
 }
 
 void Blackbox::BlackboxClient::mouseDoubleClickEvent(QMouseEvent *e) {
@@ -1456,6 +1454,9 @@ bool Blackbox::BlackboxClient::eventFilter(QObject *o, QEvent *e) {
 void Blackbox::BlackboxClient::captionChange(const QString &) { widget()->repaint(); }
 
 void Blackbox::BlackboxClient::borders(int &l, int &r, int &t, int &b) const {
+#ifdef DEBUG
+  kdDebug() << "Border: " << g_bsz << " Bevel: " << g_bvsz << " FrameSz2: " << frameSize2 << endl;
+#endif
   l = r = g_bsz;
   b = g_hlsz;
   t = frameSize2;
@@ -1550,9 +1551,10 @@ void Blackbox::BlackboxButton::drawButton(QPainter *p) {
 #endif
 }
 
-Blackbox::BlackboxClientFactory::BlackboxClientFactory()
-: QObject()
-, KDecorationFactory() {
+Blackbox::BlackboxClientFactory::BlackboxClientFactory() {
+#ifdef DEBUG
+  kdDebug() << "Blackbox: start.\n";
+#endif
   read_config();
   create_pixmaps();
   if((*rootCmd != "") && config_styleBG){
