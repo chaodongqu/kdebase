@@ -295,25 +295,28 @@ KDecorationDefines::BorderSize KWinDecorationModule::indexToBorderSize( int inde
         return *it;
 }
 
-void KWinDecorationModule::slotBorderChanged( int size )
-{
-        if( lBorder->isHidden())
-            return;
-        emit KCModule::changed( true );
-        QValueList< BorderSize > sizes;
-        if( plugins->factory() != NULL )
-            sizes = plugins->factory()->borderSizes();
-        assert( sizes.count() >= 2 );
-        border_size = indexToBorderSize( size, sizes );
+void KWinDecorationModule::slotBorderChanged( int size ) {
+    if(lBorder->isHidden()) { return; }
+    emit KCModule::changed(true);
+    if(plugins->factory() != NULL) {
+      QValueList< BorderSize > sizes(plugins->factory()->borderSizes());
+#ifdef DEBUG
+      assert(sizes.count() >= 2);
+#endif
+      border_size = indexToBorderSize(size, sizes);
+    }
+    else {
+      border_size = BorderTiny;
+    }
 
-	// update preview
-	preview->setTempBorderSize(plugins, border_size);
+    // update preview
+    preview->setTempBorderSize(plugins, border_size);
 }
 
-void KWinDecorationModule::slotButtonsChanged()
-{
-	// update preview
-	preview->setTempButtons(plugins, cbUseCustomButtonPositions->isChecked(), buttonPositionWidget->buttonsLeft(), buttonPositionWidget->buttonsRight() );
+void KWinDecorationModule::slotButtonsChanged() {
+  // update preview
+  preview->setTempButtons(plugins, cbUseCustomButtonPositions->isChecked(), buttonPositionWidget->buttonsLeft(),
+                          buttonPositionWidget->buttonsRight() );
 }
 
 QString KWinDecorationModule::decorationName( QString& libName )
@@ -556,26 +559,25 @@ void KWinDecorationModule::defaults()
 	emit pluginDefaults();
 }
 
-void KWinDecorationModule::checkSupportedBorderSizes()
-{
-        QValueList< BorderSize > sizes;
-        if( plugins->factory() != NULL )
-            sizes = plugins->factory()->borderSizes();
-	if( sizes.count() < 2 ) {
-		lBorder->hide();
-		cBorder->hide();
-	} else {
-		cBorder->clear();
-		for (QValueList<BorderSize>::const_iterator it = sizes.begin(); it != sizes.end(); ++it) {
-			BorderSize size = *it;
-			cBorder->insertItem(i18n(border_names[size]), borderSizeToIndex(size,sizes) );
-		}
-		int pos = borderSizeToIndex( border_size, sizes );
-		lBorder->show();
-		cBorder->show();
-		cBorder->setCurrentItem(pos);
-		slotBorderChanged( pos );
-	}
+void KWinDecorationModule::checkSupportedBorderSizes() {
+  if(plugins->factory() != NULL) {
+    QValueList< BorderSize > sizes(plugins->factory()->borderSizes());
+    if(sizes.count() < 2) {
+      lBorder->hide();
+      cBorder->hide();
+    } else {
+      cBorder->clear();
+      for(QValueList<BorderSize>::const_iterator it = sizes.begin(); it != sizes.end(); ++it) {
+        BorderSize size = *it;
+        cBorder->insertItem(i18n(border_names[size]), borderSizeToIndex(size,sizes));
+      }
+      int pos = borderSizeToIndex(border_size, sizes);
+      lBorder->show();
+      cBorder->show();
+      cBorder->setCurrentItem(pos);
+      slotBorderChanged(pos);
+    }
+  }
 }
 
 QString KWinDecorationModule::styleToConfigLib( QString& styleLib )
