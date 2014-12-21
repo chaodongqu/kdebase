@@ -133,7 +133,7 @@ namespace Blackbox {
       inline void unpress(void) { m_down=false; }
   };
 
-  class BlackboxClientFactory : public QObject, public KDecorationFactory {
+  class BlackboxClientFactory : public KDecorationFactory {
   public:
     BlackboxClientFactory();
     virtual ~BlackboxClientFactory();
@@ -141,7 +141,7 @@ namespace Blackbox {
     virtual KDecoration* createDecoration(KDecorationBridge *);
     virtual bool reset(unsigned long changed);
     virtual bool supports(Ability ability);
-    // QValueList< BlackboxClientFactory::BorderSize > borderSizes() const;
+    virtual QValueList< KDecorationDefines::BorderSize > borderSizes() const;
   };
 }; /* namespace Blackbox */
 

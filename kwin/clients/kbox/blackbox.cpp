@@ -1614,6 +1614,10 @@ bool Blackbox::BlackboxClientFactory::supports(Ability ability) {
   };
 }
 
+QValueList< KDecorationDefines::BorderSize > Blackbox::BlackboxClientFactory::borderSizes() const {
+  return QValueList < BorderSize > () << KDecorationDefines::BorderTiny;
+}
+
 extern "C" KDE_EXPORT KDecorationFactory* create_factory() {
   return new Blackbox::BlackboxClientFactory();
 }
