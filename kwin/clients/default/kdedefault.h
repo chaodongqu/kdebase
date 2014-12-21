@@ -28,22 +28,20 @@ namespace Default {
 
 class KDEDefaultClient;
 
-class KDEDefaultHandler: public KDecorationFactory
-{
-	public:
-		KDEDefaultHandler();
-		~KDEDefaultHandler();
-                KDecoration* createDecoration( KDecorationBridge* b );
-		bool reset( unsigned long changed );
-		virtual QValueList< BorderSize > borderSizes() const;
-		virtual bool supports( Ability ability );
+class KDEDefaultHandler: public KDecorationFactory {
+  public:
+    KDEDefaultHandler();
+    ~KDEDefaultHandler();
+    KDecoration* createDecoration( KDecorationBridge* b );
+    bool reset( unsigned long changed );
+    virtual QValueList< BorderSize > borderSizes() const;
+    virtual bool supports( Ability ability );
 
-	private:
-		unsigned long readConfig( bool update );
-		void createPixmaps();
-		void freePixmaps();
-		void drawButtonBackground(KPixmap *pix,
-				const QColorGroup &g, bool sunken);
+  private:
+    unsigned long readConfig( bool update );
+    void createPixmaps();
+    void freePixmaps();
+    void drawButtonBackground(KPixmap *pix, const QColorGroup &g, bool sunken);
 };
 
 
@@ -99,5 +97,3 @@ class KDEDefaultClient : public KCommonDecoration
 }
 
 #endif
-// vim: ts=4
-// kate: space-indent off; tab-width 4;

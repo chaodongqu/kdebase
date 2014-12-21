@@ -10,7 +10,7 @@ kde_module_LTLIBRARIES = kwin3_blackbox.la
 INCLUDES = $(all_includes) -I$(srcdir)/../../lib -I$(top_srcdir)/kwin/include
 
 # the library search path.
-kwin3_blackbox_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries) -lkio
+kwin3_blackbox_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN) -lkio -module
 
 # the libraries to link against.
 kwin3_blackbox_la_LIBADD = ../../lib/libkdecorations.la

@@ -1213,7 +1213,7 @@ void Blackbox::BlackboxClient::paintEvent(QPaintEvent */*pe*/) {
   int w = width();
   int h = height();
 
-  QRect t = titlebar->geometry ();
+  QRect t = titlebar->geometry();
   t.setTop (1);
 
 #ifdef DEBUG
@@ -1332,17 +1332,16 @@ void Blackbox::BlackboxClient::paintEvent(QPaintEvent */*pe*/) {
     p.fillRect(g_bsz, h - g_bsz, w, g_bsz, QBrush(*border_color));	//bottom border
     p.fillRect(g_bsz, h - ((2 * g_bsz) + g_hlsz), w - g_bsz, g_bsz, QBrush(*border_color));	//win/handle seperator
 
-  p.fillRect(g_bsz + 2 * (t.height() * .6666), h - (g_hlsz + g_bsz), g_bsz, g_hlsz, QBrush(*border_color)); //grip/handlesep left
-  p.fillRect(w - 2 * (t.height() * .6666) - (2 * g_bsz), h - (g_hlsz + g_bsz), g_bsz, g_hlsz, QBrush(*border_color)); //grip-hande left
+    p.fillRect(g_bsz + 2 * (t.height() * .6666), h - (g_hlsz + g_bsz), g_bsz, g_hlsz, QBrush(*border_color)); //grip/handlesep left
+    p.fillRect(w - 2 * (t.height() * .6666) - (2 * g_bsz), h - (g_hlsz + g_bsz), g_bsz, g_hlsz, QBrush(*border_color)); //grip-hande left
 
-  p.fillRect(g_bsz, t.height() - frameSize2 - g_bsz + 1, w - (2 * g_bsz), g_bsz, QBrush(*border_color));
+    p.fillRect(g_bsz, t.height() - frameSize2 - g_bsz + 1, w - (2 * g_bsz), g_bsz, QBrush(*border_color));
   //}
 
   if(!madeButtons) { makeButtons(); }
 }
 
 void Blackbox::BlackboxClient::resizeEvent(QResizeEvent *e) {
-  resizeEvent(e);
   setMask(QRegion(0, 0, width(), height()));
   if(widget()->isVisibleToTLW() && !widget()->testWFlags(Qt::WStaticContents)) {
     //QRect t = titlebar->geometry();
