@@ -126,7 +126,7 @@ BlackboxConfig::~BlackboxConfig() {
   delete urlLabel;
   delete styleLabel;
   delete gb1;
-  delete BlackboxConfiga;
+  delete m_bbcfg;
 }
 
 // Searches for all installed blackbox styles, and adds them to the listBox.
@@ -165,7 +165,7 @@ void BlackboxConfig::findblackboxstyles() {
   // Sort the items
   styleListBox->sort();
 
-  QString themeName = BlackboxConfiga->readEntry("Currentstyle", "");
+  QString themeName = m_bbcfg->readEntry("Currentstyle", "");
 
   // Provide a theme alias
   if(themeName == i18n("default")) { themeName = ""; }
@@ -184,15 +184,15 @@ void BlackboxConfig::slotSelectionChanged() {
 
 // Loads the configurable options from the kwinblackboxrc config file
 void BlackboxConfig::load(KConfig *) {
-	BlackboxConfiga->setGroup ("General");
+  m_bbcfg->setGroup ("General");
 
-	bool override = BlackboxConfiga->readBoolEntry ("styleTitleTextColors", true);
+  bool override = m_bbcfg->readBoolEntry ("styleTitleTextColors", true);
 	cbstyleTitleTextColors->setChecked (override);
 
-	override = BlackboxConfiga->readBoolEntry ("styleFont", false);
+  override = m_bbcfg->readBoolEntry ("styleFont", false);
 	cbstyleFont->setChecked (override);
 
-	override = BlackboxConfiga->readBoolEntry ("styleBG", false);
+  override = m_bbcfg->readBoolEntry ("styleBG", false);
 	cbstyleBG->setChecked (override);
 
 	findblackboxstyles ();
@@ -201,19 +201,17 @@ void BlackboxConfig::load(KConfig *) {
 // Saves the configurable options to the kwinblackboxrc config file
 void BlackboxConfig::save (KConfig *)
 {
-	BlackboxConfiga->setGroup ("General");
-	BlackboxConfiga->writeEntry ("styleTitleTextColors",
-		cbstyleTitleTextColors->isChecked ());
-	BlackboxConfiga->writeEntry ("styleFont", cbstyleFont->isChecked ());
-	BlackboxConfiga->writeEntry ("styleBG",
-		cbstyleBG->isChecked ());
+  m_bbcfg->setGroup ("General");
+  m_bbcfg->writeEntry ("styleTitleTextColors", cbstyleTitleTextColors->isChecked ());
+  m_bbcfg->writeEntry ("styleFont", cbstyleFont->isChecked ());
+  m_bbcfg->writeEntry ("styleBG", cbstyleBG->isChecked ());
 
-	if (styleListBox->currentText () == "deep")
-		BlackboxConfiga->writeEntry ("Currentstyle", "default");
-	else
-		BlackboxConfiga->writeEntry ("Currentstyle", styleListBox->currentText ());
+  if (styleListBox->currentText () == "deep")
+    m_bbcfg->writeEntry ("Currentstyle", "default");
+  else
+    m_bbcfg->writeEntry ("Currentstyle", styleListBox->currentText ());
 
-	BlackboxConfiga->sync ();
+  m_bbcfg->sync ();
 }
 
 // Sets UI widget defaults which must correspond to config defaults

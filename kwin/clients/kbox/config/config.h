@@ -29,7 +29,7 @@ class BlackboxConfig: public QObject {
     void findblackboxstyles();
 
   private:
-    KConfig*   BlackboxConfiga;
+    KConfig*   m_bbcfg;
     QCheckBox* cbstyleButtonPositions;
     QCheckBox* cbstyleTitleTextColors;
     QCheckBox* cbstyleFont;
